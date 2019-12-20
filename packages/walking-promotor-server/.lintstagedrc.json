@@ -1,0 +1,7 @@
+{
+  "gitDir": "../",
+  "linters": {
+    "node_server/**/*.js": ["eslint --fix", "git add"],
+    "node_server/**/*.{json,ts}": ["prettier --write", "git add"]
+  }
+}

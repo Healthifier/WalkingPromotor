@@ -1,0 +1,30 @@
+{
+  "name": "walking-promotor-server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "flow && eslint .",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "fix": "eslint --fix .",
+    "precommit": "lint-staged",
+    "prettier": "prettier --write */**/*.{js,json,ts}",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "encoding-japanese": "^1.0.26"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.0",
+    "eslint": "^4.18.2",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.3",
+    "prettier": "^1.7.0"
+  }
+}
