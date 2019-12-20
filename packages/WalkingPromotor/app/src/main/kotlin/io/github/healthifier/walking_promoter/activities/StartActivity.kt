@@ -18,6 +18,8 @@ class StartActivity : AppCompatActivity() {
         }
 
         startButton_diary.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 }

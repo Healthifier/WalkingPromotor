@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.FourthActivity">
+    <TextView
+            android:text="TextView"
+            android:layout_width="421dp"
+            android:layout_height="55dp" android:id="@+id/title_View"
+            android:textSize="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.047"
+            app:layout_constraintHorizontal_bias="0.076" app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="197dp"
+            android:layout_height="56dp"
+            android:textSize="36dp"
+            android:id="@+id/day_View" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.88" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.047"/>
+    <ImageView
+            android:layout_width="582dp"
+            android:layout_height="437dp"
+            android:id="@+id/photo_View"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.108"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.846"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

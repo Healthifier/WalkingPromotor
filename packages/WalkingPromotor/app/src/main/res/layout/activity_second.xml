@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.SecondActivity">
+
+    <Button
+            android:id="@+id/imageButton2"
+            android:layout_width="320dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#EE4A4A"
+            android:drawableStart="@android:drawable/ic_menu_edit"
+            android:drawableTint="#FFFFFF"
+            android:drawableTintMode="src_in"
+            android:drawingCacheQuality="auto"
+            android:text="①タイトル入力"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.975"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.232" />
+
+    <Button
+            android:id="@+id/button2"
+            android:layout_width="320dp"
+            android:layout_height="110dp"
+            android:backgroundTint="#FC774B"
+            android:drawableStart="@android:drawable/ic_menu_month"
+            android:text="②日付を入力"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.975"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.475" />
+
+    <Button
+            android:id="@+id/button_back"
+            android:layout_width="131dp"
+            android:layout_height="110dp"
+            android:backgroundTint="#818181"
+            android:drawableStart="@android:drawable/ic_menu_revert"
+            android:text="戻る"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.752"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.987" />
+
+    <TextView
+            android:id="@+id/textCalView2"
+            android:layout_width="278dp"
+            android:layout_height="62dp"
+            android:layout_marginStart="8dp"
+            android:hint="年/月/日"
+            android:text=""
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textDirection="anyRtl"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.711"
+            app:layout_constraintStart_toEndOf="@+id/editText_diaryTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.048" />
+
+    <EditText
+            android:id="@+id/editText_diaryTitle"
+            android:layout_width="540dp"
+            android:layout_height="78dp"
+            android:layout_marginStart="12dp"
+            android:ems="10"
+            android:hint="①ここを押してタイトル入力"
+            android:inputType="textPersonName"
+            android:text=""
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.009"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+            android:layout_width="583dp"
+            android:layout_height="437dp"
+            android:id="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.051"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_diaryTitle" app:layout_constraintVertical_bias="0.277"/>
+
+    <Button
+            android:id="@+id/imageButton"
+            android:layout_width="320dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#FFDE00"
+            android:drawableStart="@android:drawable/ic_menu_camera"
+            android:drawableTint="#FFFFFF"
+            android:drawableTintMode="src_in"
+            android:drawingCacheQuality="auto"
+            android:text="③写真を撮る"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.975"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.751" />
+
+    <Button
+            android:id="@+id/button_save"
+            android:layout_width="169dp"
+            android:layout_height="110dp"
+            android:backgroundTint="#50C34A"
+            android:drawableStart="@android:drawable/presence_online"
+            android:text="④決定"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.979"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.987" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

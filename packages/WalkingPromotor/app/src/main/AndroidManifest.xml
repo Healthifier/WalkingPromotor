@@ -21,6 +21,26 @@
     android:allowBackup="false"
     tools:ignore="GoogleAppIndexingWarning">
     <activity
+      android:name=".activities.MetsActivity"
+      android:screenOrientation="landscape">
+    </activity>
+    <activity
+      android:name=".activities.FourthActivity"
+      android:screenOrientation="landscape">
+    </activity>
+    <activity
+      android:name=".activities.ThirdActivity"
+      android:screenOrientation="landscape">
+    </activity>
+    <activity
+      android:name=".activities.SecondActivity"
+      android:screenOrientation="landscape">
+    </activity>
+    <activity
+      android:name=".activities.MainActivity"
+      android:screenOrientation="landscape">
+    </activity>
+    <activity
       android:name=".activities.StartActivity"
       android:label="@string/app_name"
       android:screenOrientation="landscape">
@@ -36,6 +56,15 @@
       android:label="@string/app_name"
       android:screenOrientation="landscape">
     </activity>
+    <provider
+      android:name="androidx.core.content.FileProvider"
+      android:authorities="io.github.healthifier.walking_promoter"
+      android:exported="false"
+      android:grantUriPermissions="true">
+      <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/file_paths"/>
+    </provider>
   </application>
 
 </manifest>
