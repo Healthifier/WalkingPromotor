@@ -30,16 +30,16 @@
             app:layout_constraintStart_toEndOf="@+id/button_add_diaries"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-            android:id="@+id/button_show_mets"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginEnd="32dp"
-            android:text="活動量を見る"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+  <Button
+    android:id="@+id/button_show_mets"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:layout_marginEnd="32dp"
+    android:text="紹介する"
+    android:textSize="36sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
   <Button
     android:id="@+id/button_back_start"
