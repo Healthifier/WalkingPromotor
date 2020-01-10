@@ -3,9 +3,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="io.github.healthifier.walking_promoter">
 
-  <uses-permission android:name="android.permission.CAMERA"/>
-  <uses-permission android:name="android.permission.INTERNET" />
-  <!-- TODO: should remove the following line ? -->
+  <uses-permission android:name="android.permission.CAMERA" />
+  <uses-permission android:name="android.permission.INTERNET" /> <!-- TODO: should remove the following line ? -->
   <uses-permission android:name="android.permission.READ_LOGS" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,48 +13,48 @@
 
   <application
     android:name=".App"
+    android:allowBackup="false"
     android:icon="@drawable/icon"
     android:label="@string/app_name"
     android:theme="@style/AppTheme"
     android:uiOptions="splitActionBarWhenNarrow"
-    android:allowBackup="false"
     tools:ignore="GoogleAppIndexingWarning">
+    <activity android:name=".activities.ProgramActivity"></activity>
     <activity
       android:name=".activities.MetsActivity"
-      android:screenOrientation="landscape">
-    </activity>
+      android:screenOrientation="landscape"></activity>
     <activity
       android:name=".activities.FourthActivity"
-      android:screenOrientation="landscape">
-    </activity>
+      android:screenOrientation="landscape"></activity>
     <activity
       android:name=".activities.ThirdActivity"
-      android:screenOrientation="landscape">
-    </activity>
+      android:screenOrientation="landscape"></activity>
     <activity
       android:name=".activities.SecondActivity"
-      android:screenOrientation="landscape">
-    </activity>
+      android:screenOrientation="landscape"></activity>
     <activity
       android:name=".activities.MainActivity"
-      android:screenOrientation="landscape">
-    </activity>
+      android:screenOrientation="landscape"></activity>
     <activity
       android:name=".activities.StartActivity"
       android:label="@string/app_name"
       android:screenOrientation="landscape">
       <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <action android:name="android.intent.action.VIEW"/>
+        <action android:name="android.intent.action.MAIN" />
+        <action android:name="android.intent.action.VIEW" />
 
-        <category android:name="android.intent.category.LAUNCHER"/>
+        <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
     <activity
       android:name=".activities.ItemListActivity"
       android:label="@string/app_name"
-      android:screenOrientation="landscape">
-    </activity>
+      android:screenOrientation="landscape"></activity>
+
+    <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="@string/google_maps_key" />
+
     <provider
       android:name="androidx.core.content.FileProvider"
       android:authorities="io.github.healthifier.walking_promoter"
@@ -63,7 +62,7 @@
       android:grantUriPermissions="true">
       <meta-data
         android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/file_paths"/>
+        android:resource="@xml/file_paths" />
     </provider>
   </application>
 
