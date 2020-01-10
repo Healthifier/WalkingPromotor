@@ -1,5 +1,6 @@
 package io.github.healthifier.walking_promoter.activities
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,6 +25,11 @@ class FourthActivity : AppCompatActivity() {
 
         title_View.text = intent.getStringExtra(TITLE)
         day_View.text = intent.getStringExtra(DAY)
+
+        button6.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

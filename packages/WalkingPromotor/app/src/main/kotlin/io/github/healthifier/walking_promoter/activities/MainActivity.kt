@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_show_mets.setOnClickListener {
-            val intent = Intent(this, MetsActivity::class.java)
+            val intent = Intent(this, ProgramActivity::class.java)
             startActivity(intent)
         }
 
