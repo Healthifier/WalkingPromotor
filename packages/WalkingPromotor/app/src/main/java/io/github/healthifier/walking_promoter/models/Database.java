@@ -145,9 +145,9 @@ public class Database extends SQLiteOpenHelper {
         if (!BuildConfig.DEBUG) {
             return;
         }
-        if (getUserId().isEmpty() == false) {
+        /*if (getUserId().isEmpty() == false) {
             return;       // TODO: uncomment out this line
-        }
+        }*/
         App.logDebug("---- set dummy data ----");
         Random rand = new Random(0);
         ArrayList<String> allUserId = new ArrayList<>();

@@ -1,17 +1,22 @@
 package io.github.healthifier.walking_promoter.activities
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.app.DatePickerDialog
+import android.app.PendingIntent.getActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import io.github.healthifier.walking_promoter.R
+import io.github.healthifier.walking_promoter.models.Database
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import io.github.healthifier.walking_promoter.models.DiaryData
 import io.github.healthifier.walking_promoter.models.DiaryListAdapter
 import kotlinx.android.synthetic.main.activity_program.*
+import java.util.*
 
 class ProgramActivity : AppCompatActivity() {
 
     var dbHandler = DatabaseHandler(this)
+    private var _db: Database? = null
+    val cal = Calendar.getInstance()
 
     val wordList : List<String> = listOf("それでは実際に日記を紹介していきましょう",
                                           "あなたがつけた日記の中からひとつ選んでください",
@@ -25,6 +30,7 @@ class ProgramActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program)
+        _db = Database(this)
 
         textView4.text = wordList[count]
 
@@ -40,26 +46,24 @@ class ProgramActivity : AppCompatActivity() {
             photo = diarydata.photo
         }
 
-        button3.setOnClickListener {
-            if(count<3) {
-                textView4.text = wordList[++count]
-            }
-            else if(count==3) {
-                val intent = Intent(this, FourthActivity::class.java)
-                intent.putExtra(FourthActivity.TITLE, title)
-                intent.putExtra(FourthActivity.DAY, day)
-                intent.putExtra(FourthActivity.PHOTO, photo)
-                startActivity(intent)
-            }
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            //updateDateInView()
         }
 
-        button4.setOnClickListener{
-            if(count>0) textView4.text = wordList[--count]
+        button4.setOnClickListener {
+            DatePickerDialog(this@ProgramActivity,
+                dateSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show()
+
+            val ex = _db?.getMyStepCount(cal)
+            textView4.text = ex.toString()
         }
 
-        button5.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

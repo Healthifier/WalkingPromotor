@@ -19,7 +19,8 @@
     android:theme="@style/AppTheme"
     android:uiOptions="splitActionBarWhenNarrow"
     tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".activities.ProgramActivity"></activity>
+    <activity android:name=".activities.ProgramActivity"
+              android:screenOrientation="landscape"></activity>
     <activity
       android:name=".activities.MetsActivity"
       android:screenOrientation="landscape"></activity>
