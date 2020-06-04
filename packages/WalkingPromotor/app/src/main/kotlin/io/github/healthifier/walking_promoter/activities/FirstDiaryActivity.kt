@@ -4,21 +4,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import io.github.healthifier.walking_promoter.R
-import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_first_diary.*
 
-class StartActivity : AppCompatActivity() {
+class FirstDiaryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_first_diary)
 
-        startButton_walking.setOnClickListener {
-            val intent = Intent(this, ItemListActivity::class.java)
+        btn_show_diary.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
         }
 
-        startButton_diary.setOnClickListener {
-            val intent = Intent(this, FirstDiaryActivity::class.java)
+        btn_show_online.setOnClickListener {
+            val intent = Intent(this, SignActivity::class.java)
             startActivity(intent)
         }
     }

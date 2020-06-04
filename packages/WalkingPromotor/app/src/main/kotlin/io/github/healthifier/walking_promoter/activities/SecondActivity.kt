@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -14,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
@@ -36,7 +38,7 @@ class SecondActivity : AppCompatActivity() {
 
     var button_date: Button? = null
     val cal = Calendar.getInstance()
-    var textview_date: TextView? = null
+    //var textview_date: TextView? = null
     var RESULT_CAMERA = 1001
     val PERMISSION_REQUEST = 1002
     //private lateinit var path: String
@@ -48,24 +50,43 @@ class SecondActivity : AppCompatActivity() {
 
         dbHandler = DatabaseHandler(this)
 
-        textview_date = this.textCalView2
-        button_date = this.button2
-        textview_date!!.text = ""
+        //textview_date = this.textCalView2
+        //button_date = this.button_day
+        //textview_date!!.text = ""
 
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDateInView()
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(
+                view: DatePicker, year: Int, monthOfYear: Int,
+                dayOfMonth: Int
+            ) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInView()
+            }
         }
 
-        button_date!!.setOnClickListener {
-            DatePickerDialog(this@SecondActivity,
+        /*button_day.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View) {
+                DatePickerDialog(this@MainActivity,
+                    dateSetListener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)).show()
+            }
+
+        })*/
+
+        button_day.setOnClickListener {
+            DatePickerDialog(
+                this@SecondActivity,
                 dateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)).show()
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
 
         button_save.setOnClickListener(View.OnClickListener {
@@ -88,8 +109,14 @@ class SecondActivity : AppCompatActivity() {
         })
 
         button_back.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, FirstDiaryActivity::class.java)
             startActivity(intent)
+        }
+
+        button_title.setOnClickListener {
+            val inputMethodManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            editText_diaryTitle.requestFocus()
+            inputMethodManager.showSoftInput(editText_diaryTitle, 0)
         }
     }
 
@@ -111,7 +138,7 @@ class SecondActivity : AppCompatActivity() {
     private fun updateDateInView() {
         val myFormat = "yyyy/MM/dd" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        textview_date!!.text = sdf.format(cal.time)
+        textCalView2.text = sdf.format(cal.time)
     }
 
     private fun takePicture() {
@@ -125,10 +152,10 @@ class SecondActivity : AppCompatActivity() {
 
     private fun checkPermission(): Boolean {
         val cameraPermission = PackageManager.PERMISSION_GRANTED ==
-                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
 
         val extraStoragePermission = PackageManager.PERMISSION_GRANTED ==
-                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
 
         return cameraPermission && extraStoragePermission
     }
@@ -155,7 +182,7 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun createSaveFileUri(): Uri {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.JAPAN).format(Date())
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.JAPAN).format(Date())
         val imageFileName = "example" + timeStamp
 
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/example")
@@ -169,7 +196,7 @@ class SecondActivity : AppCompatActivity() {
         path = file.absolutePath
         Log.d("path", path.toString())
 
-        return FileProvider.getUriForFile(this, "io.github.healthifier.walking_promoter", file)
+        return FileProvider.getUriForFile(this, "com.example.cloudexample", file)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

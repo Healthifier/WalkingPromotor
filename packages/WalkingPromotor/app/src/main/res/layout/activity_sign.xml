@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="io.github.healthifier.walking_promoter.activities.SignActivity">
+
+  <Button
+    android:id="@+id/btnSignUp"
+    android:layout_width="300dp"
+    android:layout_height="100dp"
+    android:layout_marginStart="160dp"
+    android:layout_marginBottom="80dp"
+    android:background="#8BC34A"
+    android:text="新規登録/ログイン"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+
+  <EditText
+    android:id="@+id/userName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:descendantFocusability="beforeDescendants"
+    android:ems="10"
+    android:focusableInTouchMode="true"
+    android:hint="ユーザー名"
+    android:inputType="textPersonName"
+    android:textSize="30sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/lblStats" />
+
+
+  <TextView
+    android:id="@+id/lblStats"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="64dp"
+    android:layout_marginEnd="32dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:text="ユーザー名を入力して新規登録/ログインしてください"
+    android:textSize="30sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <requestFocus />
+  </TextView>
+
+  <Button
+    android:id="@+id/btnMainAct"
+    android:layout_width="180dp"
+    android:layout_height="100dp"
+    android:layout_marginEnd="128dp"
+    android:layout_marginBottom="80dp"
+    android:text="機能を使う"
+    android:textSize="30sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+  <Spinner
+    android:id="@+id/spinner"
+    android:layout_width="100dp"
+    android:layout_height="60dp"
+    android:layout_marginTop="50dp"
+    android:layout_marginEnd="128dp"
+    android:background="@android:color/black"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/lblStats" />
+
+  <ImageView
+    android:id="@+id/imageView6"
+    android:layout_width="99dp"
+    android:layout_height="118dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="32dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@android:drawable/ic_menu_myplaces" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

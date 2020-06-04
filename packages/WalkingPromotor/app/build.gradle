@@ -55,6 +55,8 @@ dependencies {
     implementation 'com.deploygate:sdk:3.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.2'
     implementation 'com.google.maps.android:android-maps-utils:0.4'
+    implementation 'com.google.code.gson:gson:2.3.1'
+    api files('libs/NCMB.jar')
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.3.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
