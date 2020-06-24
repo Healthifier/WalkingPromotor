@@ -54,16 +54,11 @@ class SecondActivity : AppCompatActivity() {
         //button_date = this.button_day
         //textview_date!!.text = ""
 
-        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-            override fun onDateSet(
-                view: DatePicker, year: Int, monthOfYear: Int,
-                dayOfMonth: Int
-            ) {
-                cal.set(Calendar.YEAR, year)
-                cal.set(Calendar.MONTH, monthOfYear)
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                updateDateInView()
-            }
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView()
         }
 
         /*button_day.setOnClickListener(object : View.OnClickListener {
@@ -196,7 +191,7 @@ class SecondActivity : AppCompatActivity() {
         path = file.absolutePath
         Log.d("path", path.toString())
 
-        return FileProvider.getUriForFile(this, "com.example.cloudexample", file)
+        return FileProvider.getUriForFile(this, "io.github.healthifier.walking_promoter", file)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -225,7 +220,7 @@ class SecondActivity : AppCompatActivity() {
 
     }
 
-    fun validation(): Boolean{
+    private fun validation(): Boolean{
         var validate = false
 
         if (!editText_diaryTitle.text.toString().equals("") &&

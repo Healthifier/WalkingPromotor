@@ -66,7 +66,7 @@ class SignActivity : AppCompatActivity() {
         }
     }
 
-    fun signUp() {
+    private fun signUp() {
         var userName = (findViewById<TextView>(R.id.userName)).text.toString()
         //var password = (findViewById(R.id.password) as TextView).text.toString()
         val user = NCMBUser()
@@ -82,7 +82,7 @@ class SignActivity : AppCompatActivity() {
         }
     }
 
-    fun signIn() {
+    private fun signIn() {
         var userName = (findViewById<TextView>(R.id.userName)).text.toString()
         //var password = (findViewById(R.id.password) as TextView).text.toString()
         //NCMBUser.logout()

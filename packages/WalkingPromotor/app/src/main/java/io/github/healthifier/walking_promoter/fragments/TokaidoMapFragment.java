@@ -15,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -104,10 +105,20 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         googleMap.setInfoWindowAdapter(this);
 
+        //tsutake書き込み
+        LatLng tokyo = new LatLng(35.681298, 139.766247);
+        _map.addMarker(new MarkerOptions().position(tokyo));
+        _map.moveCamera(CameraUpdateFactory.newLatLng(tokyo));
+        //書き込み終わり
+
         try {
             GeoJsonLayer layer = new GeoJsonLayer(googleMap, R.raw.toukaidou, getActivity().getApplicationContext());
             GeoJsonLineStringStyle lineStringStyle = layer.getDefaultLineStringStyle();
             lineStringStyle.setColor(Color.BLUE);
+
+            //LatLng tokyo = new LatLng(35.681298, 139.766247);
+            _map.addMarker(new MarkerOptions().position(tokyo));
+            _map.moveCamera(CameraUpdateFactory.newLatLng(tokyo));
 
             layer.addLayerToMap();
             putObjects(layer);

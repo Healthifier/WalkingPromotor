@@ -12,8 +12,15 @@ class FirstDiaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_diary)
 
-        btn_show_diary.setOnClickListener {
+        btn_make_diary.setOnClickListener {
+            //val intent = Intent(this, SecondActivity::class.java)
             val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
+
+        btn_show_diary.setOnClickListener {
+            //val intent = Intent(this, SecondActivity::class.java)
+            val intent = Intent(this, MetsActivity::class.java)
             startActivity(intent)
         }
 
