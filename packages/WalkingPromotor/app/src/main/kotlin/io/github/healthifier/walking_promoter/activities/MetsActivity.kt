@@ -3,29 +3,34 @@ package io.github.healthifier.walking_promoter.activities
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.Fragment
-import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.os.Bundle
+import android.util.Log
 import android.view.Display
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.nifcloud.mbaas.core.NCMBFile
+import com.nifcloud.mbaas.core.NCMBObject
+import com.nifcloud.mbaas.core.NCMBQuery
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.fragments.TokaidoMapFragment
-import io.github.healthifier.walking_promoter.models.DatabaseHandler
-import io.github.healthifier.walking_promoter.models.DiaryData
-import io.github.healthifier.walking_promoter.models.DiaryListAdapter
+import io.github.healthifier.walking_promoter.models.CustomGridAdapter
 import kotlinx.android.synthetic.main.activity_mets.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MetsActivity : AppCompatActivity() {
 
     private val cal = Calendar.getInstance()
-    private val dbHandler = DatabaseHandler(this)
+    private var copyObjList = listOf<NCMBObject>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,10 @@ class MetsActivity : AppCompatActivity() {
         showFragment(TokaidoMapFragment::class.java)
         tmpShowCal.setOnClickListener {
             showDatePicker()
+        }
+        backbutton.setOnClickListener {
+            val intent = Intent(this, ProgramActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -51,6 +60,9 @@ class MetsActivity : AppCompatActivity() {
     }
 
     private fun showDatePicker() {
+        var cloudDate = ""
+        val myFormat = "yyyy/MM/dd" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
         val datePickerDialog = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -58,7 +70,8 @@ class MetsActivity : AppCompatActivity() {
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 //updateDateInView()
-                showDiaryList(this) //OK押したら日記ポップアップ画面を表示
+                cloudDate = sdf.format(cal.time)
+                showDiaryList(cloudDate) //OK押したら日記ポップアップ画面を表示
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
@@ -66,38 +79,70 @@ class MetsActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun showDiaryList(context: Context){
-        val dialog = Dialog(this)
-        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_diary_list, null)
-        dialog.setContentView(customDialogView)
+    private fun showDiaryList(cloudDate:String){
+        //cloudDiaryクラスからdateをキーにオブジェクト検索
+        val querydiary = NCMBQuery<NCMBObject>("cloudDiary")
+        querydiary.whereEqualTo("date", cloudDate)
+        querydiary.findInBackground {objects, error ->
+            if (error != null) {
+                Log.d("[Error91]", error.toString())
+            } else {
+                if (objects.size != 0) {
+                    var cloudList = listOf<NCMBObject>()
+                    cloudList = objects
+                    copyObjList = objects //検索結果であるオブジェクトリストをcopyObjListにコピー
+                    Log.d("d95", "あるよ")
+                    Log.d("size", copyObjList.size.toString())
+                    //タイトル部分のみを別の配列リストにコピー
+                    val cloudTitleList = arrayListOf<String>()
+                    Log.d("string", copyObjList[0].getString("title"))
+                    for(obj in objects){
+                        cloudTitleList.add(obj.getString("title"))
+                    }
+                    Log.d("List", cloudTitleList[0])
 
-        val display: Display = windowManager.defaultDisplay
-        val size = Point()
-        display.getSize(size)
-        val width = size.x
-        val height = size.y
-        val factor = width.toFloat() / height.toFloat()
-        dialog.window?.setLayout(
-            (width * factor * 0.4).toInt(),
-            (height* factor * 0.4).toInt()
-        )
-        val diaries = dbHandler.getAllUsers()
-        val adapter = DiaryListAdapter(this, diaries)
-        val list_view = customDialogView.findViewById<ListView>(R.id.list_view)
-        list_view.adapter = adapter
-        dialog.show()
+                    //ダイアログ画面の表示準備
+                    val dialog = Dialog(this)
+                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+                    val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_diary_grid, null)
+                    dialog.setContentView(customDialogView)
+                    //ダイアログ画面のサイズ調整
+                    val display: Display = windowManager.defaultDisplay
+                    val size = Point()
+                    display.getSize(size)
+                    val width = size.x
+                    val height = size.y
+                    val factor = width.toFloat() / height.toFloat()
+                    dialog.window?.setLayout(
+                        (width * factor * 0.4).toInt(),
+                        (height* factor * 0.4).toInt()
+                    )
+                    val gridAdapter = CustomGridAdapter(cloudTitleList)
+                    val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+                    val gridRecyclerView = customDialogView.findViewById<RecyclerView>(R.id.gridRecyclerView)
+                    //アダプターとレイアウトマネージャーをセット
+                    gridRecyclerView.layoutManager = layoutManager
+                    gridRecyclerView.setHasFixedSize(true)
+                    gridRecyclerView.adapter = gridAdapter
+                    dialog.show()
 
-        list_view.setOnItemClickListener { adapterView, view, position, id ->
-            val diarydata = adapterView.getItemAtPosition(position) as DiaryData
-            val title = diarydata.title
-            val day = diarydata.day
-            val photo = diarydata.photo
-            showDiary(title, day ,photo)
+                    gridAdapter.setOnItemClickListener(object:CustomGridAdapter.OnItemClickListener{
+                        override fun onItemClickListener(view: View, position: Int, clickedText: String) {
+                            //Toast.makeText(applicationContext, "${clickedText}がタップされました.位置は${position}です", Toast.LENGTH_LONG).show()
+                            val title = cloudList[position].getString("title")
+                            val date = cloudList[position].getString("date")
+                            val photo = cloudList[position].getString("photo")
+                            showCloudDiary(title, date, photo)
+                        }
+                    })
+                } else {
+                    Log.d("d97", "ないよ")
+                }
+            }
         }
     }
 
-    private fun showDiary(title: String, day: String, photo: String){
+    private fun showCloudDiary(title: String, date: String, photo: String){
         val dialog = Dialog(this)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_diary, null)
@@ -111,16 +156,39 @@ class MetsActivity : AppCompatActivity() {
         val factor = width.toFloat() / height.toFloat()
         dialog.window?.setLayout(
             (width * factor * 0.4).toInt(),
-            (height* factor).toInt()
+            (height* factor * 0.9).toInt()
         )
 
-        val imageView_dialog = customDialogView.findViewById<ImageView>(R.id.ctm_imgae_imageView)
-        imageView_dialog.setImageBitmap(BitmapFactory.decodeFile(photo))
-        val titleTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_title_textView)
-        titleTextView_dialog.text = title
-        val dayTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_day_textView)
-        dayTextView_dialog.text = day
+        val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
+        Log.d("debug281", photo)
+        query.whereEqualTo("fileName", photo)
+        query.findInBackground { list, ncmbException ->
+            if (ncmbException != null) {
+                Log.d("[Error329]", ncmbException.toString())
+            } else {
+                Log.d("debug331", list[0].toString())
+                list[0].fetchInBackground { dataFetch, er ->
+                    if (er != null) {
+                        //失敗処理
+                        AlertDialog.Builder(this@MetsActivity)
+                            .setTitle("Notification from NIFCloud")
+                            .setMessage("Error:" + er.message)
+                            .setPositiveButton("OK", null)
+                            .show()
+                    } else {
+                        //成功処理
+                        val bMap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
+                        val imageView_dialog = customDialogView.findViewById<ImageView>(R.id.ctm_imgae_imageView)
+                        imageView_dialog.setImageBitmap(bMap)
+                        val titleTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_title_textView)
+                        titleTextView_dialog.text = title
+                        val dayTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_day_textView)
+                        dayTextView_dialog.text = date
 
-        dialog.show()
+                        dialog.show()
+                    }
+                }
+            }
+        }
     }
 }

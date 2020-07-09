@@ -12,6 +12,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -20,9 +21,11 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import io.github.healthifier.walking_promoter.models.Users
@@ -43,11 +46,17 @@ class SecondActivity : AppCompatActivity() {
     val PERMISSION_REQUEST = 1002
     //private lateinit var path: String
     var path: String =""
+    private var objList = listOf<NCMBObject>()
+    private val cloudUser = NCMBUser.getCurrentUser()
+    private var cloudDiaryObj = NCMBObject("cloudDiary")
+    private var r: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
+        val cloudUName = cloudUser.userName
+        val cloudUId = cloudUser.objectId
         dbHandler = DatabaseHandler(this)
 
         //textview_date = this.textCalView2
@@ -61,18 +70,6 @@ class SecondActivity : AppCompatActivity() {
             updateDateInView()
         }
 
-        /*button_day.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) {
-                DatePickerDialog(this@MainActivity,
-                    dateSetListener,
-                    // set DatePickerDialog to point to today's date when it loads up
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
-            }
-
-        })*/
-
         button_day.setOnClickListener {
             DatePickerDialog(
                 this@SecondActivity,
@@ -84,27 +81,37 @@ class SecondActivity : AppCompatActivity() {
             ).show()
         }
 
-        button_save.setOnClickListener(View.OnClickListener {
+        button_save.setOnClickListener{
             // checking input text should not be null
             if (validation()){
                 val user: Users = Users()
                 var success: Boolean = false
-                user.diaryTitle = editText_diaryTitle.text.toString()
-                user.diaryDay = textCalView2.text.toString()
-                user.photoPath = path.toString()
+                val title = editText_diaryTitle.text.toString()
+                val date = textCalView2.text.toString()
 
+                /**
+                 * ローカルSQLに保存.
+                 */
+                user.diaryTitle = title
+                user.diaryDay = date
+                user.photoPath = path //pathは画像のローカルパス
                 success = dbHandler!!.addUser(user)
+
+                /**
+                 * クラウドに保存.
+                 */
+                savePicToCloud(path) //ファイルストアに画像をあげる
+                saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
 
                 if (success){
                     Toast.makeText(this,"日記を保存しました", Toast.LENGTH_LONG).show()
                     Toast.makeText(this,"戻るボタンで戻れます", Toast.LENGTH_LONG).show()
                 }
             }
-
-        })
+        }
 
         button_back.setOnClickListener {
-            val intent = Intent(this, FirstDiaryActivity::class.java)
+            val intent = Intent(this, ProgramActivity::class.java)
             startActivity(intent)
         }
 
@@ -137,9 +144,11 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun takePicture() {
+        val pictureUri = createSaveFileUri()
+        r = pictureUri
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
             addCategory(Intent.CATEGORY_DEFAULT)
-            putExtra(MediaStore.EXTRA_OUTPUT, createSaveFileUri())
+            putExtra(MediaStore.EXTRA_OUTPUT, pictureUri)
         }
 
         startActivityForResult(intent, RESULT_CAMERA)
@@ -237,5 +246,52 @@ class SecondActivity : AppCompatActivity() {
         }
 
         return validate
+    }
+
+    /**
+     * 画像ファイルをクラウドファイルストアにアップロード.
+     */
+    private fun savePicToCloud(uriName:String){
+        val acl = NCMBAcl()
+        acl.publicReadAccess = true
+        acl.publicWriteAccess = true
+        Log.d("[DEBUG296]", uriName)
+        val file = NCMBFile(uriName.substringAfterLast("/"), File(uriName).readBytes(), acl)
+        Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
+        file.saveInBackground { e ->
+            if (e != null) {
+                //保存失敗
+                AlertDialog.Builder(this@SecondActivity)
+                    .setTitle("Notification from NIFCloud")
+                    .setMessage("Error:" + e.message)
+                    .setPositiveButton("OK", null)
+                    .show()
+            }else{
+                Log.d("[RESULT:photoUpload]", "SUCCESS")
+            }
+        }
+    }
+
+    /**
+     * 日記データをクラウドデータストアにアップロード
+     */
+    private fun saveDiaryToCloud(photo:String, title:String, date:String, userName:String, userId:String){
+        /*
+            データストアに5つの要素をアップ
+         */
+        cloudDiaryObj.put("photo", photo)
+        cloudDiaryObj.put("title", title)
+        cloudDiaryObj.put("date", date)
+        cloudDiaryObj.put("userName", userName)
+        cloudDiaryObj.put("userId", userId)
+
+        cloudDiaryObj.saveInBackground { e ->
+            if(e != null){
+                Log.d("[Error]", e.toString())
+            }else{
+                Log.d("[RESULT:objectUpload]", "SUCCESS")
+                Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

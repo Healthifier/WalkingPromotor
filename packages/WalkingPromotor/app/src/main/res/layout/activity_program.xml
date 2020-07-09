@@ -8,55 +8,45 @@
 
   <Button
     android:id="@+id/button3"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="96dp"
-    android:layout_marginBottom="32dp"
-    android:text="次へ"
+    android:layout_width="230dp"
+    android:layout_height="230dp"
+    android:layout_marginEnd="90dp"
+    android:background="@drawable/frame_style"
+    android:text="みんなの日記"
+    android:textColor="#FFFFFF"
+    android:textSize="36sp"
+    android:textStyle="bold"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
   <Button
     android:id="@+id/button4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="96dp"
-    android:layout_marginBottom="32dp"
-    android:text="前へ"
+    android:layout_width="235dp"
+    android:layout_height="235dp"
+    android:layout_marginStart="90dp"
+    android:background="@drawable/frame_style"
+    android:text="日記を作成する"
+    android:textColor="#FFFFFF"
+    android:textSize="36sp"
+    android:textStyle="bold"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent" />
-
-  <TextView
-    android:id="@+id/textView4"
-    android:layout_width="958dp"
-    android:layout_height="42dp"
-    android:gravity="center"
-    android:text="それでは実際に日記を紹介していきましょう"
-    android:textSize="30sp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.72" />
+    app:layout_constraintTop_toTopOf="parent" />
 
   <Button
     android:id="@+id/button5"
-    android:layout_width="195dp"
-    android:layout_height="53dp"
-    android:layout_marginBottom="32dp"
-    android:text="メインメニュー"
+    android:layout_width="230dp"
+    android:layout_height="230dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:background="@drawable/frame_style"
+    android:text="みんなのお気に入り紹介"
+    android:textColor="#FFFFFF"
+    android:textSize="36sp"
+    android:textStyle="bold"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent" />
-
-  <ListView
-    android:id="@+id/list_view2"
-    android:layout_width="729dp"
-    android:layout_height="267dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/button3"
+    app:layout_constraintStart_toEndOf="@+id/button4"
     app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

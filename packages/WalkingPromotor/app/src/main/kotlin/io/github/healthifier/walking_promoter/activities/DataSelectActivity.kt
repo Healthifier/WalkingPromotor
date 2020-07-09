@@ -275,15 +275,15 @@ class DataSelectActivity : AppCompatActivity() {
                 Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
                 selectPhoto2()
             }else {
-                var dialog = Dialog(this)
+                val dialog = Dialog(this)
                 dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                var bitmap = (imageView4.drawable as BitmapDrawable).bitmap
+                val bitmap = (imageView4.drawable as BitmapDrawable).bitmap
                 val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
                 dialog.setContentView(customdialogView)
                 Log.d("bitmap", bitmap.width.toString())
-                var imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
+                val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
                 imageView_dialog.setImageBitmap(bitmap)
-                var btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
+                val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
                 btn_change.setOnClickListener {
                     if(displayNumber == myNumber) {
                         selectPhoto2()
@@ -293,7 +293,7 @@ class DataSelectActivity : AppCompatActivity() {
                     }
                 }
 
-                var btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
+                val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
                 btn_close.setOnClickListener {
                     dialog.dismiss()
                 }
@@ -317,11 +317,11 @@ class DataSelectActivity : AppCompatActivity() {
                     dialog.show()
                 }
 
-                var display: Display = windowManager.defaultDisplay
-                var size = Point()
+                val display: Display = windowManager.defaultDisplay
+                val size = Point()
                 display.getSize(size)
-                var width = size.x
-                var factor = width.toFloat() / bitmap.width.toFloat()
+                val width = size.x
+                val factor = width.toFloat() / bitmap.width.toFloat()
                 dialog.window?.setLayout(
                     (bitmap.width * factor).toInt(),
                     (bitmap.height * factor *0.7).toInt()
@@ -336,15 +336,15 @@ class DataSelectActivity : AppCompatActivity() {
                 Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
                 selectPhoto3()
             } else {
-                var dialog = Dialog(this)
+                val dialog = Dialog(this)
                 dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                var bitmap = (imageView5.drawable as BitmapDrawable).bitmap
+                val bitmap = (imageView5.drawable as BitmapDrawable).bitmap
                 val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
                 dialog.setContentView(customdialogView)
                 Log.d("bitmap", bitmap.width.toString())
-                var imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
+                val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
                 imageView_dialog.setImageBitmap(bitmap)
-                var btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
+                val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
                 btn_change.setOnClickListener {
                     if(displayNumber == myNumber) {
                         selectPhoto3()
@@ -354,7 +354,7 @@ class DataSelectActivity : AppCompatActivity() {
                     }
                 }
 
-                var btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
+                val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
                 btn_close.setOnClickListener {
                     dialog.dismiss()
                 }
@@ -378,11 +378,11 @@ class DataSelectActivity : AppCompatActivity() {
                     dialog.show()
                 }
 
-                var display: Display = windowManager.defaultDisplay
-                var size = Point()
+                val display: Display = windowManager.defaultDisplay
+                val size = Point()
                 display.getSize(size)
-                var width = size.x
-                var factor = width.toFloat() / bitmap.width.toFloat()
+                val width = size.x
+                val factor = width.toFloat() / bitmap.width.toFloat()
                 dialog.window?.setLayout(
                     (bitmap.width * factor).toInt(),
                     (bitmap.height * factor *0.7).toInt()
@@ -393,6 +393,9 @@ class DataSelectActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 表示されている画像を取り除く.
+     */
     private fun deleteImages(){
         imageView3.setImageDrawable(null)
         imageView4.setImageDrawable(null)
@@ -403,15 +406,14 @@ class DataSelectActivity : AppCompatActivity() {
         Toast.makeText(this, "画像を準備中", Toast.LENGTH_SHORT).show()
         val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
         val listSize = selectName.size-1
-        var bMapList = arrayListOf<Bitmap>()
         for (i in 0..listSize) {
             query.whereEqualTo("fileName", selectName[i])
             query.findInBackground { list, ncmbException ->
                 if (ncmbException != null) {
                     Log.d("[Error329]", ncmbException.toString())
                 } else {
-                    Log.d("debug331", list.get(0).toString())
-                    list.get(0).fetchInBackground { dataFetch, er ->
+                    Log.d("debug331", list[0].toString())
+                    list[0].fetchInBackground { dataFetch, er ->
                         if (er != null) {
                             //失敗処理
                             AlertDialog.Builder(this@DataSelectActivity)
@@ -490,82 +492,50 @@ class DataSelectActivity : AppCompatActivity() {
                 put("_data", path)
             }
 
-            contentResolver.insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-            //val user = Users()
-            //user.photoName = filename.toString()
-            //dbHandler!!.addUser(user)
+            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
         }else if(requestCode == REQUEST_GARALLY1 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY1")
-            var uri: Uri?
+            val uri: Uri?
             if(data != null){
                 uri = data.data
                 try{
-                    Log.d("[DEBUG438]", uri.toString())
-                    Log.d("[DEBUG439]", uri?.path.toString())
-                    var strDocId = DocumentsContract.getDocumentId(uri)
-                    var strSplittedDocId = strDocId.split(":")
-                    var strId = strSplittedDocId[strSplittedDocId.size-1]
-                    var projection = arrayOf(MediaStore.MediaColumns.DATA)
-                    var cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
-                    var name : String = ""
+                    Log.d("[DEBUG503]", uri.toString())
+                    Log.d("[DEBUG504]", uri?.path.toString())
+                    val strDocId = DocumentsContract.getDocumentId(uri)
+                    val strSplittedDocId = strDocId.split(":")
+                    val strId = strSplittedDocId[strSplittedDocId.size-1]
+                    val projection = arrayOf(MediaStore.MediaColumns.DATA)
+                    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
+                    var name = ""
                     if(cursor != null){
                         if(cursor.moveToFirst()){
                             name = cursor.getString(0)
                         }
                         cursor.close()
-                        Log.d("[DEBUG451]", name.toString())
+                        Log.d("[DEBUG516]", name)
                     }
                     val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
                     query.whereEqualTo("fileName", name.substringAfterLast("/"))
                     query.findInBackground { list, ncmbException ->
                         if (ncmbException != null) {
-                            Log.d("[Error457]", ncmbException.toString())
+                            Log.d("[Error522]", ncmbException.toString())
                         } else {
                             if(list.size != 0){
-                                Log.d("[DEBUG460]", "クラウド上にあるよ")
+                                Log.d("[DEBUG525]", "クラウド上にあるよ")
                                 Log.d("Size461", File(name).readBytes().toString())
                             }else{
-                                val acl = NCMBAcl()
-                                acl.publicReadAccess = true
-                                acl.publicWriteAccess = true
-                                val file = NCMBFile(name.substringAfterLast("/"), File(name).readBytes(), acl)
-                                Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
-                                file.saveInBackground { e ->
-                                    val result: String
-                                    if (e != null) {
-                                        //保存失敗
-                                        AlertDialog.Builder(this@DataSelectActivity)
-                                            .setTitle("Notification from NIFCloud")
-                                            .setMessage("Error:" + e.message)
-                                            .setPositiveButton("OK", null)
-                                            .show()
-                                    }else{
-                                        Log.d("[RESULT:photoUpload478]", "SUCCESS")
-                                    }
-                                }
+                                savePicToCloud(name)
                             }
-                            var updateList = abc.getList("array")
-                            var photoNameListCloud = arrayListOf<String>()
+                            val updateList = abc.getList("array")
+                            val photoNameListCloud = arrayListOf<String>()
                             if(updateList == null){
                                 photoNameListCloud.add(name.substringAfterLast("/"))
                                 abc.put("array", photoNameListCloud)
+                                saveUsersList(user.objectId.toString(), user.userName.toString(), photoNameListCloud)
                             }else{
                                 updateList[0] = name.substringAfterLast("/")
-                                abc.put("array", updateList)
-                            }
-                            abc.put("userID", user.objectId.toString())
-                            abc.put("name", user.userName.toString())
-
-                            abc.saveInBackground { e ->
-                                if(e != null){
-                                    Log.d("[Error]", e.toString())
-                                }else{
-                                    Log.d("[RESULT:objectUpload]", "SUCCESS")
-                                    Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
-                                }
+                                saveUsersList(user.objectId.toString(), user.userName.toString(), updateList)
                             }
                         }
                     }
@@ -576,24 +546,24 @@ class DataSelectActivity : AppCompatActivity() {
             }
         }else if(requestCode == REQUEST_GARALLY2 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY2")
-            var uri: Uri?
+            val uri: Uri?
             if(data != null){
                 uri = data.data
                 try{
                     Log.d("[DEBUG]", uri.toString())
                     Log.d("[DEBUG]", uri?.path.toString())
-                    var strDocId = DocumentsContract.getDocumentId(uri)
-                    var strSplittedDocId = strDocId.split(":")
-                    var strId = strSplittedDocId[strSplittedDocId.size-1]
-                    var projection = arrayOf(MediaStore.MediaColumns.DATA)
-                    var cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
-                    var name : String = ""
+                    val strDocId = DocumentsContract.getDocumentId(uri)
+                    val strSplittedDocId = strDocId.split(":")
+                    val strId = strSplittedDocId[strSplittedDocId.size-1]
+                    val projection = arrayOf(MediaStore.MediaColumns.DATA)
+                    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
+                    var name = ""
                     if(cursor != null){
                         if(cursor.moveToFirst()){
                             name = cursor.getString(0)
                         }
                         cursor.close()
-                        Log.d("[DEBUG]", name.toString())
+                        Log.d("[DEBUG]", name)
                     }
                     val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
                     query.whereEqualTo("fileName", name.substringAfterLast("/"))
@@ -605,46 +575,22 @@ class DataSelectActivity : AppCompatActivity() {
                                 Log.d("[DEBUG]", "クラウド上にあるよ")
                                 Log.d("Size", File(name).readBytes().toString())
                             }else{
-                                val acl = NCMBAcl()
-                                acl.publicReadAccess = true
-                                acl.publicWriteAccess = true
-                                val file = NCMBFile(name.substringAfterLast("/"), File(name).readBytes(), acl)
-                                Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
-                                file.saveInBackground { e ->
-                                    val result: String
-                                    if (e != null) {
-                                        //保存失敗
-                                        AlertDialog.Builder(this@DataSelectActivity)
-                                            .setTitle("Notification from NIFCloud")
-                                            .setMessage("Error:" + e.message)
-                                            .setPositiveButton("OK", null)
-                                            .show()
-                                    }else{
-                                        Log.d("[RESULT:photoUpload]", "SUCCESS")
-                                    }
-                                }
+                                savePicToCloud(name)
                             }
                             val updateList = abc.getList("array")
                             Log.d("deb", updateList.toString())
-                            if(updateList.size == 0){
-                                updateList.add(0, name.substringAfterLast("/"))
-                            }else if(updateList.size == 1) {
-                                updateList.add(1, name.substringAfterLast("/"))
-                            }else{
-                                updateList[1] = name.substringAfterLast("/")
-                            }
-                            abc.put("userID", user.objectId.toString())
-                            abc.put("name", user.userName.toString())
-                            abc.put("array", updateList)
-
-                            abc.saveInBackground { e ->
-                                if(e != null){
-                                    Log.d("[Error]", e.toString())
-                                }else{
-                                    Log.d("[RESULT:objectUpload]", "SUCCESS")
-                                    Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
+                            when (updateList.size) {
+                                0 -> {
+                                    updateList.add(0, name.substringAfterLast("/"))
+                                }
+                                1 -> {
+                                    updateList.add(1, name.substringAfterLast("/"))
+                                }
+                                else -> {
+                                    updateList[1] = name.substringAfterLast("/")
                                 }
                             }
+                            saveUsersList(user.objectId.toString(), user.userName.toString(), updateList)
                         }
                     }
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
@@ -654,24 +600,24 @@ class DataSelectActivity : AppCompatActivity() {
             }
         }else if(requestCode == REQUEST_GARALLY3 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY3")
-            var uri: Uri?
+            val uri: Uri?
             if(data != null){
                 uri = data.data
                 try{
-                    Log.d("[DEBUG]", uri.toString())
-                    Log.d("[DEBUG]", uri?.path.toString())
-                    var strDocId = DocumentsContract.getDocumentId(uri)
-                    var strSplittedDocId = strDocId.split(":")
-                    var strId = strSplittedDocId[strSplittedDocId.size-1]
-                    var projection = arrayOf(MediaStore.MediaColumns.DATA)
-                    var cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
-                    var name : String = ""
+                    Log.d("[DEBUG607]", uri.toString())
+                    Log.d("[DEBUG608]", uri?.path.toString())
+                    val strDocId = DocumentsContract.getDocumentId(uri)
+                    val strSplittedDocId = strDocId.split(":")
+                    val strId = strSplittedDocId[strSplittedDocId.size-1]
+                    val projection = arrayOf(MediaStore.MediaColumns.DATA)
+                    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
+                    var name = ""
                     if(cursor != null){
                         if(cursor.moveToFirst()){
                             name = cursor.getString(0)
                         }
                         cursor.close()
-                        Log.d("[DEBUG]", name.toString())
+                        Log.d("[DEBUG620]", name)
                     }
                     val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
                     query.whereEqualTo("fileName", name.substringAfterLast("/"))
@@ -683,48 +629,25 @@ class DataSelectActivity : AppCompatActivity() {
                                 Log.d("[DEBUG]", "クラウド上にあるよ")
                                 Log.d("Size", File(name).readBytes().toString())
                             }else{
-                                val acl = NCMBAcl()
-                                acl.publicReadAccess = true
-                                acl.publicWriteAccess = true
-                                val file = NCMBFile(name.substringAfterLast("/"), File(name).readBytes(), acl)
-                                Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
-                                file.saveInBackground { e ->
-                                    val result: String
-                                    if (e != null) {
-                                        //保存失敗
-                                        AlertDialog.Builder(this@DataSelectActivity)
-                                            .setTitle("Notification from NIFCloud")
-                                            .setMessage("Error:" + e.message)
-                                            .setPositiveButton("OK", null)
-                                            .show()
-                                    }else{
-                                        Log.d("[RESULT:photoUpload]", "SUCCESS")
-                                    }
-                                }
+                                savePicToCloud(name)
                             }
                             val updateList = abc.getList("array")
                             Log.d("deb", updateList.toString())
-                            if(updateList.size == 0){
-                                updateList.add(0, name.substringAfterLast("/"))
-                            }else if(updateList.size == 1) {
-                                updateList.add(1, name.substringAfterLast("/"))
-                            }else if(updateList.size == 2) {
-                                updateList.add(2, name.substringAfterLast("/"))
-                            }else{
-                                updateList[2] = name.substringAfterLast("/")
-                            }
-                            abc.put("userID", user.objectId.toString())
-                            abc.put("name", user.userName.toString())
-                            abc.put("array", updateList)
-
-                            abc.saveInBackground { e ->
-                                if(e != null){
-                                    Log.d("[Error]", e.toString())
-                                }else{
-                                    Log.d("[RESULT:objectUpload]", "SUCCESS")
-                                    Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
+                            when (updateList.size) {
+                                0 -> {
+                                    updateList.add(0, name.substringAfterLast("/"))
+                                }
+                                1 -> {
+                                    updateList.add(1, name.substringAfterLast("/"))
+                                }
+                                2 -> {
+                                    updateList.add(2, name.substringAfterLast("/"))
+                                }
+                                else -> {
+                                    updateList[2] = name.substringAfterLast("/")
                                 }
                             }
+                            saveUsersList(user.objectId.toString(), user.userName.toString(), updateList)
                         }
                     }
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
@@ -735,9 +658,54 @@ class DataSelectActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 画像ファイルをクラウドデータベースにアップロード.
+     */
+    private fun savePicToCloud(uriName:String){
+        val acl = NCMBAcl()
+        acl.publicReadAccess = true
+        acl.publicWriteAccess = true
+        val file = NCMBFile(uriName.substringAfterLast("/"), File(uriName).readBytes(), acl)
+        Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
+        file.saveInBackground { e ->
+            if (e != null) {
+                //保存に失敗したとき
+                AlertDialog.Builder(this@DataSelectActivity)
+                    .setTitle("Notification from NIFCloud")
+                    .setMessage("Error:" + e.message)
+                    .setPositiveButton("OK", null)
+                    .show()
+            }else{
+                //保存に成功したとき
+                Log.d("[RESULT:photoUpload]", "SUCCESS")
+            }
+        }
+    }
+
+    /**
+     * 各ユーザのアップロードした画像のリストを更新.
+     */
+    private fun saveUsersList(id:String, name:String, list:List<Any?>){
+        abc.put("userID", id)
+        abc.put("name", name)
+        abc.put("array", list)
+
+        abc.saveInBackground { e ->
+            if(e != null){
+                Log.d("[Error]", e.toString())
+            }else{
+                Log.d("[RESULT:objectUpload]", "SUCCESS")
+                Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * FileのUriを作成.
+     */
     private fun createSaveFileUri(): Uri {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.JAPAN).format(Date())
-        val imageFileName = "example" + timeStamp
+        val imageFileName = "example$timeStamp"
 
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/example")
         if (!storageDir.exists()) {
@@ -749,8 +717,8 @@ class DataSelectActivity : AppCompatActivity() {
         Log.d("Maked file name", file.toString())
         filename = "$imageFileName.jpg"
         path = file.absolutePath
-        Log.d("path", path.toString())
+        Log.d("path", path)
 
-        return FileProvider.getUriForFile(this, "com.example.cloudexample", file)
+        return FileProvider.getUriForFile(this, "io.github.healthifier.walking_promoter", file)
     }
 }

@@ -39,7 +39,8 @@ class SignActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }else {
-                val intent = Intent(this, DataSelectActivity::class.java)
+                //val intent = Intent(this, DataSelectActivity::class.java)
+                val intent = Intent(this, ProgramActivity::class.java)
                 startActivity(intent)
             }
         }
