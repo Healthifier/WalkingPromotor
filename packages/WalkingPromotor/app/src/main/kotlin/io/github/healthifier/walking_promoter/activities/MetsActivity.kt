@@ -41,7 +41,7 @@ class MetsActivity : AppCompatActivity() {
             showDatePicker()
         }
         backbutton.setOnClickListener {
-            val intent = Intent(this, ProgramActivity::class.java)
+            val intent = Intent(this, DiaryMenuActivity::class.java)
             startActivity(intent)
         }
     }

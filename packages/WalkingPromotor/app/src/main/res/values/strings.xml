@@ -1,12 +1,12 @@
 <resources>
-  <string name="app_name">Walking Promoter</string>
-  <string name="menu_settings">Settings</string>
-  <string name="title_item_list">Items</string>
-  <string name="title_item_detail">Item Detail</string>
+    <string name="app_name">Walking Promoter</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
-  <string name="speaker_text">話し手の方へ\n\n・いつ撮ったのか\n・どこで撮ったのか\n・何を撮ったのか\n・誰が(と)撮ったのか\n\nなどを踏まえて話してみよう！\n</string>
-  <string name="listener_text">聞き手の方へ\n\n・なぜその写真を撮ったのか聞いてみよう！\n・気になったことは聞いてみよう！\n・写真に関連するあなたの身近な話をしてみよう！\n・撮った写真の中で一番好きなのはどれか聞いてみよう！\n・この時のウォーキングの調子はどうだったか聞いてみよう！\n
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="speaker_text">話し手の方へ\n\n・いつ撮ったのか\n・どこで撮ったのか\n・何を撮ったのか\n・誰が(と)撮ったのか\n\nなどを踏まえて話してみよう！\n</string>
+    <string name="listener_text">聞き手の方へ\n\n・なぜその写真を撮ったのか聞いてみよう！\n・気になったことは聞いてみよう！\n・写真に関連するあなたの身近な話をしてみよう！\n・撮った写真の中で一番好きなのはどれか聞いてみよう！\n・この時のウォーキングの調子はどうだったか聞いてみよう！\n
   </string>
 </resources>

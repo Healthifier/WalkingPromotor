@@ -91,7 +91,7 @@
     android:layout_marginStart="12dp"
     android:ems="10"
     android:hint="タイトル"
-    android:inputType="textPersonName"
+    android:inputType="none"
     android:text=""
     android:textSize="36sp"
     android:textStyle="bold"

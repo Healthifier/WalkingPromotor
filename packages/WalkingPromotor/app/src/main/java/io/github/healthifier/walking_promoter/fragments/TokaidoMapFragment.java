@@ -173,8 +173,17 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
             zoom = 10;
         }
 
+
+        /*
         LatLng point = drawPolyline(distance, positions, 0);
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(point, zoom);
+        */
+
+        //都竹書き込み
+        LatLng tokyo = new LatLng(35.681298, 139.766247);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(tokyo, zoom);
+        //書き込み終わり
+
         _map.moveCamera(cu);
 
         _map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

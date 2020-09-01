@@ -46,17 +46,17 @@ class SecondActivity : AppCompatActivity() {
     val PERMISSION_REQUEST = 1002
     //private lateinit var path: String
     var path: String =""
-    private var objList = listOf<NCMBObject>()
-    private val cloudUser = NCMBUser.getCurrentUser()
-    private var cloudDiaryObj = NCMBObject("cloudDiary")
+    //private var objList = listOf<NCMBObject>()
+    //private val cloudUser = NCMBUser.getCurrentUser()
+    //private var cloudDiaryObj = NCMBObject("cloudDiary")
     private var r: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        val cloudUName = cloudUser.userName
-        val cloudUId = cloudUser.objectId
+        //val cloudUName = cloudUser.userName
+        //val cloudUId = cloudUser.objectId
         dbHandler = DatabaseHandler(this)
 
         //textview_date = this.textCalView2
@@ -100,8 +100,8 @@ class SecondActivity : AppCompatActivity() {
                 /**
                  * クラウドに保存.
                  */
-                savePicToCloud(path) //ファイルストアに画像をあげる
-                saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
+                //savePicToCloud(path) //ファイルストアに画像をあげる
+                //saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
 
                 if (success){
                     Toast.makeText(this,"日記を保存しました", Toast.LENGTH_LONG).show()
@@ -111,7 +111,7 @@ class SecondActivity : AppCompatActivity() {
         }
 
         button_back.setOnClickListener {
-            val intent = Intent(this, ProgramActivity::class.java)
+            val intent = Intent(this, HomeProgramActivity::class.java)
             startActivity(intent)
         }
 
@@ -251,6 +251,7 @@ class SecondActivity : AppCompatActivity() {
     /**
      * 画像ファイルをクラウドファイルストアにアップロード.
      */
+    /*
     private fun savePicToCloud(uriName:String){
         val acl = NCMBAcl()
         acl.publicReadAccess = true
@@ -293,5 +294,5 @@ class SecondActivity : AppCompatActivity() {
                 Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 }

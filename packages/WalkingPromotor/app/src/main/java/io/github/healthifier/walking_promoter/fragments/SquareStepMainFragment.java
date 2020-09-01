@@ -80,8 +80,16 @@ public class SquareStepMainFragment extends Fragment {
                 Fragment fragment = new SquareStepExampleFragment();
                 fragment.setArguments(bundle);
 
+                /**
+                 * 都竹用に変更
+                 */
+                /*
                 getFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
+                    .addToBackStack(null)
+                    .commit();*/
+                getFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
                     .addToBackStack(null)
                     .commit();
             }
@@ -97,8 +105,16 @@ public class SquareStepMainFragment extends Fragment {
                 Fragment fragment = new SquareStepTestFragment();
                 fragment.setArguments(bundle);
 
+                /**
+                 * 都竹用に変更
+                 */
+                /*
                 getFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
+                    .addToBackStack(null)
+                    .commit();*/
+                getFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
                     .addToBackStack(null)
                     .commit();
             }

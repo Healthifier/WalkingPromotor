@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="io.github.healthifier.walking_promoter.activities.HomeProgramActivity">
+
+  <!-- ツールバー -->
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/main_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="#FF9800"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:title="自宅メニュー"
+    android:textStyle="bold"
+    tools:ignore="MissingConstraints" />
+
+
+  <TableLayout
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:stretchColumns="0,1,2"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar">
+
+    <TableRow
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1">
+
+      <Button
+        android:id="@+id/write_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FAA6A4"
+        android:drawableTop="@drawable/ic_baseline_create_24"
+        android:drawableTint="#FFFFFF"
+        android:gravity="bottom|center"
+        android:text="日記を書く"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+      <Button
+        android:id="@+id/look_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FFF6CF"
+        android:drawableTop="@drawable/ic_baseline_menu_book_24"
+        android:gravity="bottom|center"
+        android:text="日記を見る"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+      <Button
+        android:id="@+id/upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FAA6A4"
+        android:drawableTop="@drawable/ic_baseline_cloud_upload_24"
+        android:drawableTint="#FFFFFF"
+        android:gravity="bottom|center"
+        android:text="日記を投稿する"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    </TableRow>
+
+    <TableRow
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1">
+
+      <Button
+        android:id="@+id/walk_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FFF6CF"
+        android:drawableTop="@drawable/ic_baseline_directions_walk_24"
+        android:gravity="bottom|center"
+        android:text="歩数を記録する"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+      <Button
+        android:id="@+id/step_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FAA6A4"
+        android:drawableTop="@drawable/ic_baseline_view_module_24"
+        android:drawableTint="#FFFFFF"
+        android:gravity="bottom|center"
+        android:text="ステップ練習"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+      <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FFF6CF"
+        android:drawableTop="@drawable/ic_baseline_undo_24"
+        android:gravity="bottom|center"
+        android:text="始めに戻る"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    </TableRow>
+  </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

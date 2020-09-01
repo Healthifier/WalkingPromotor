@@ -1,47 +1,80 @@
 package io.github.healthifier.walking_promoter.activities
 
-import android.app.DatePickerDialog
-import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
-import io.github.healthifier.walking_promoter.models.Database
-import io.github.healthifier.walking_promoter.models.DatabaseHandler
-import io.github.healthifier.walking_promoter.models.DiaryData
-import io.github.healthifier.walking_promoter.models.DiaryListAdapter
 import kotlinx.android.synthetic.main.activity_program.*
-import java.util.*
 
 class ProgramActivity : AppCompatActivity() {
 
-    var dbHandler = DatabaseHandler(this)
-    private var _db: Database? = null
-    val cal = Calendar.getInstance()
-
-    val wordList : List<String> = listOf("それでは実際に日記を紹介していきましょう",
-                                          "あなたがつけた日記の中からひとつ選んでください",
-                                          "選択してボタンを押す",
-                                          "写真の情報や自分の感想などを踏まえながら話してみましょう")
-    var count = 0
-    var title = ""
-    var day = ""
-    var photo = ""
+    private val curUser = NCMBUser.getCurrentUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program)
-        _db = Database(this)
+        Toast.makeText(this, "${curUser.userName}さんでログインしています", Toast.LENGTH_LONG).show()
+
+        //setSupportActionBar(main_toolbar)
+        //main_toolbar.title = "オンラインメニュー"
+        //main_toolbar.setTitleTextColor(Color.WHITE)
 
         button4.setOnClickListener {
-            val intent = Intent(this, SecondActivity::class.java)
+            val intent = Intent(this, DataSelectActivity::class.java)
             startActivity(intent)
         }
 
         button3.setOnClickListener {
-            val intent = Intent(this, MetsActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        button5.setOnClickListener {
+            val intent = Intent(this, FirstDiaryActivity::class.java)
             startActivity(intent)
         }
 
     }
+    /*
+    // オプションメニューを作成する
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//
+        getMenuInflater().inflate(R.menu.main, menu)
+// オプションメニュー表示する場合はtrue
+        return true
+    }
+    // ここでメニュー項目を表示前に調整できる
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.action_settings0).isVisible = false
+        //menu.findItem(R.id.action_settings3).setTitle(R.string.menu_msg3X)
+        menu.findItem(R.id.action_add).isVisible = false
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings1 -> {
+                //tmpLowDisp(item.title.toString())
+                true
+            }
+            R.id.action_settings2 -> {
+                //tmpLowDisp(item.title.toString())
+                true
+            }
+
+            R.id.action_search -> {
+                //tmpLowDisp(item.title.toString())
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }*/
 }

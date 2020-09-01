@@ -50,8 +50,17 @@ public class SquareStepListFragment extends Fragment {
                 Fragment fragment = new SquareStepMainFragment();
                 fragment.setArguments(bundle);
 
+                /**
+                 * 都竹用に変更
+                 */
+                /*
                 getFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
+                    .addToBackStack(null)
+                    .commit();*/
+
+                getFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
                     .addToBackStack(null)
                     .commit();
             }

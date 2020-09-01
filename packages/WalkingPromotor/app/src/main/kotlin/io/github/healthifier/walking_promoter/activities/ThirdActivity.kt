@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_third.*
 
 class ThirdActivity : AppCompatActivity() {
 
-    var dbHandler = DatabaseHandler(this)
+    private val dbHandler = DatabaseHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

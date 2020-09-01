@@ -27,7 +27,7 @@ class FourthActivity : AppCompatActivity() {
         day_View.text = intent.getStringExtra(DAY)
 
         button6.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ThirdActivity::class.java)
             startActivity(intent)
         }
 
