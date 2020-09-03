@@ -424,19 +424,12 @@ class DataSelectActivity : AppCompatActivity() {
                         } else {
                             //成功処理
                             val bMap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
-                            //bMapList[i] = bMap
-                            //Log.d("d346", bMapList[i].toString())
                             imageName[i].setImageBitmap(bMap)
                         }
                     }
                 }
             }
         }
-        //Thread.sleep(3000)
-        /*for(i in 0..listSize){
-            imageName[i].setImageBitmap(bMapList[i])
-        }*/
-        //Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
     }
 
     private fun takePicture() {

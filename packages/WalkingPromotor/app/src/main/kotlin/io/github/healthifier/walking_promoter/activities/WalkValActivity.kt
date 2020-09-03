@@ -22,7 +22,6 @@ class WalkValActivity : AppCompatActivity() {
     private var _count = 0
     private val cloudUser = NCMBUser.getCurrentUser()
     private var cloudWalkObj = NCMBObject("walkValue")
-    //private val _goalEdit: EditText? = null
     private var p_cloudUName = ""
     private var p_cloudUId = ""
 
@@ -117,95 +116,17 @@ class WalkValActivity : AppCompatActivity() {
         calTextView.text = sdf.format(cal.time)
     }
 
-    private fun initButtons() {
-        /*
-        val buttonIds = intArrayOf(
-            R.id.button_0,
-            R.id.button_1,
-            R.id.button_2,
-            R.id.button_3,
-            R.id.button_4,
-            R.id.button_5,
-            R.id.button_6,
-            R.id.button_7,
-            R.id.button_8,
-            R.id.button_9)
-        for (i in buttonIds.indices) {
-            val btn = v.findViewById<Button>(buttonIds[i])
-            btn.setOnClickListener {
-                _count = _count * 10 + i
-                updateGoalEdit()
-            }
-        }*/
-        button_0.setOnClickListener {
-            _count = _count * 10 + 0
-            updateGoalEdit()
-        }
-        button_1.setOnClickListener {
-            _count = _count * 10 + 1
-            updateGoalEdit()
-        }
-        button_2.setOnClickListener {
-            _count = _count * 10 + 2
-            updateGoalEdit()
-        }
-        button_3.setOnClickListener {
-            _count = _count * 10 + 3
-            updateGoalEdit()
-        }
-        button_4.setOnClickListener {
-            _count = _count * 10 + 4
-            updateGoalEdit()
-        }
-        button_5.setOnClickListener {
-            _count = _count * 10 + 5
-            updateGoalEdit()
-        }
-        button_6.setOnClickListener {
-            _count = _count * 10 + 6
-            updateGoalEdit()
-        }
-        button_7.setOnClickListener {
-            _count = _count * 10 + 7
-            updateGoalEdit()
-        }
-        button_8.setOnClickListener {
-            _count = _count * 10 + 8
-            updateGoalEdit()
-        }
-        button_9.setOnClickListener {
-            _count = _count * 10 + 9
-            updateGoalEdit()
-        }
-        //val clear = v.findViewById<Button>(R.id.button_cancel)
-        button_cancel.setOnClickListener {
-            _count = 0
-            updateGoalEdit()
-        }
-        //val decide = v.findViewById<Button>(R.id.button_decision)
-        button_decision.setOnClickListener { setGoal(true) }
-    }
-
     private fun updateGoalEdit() {
         goalEditText.setText(formatNumber(_count))
     }
 
     private fun setGoal(save: Boolean) {
-        //val nextWeekStart = CalendarHelper.startDateOfNextWeek()
-        //val strStart = GoalFragment.LABEL_FORMAT.format(nextWeekStart.time)
-        //val strEnd = GoalFragment.LABEL_FORMAT.format(CalendarHelper.addDay(nextWeekStart, 6).time)
-        //val title = String.format("%s〜%sの目標を設定してください", strStart, strEnd)
-        //_titleTextView.setText(title)
         val steps = goalEditText.text.toString()
         val date = calTextView.text.toString()
         if (save) {
-            //_db.setGoal(nextWeekStart, _count)
-            //_goalTextView.setText(formatNumber(_count))
+
             setupViews(date, steps, p_cloudUName, p_cloudUId)
         } else {
-            //val count: Int = _db.getGoal(nextWeekStart)
-            //_goalTextView.setText(formatNumber(count))
-            //_count = count
             updateGoalEdit()
         }
     }

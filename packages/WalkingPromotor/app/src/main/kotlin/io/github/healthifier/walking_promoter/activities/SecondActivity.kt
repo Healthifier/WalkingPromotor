@@ -38,30 +38,17 @@ import java.util.*
 class SecondActivity : AppCompatActivity() {
 
     var dbHandler: DatabaseHandler? = null
-
-    var button_date: Button? = null
     val cal = Calendar.getInstance()
-    //var textview_date: TextView? = null
     var RESULT_CAMERA = 1001
     val PERMISSION_REQUEST = 1002
-    //private lateinit var path: String
     var path: String =""
-    //private var objList = listOf<NCMBObject>()
-    //private val cloudUser = NCMBUser.getCurrentUser()
-    //private var cloudDiaryObj = NCMBObject("cloudDiary")
     private var r: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        //val cloudUName = cloudUser.userName
-        //val cloudUId = cloudUser.objectId
         dbHandler = DatabaseHandler(this)
-
-        //textview_date = this.textCalView2
-        //button_date = this.button_day
-        //textview_date!!.text = ""
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
@@ -96,12 +83,6 @@ class SecondActivity : AppCompatActivity() {
                 user.diaryDay = date
                 user.photoPath = path //pathは画像のローカルパス
                 success = dbHandler!!.addUser(user)
-
-                /**
-                 * クラウドに保存.
-                 */
-                //savePicToCloud(path) //ファイルストアに画像をあげる
-                //saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
 
                 if (success){
                     Toast.makeText(this,"日記を保存しました", Toast.LENGTH_LONG).show()
@@ -247,52 +228,4 @@ class SecondActivity : AppCompatActivity() {
 
         return validate
     }
-
-    /**
-     * 画像ファイルをクラウドファイルストアにアップロード.
-     */
-    /*
-    private fun savePicToCloud(uriName:String){
-        val acl = NCMBAcl()
-        acl.publicReadAccess = true
-        acl.publicWriteAccess = true
-        Log.d("[DEBUG296]", uriName)
-        val file = NCMBFile(uriName.substringAfterLast("/"), File(uriName).readBytes(), acl)
-        Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
-        file.saveInBackground { e ->
-            if (e != null) {
-                //保存失敗
-                AlertDialog.Builder(this@SecondActivity)
-                    .setTitle("Notification from NIFCloud")
-                    .setMessage("Error:" + e.message)
-                    .setPositiveButton("OK", null)
-                    .show()
-            }else{
-                Log.d("[RESULT:photoUpload]", "SUCCESS")
-            }
-        }
-    }
-
-    /**
-     * 日記データをクラウドデータストアにアップロード
-     */
-    private fun saveDiaryToCloud(photo:String, title:String, date:String, userName:String, userId:String){
-        /*
-            データストアに5つの要素をアップ
-         */
-        cloudDiaryObj.put("photo", photo)
-        cloudDiaryObj.put("title", title)
-        cloudDiaryObj.put("date", date)
-        cloudDiaryObj.put("userName", userName)
-        cloudDiaryObj.put("userId", userId)
-
-        cloudDiaryObj.saveInBackground { e ->
-            if(e != null){
-                Log.d("[Error]", e.toString())
-            }else{
-                Log.d("[RESULT:objectUpload]", "SUCCESS")
-                Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }*/
 }

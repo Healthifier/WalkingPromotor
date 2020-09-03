@@ -22,10 +22,8 @@ import java.io.File
 class DiaryUpActivity : AppCompatActivity() {
 
     private val dbHandler = DatabaseHandler(this)
-    //var path: String =""
     private val cloudUser = NCMBUser.getCurrentUser()
     private var cloudDiaryObj = NCMBObject("cloudDiary")
-    private var r: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +44,7 @@ class DiaryUpActivity : AppCompatActivity() {
 
             setupViews(photo, title, date, cloudUName, cloudUId)
         }
-        
+
         backButton.setOnClickListener {
             val intent = Intent(this, HomeProgramActivity::class.java)
             startActivity(intent)
