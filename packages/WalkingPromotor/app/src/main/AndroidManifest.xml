@@ -21,6 +21,10 @@
     android:uiOptions="splitActionBarWhenNarrow"
     tools:ignore="GoogleAppIndexingWarning">
     <activity
+      android:name=".activities.WalkProgramActivity"
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+    <activity
       android:name=".activities.DiaryUpActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -46,7 +50,8 @@
     <activity
       android:name=".activities.StartActivity"
       android:label="ステップ練習"
-      android:screenOrientation="landscape" />
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
       android:name=".activities.ProgramActivity"
       android:label="オンラインメニュー"
@@ -71,7 +76,8 @@
     <activity
       android:name=".activities.MainActivity"
       android:label="目標設定"
-      android:screenOrientation="landscape" />
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
       android:name=".activities.FirstDiaryActivity"
       android:label="スタートメニュー"

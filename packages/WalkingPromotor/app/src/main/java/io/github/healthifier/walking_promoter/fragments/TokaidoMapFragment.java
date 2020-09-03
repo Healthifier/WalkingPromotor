@@ -117,6 +117,7 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
             lineStringStyle.setColor(Color.BLUE);
 
             //LatLng tokyo = new LatLng(35.681298, 139.766247);
+            tokyo = new LatLng(35.681298, 139.766247);
             _map.addMarker(new MarkerOptions().position(tokyo));
             _map.moveCamera(CameraUpdateFactory.newLatLng(tokyo));
 

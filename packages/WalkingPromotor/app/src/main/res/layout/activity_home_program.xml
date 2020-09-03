@@ -93,7 +93,7 @@
           android:backgroundTint="#FFF6CF"
           android:drawableTop="@drawable/ic_baseline_directions_walk_24"
           android:gravity="bottom|center"
-          android:text="歩数を記録する"
+          android:text="歩数について"
           android:textSize="36sp"
           android:textStyle="bold" />
 
@@ -132,7 +132,7 @@
         android:layout_height="match_parent">
 
         <Button
-          android:id="@+id/btn_"
+          android:id="@+id/btn_exp_write"
           android:layout_width="wrap_content"
           android:layout_height="60dp"
           android:textStyle="bold"
@@ -140,19 +140,19 @@
           android:text="説明" />
 
         <Button
-          android:id="@+id/button11"
+          android:id="@+id/btn_exp_look"
           android:layout_width="wrap_content"
           android:layout_height="60dp"
-          android:layout_marginStart="245dp"
+          android:layout_marginStart="220dp"
           android:textStyle="bold"
           android:textSize="20sp"
           android:text="説明" />
 
         <Button
-          android:id="@+id/button15"
+          android:id="@+id/btn_exp_update"
           android:layout_width="wrap_content"
           android:layout_height="60dp"
-          android:layout_marginStart="208dp"
+          android:layout_marginStart="220dp"
           android:textStyle="bold"
           android:textSize="20sp"
           android:text="説明" />
@@ -164,7 +164,7 @@
         android:layout_marginTop="170dp">
 
         <Button
-          android:id="@+id/button12"
+          android:id="@+id/btn_exp_walk"
           android:layout_width="wrap_content"
           android:layout_height="60dp"
           android:textStyle="bold"
@@ -172,10 +172,10 @@
           android:text="説明" />
 
         <Button
-          android:id="@+id/button13"
+          android:id="@+id/btn_exp_step"
           android:layout_width="wrap_content"
           android:layout_height="60dp"
-          android:layout_marginStart="245dp"
+          android:layout_marginStart="220dp"
           android:textStyle="bold"
           android:textSize="20sp"
           android:text="説明" />
@@ -184,7 +184,7 @@
           android:id="@+id/button14"
           android:layout_width="wrap_content"
           android:layout_height="60dp"
-          android:layout_marginStart="208dp"
+          android:layout_marginStart="220dp"
           android:textStyle="bold"
           android:textSize="20sp"
           android:visibility="gone"

@@ -6,6 +6,21 @@
         android:layout_height="match_parent"
         tools:context=".activities.MainActivity">
 
+  <!-- ツールバー -->
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/main_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="#2196F3"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:title="目標値を設定"
+    android:textStyle="bold"
+    tools:ignore="MissingConstraints" />
+
   <LinearLayout
     android:id="@+id/container"
     android:layout_width="900dp"
@@ -15,6 +30,6 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
