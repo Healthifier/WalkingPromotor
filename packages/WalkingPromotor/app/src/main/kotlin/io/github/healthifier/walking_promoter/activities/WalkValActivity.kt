@@ -24,6 +24,7 @@ class WalkValActivity : AppCompatActivity() {
     private var cloudWalkObj = NCMBObject("walkValue")
     private var p_cloudUName = ""
     private var p_cloudUId = ""
+    private var check = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,6 @@ class WalkValActivity : AppCompatActivity() {
 
         setGoal(false)
         updateGoalEdit()
-        //_goalEdit!!.inputType = 0
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
@@ -55,6 +55,7 @@ class WalkValActivity : AppCompatActivity() {
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
+            check = true
         }
 
         backButton.setOnClickListener {
@@ -107,7 +108,6 @@ class WalkValActivity : AppCompatActivity() {
             updateGoalEdit()
         }
         button_decision.setOnClickListener { setGoal(true) }
-
     }
 
     private fun updateDateInView() {
@@ -141,16 +141,20 @@ class WalkValActivity : AppCompatActivity() {
      */
     private fun setupViews(date:String, steps:String, cloudUName:String, cloudUId:String) {
         // BuilderからAlertDialogを作成
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("確認") // タイトル
-            .setMessage("本当に記録してよろしいですか？") // メッセージ
-            .setPositiveButton("OK") { dialog, which -> // OK
-                saveStepsToCloud(date, steps, cloudUName, cloudUId) //データストアに4要素をあげる
-            }
-            .setNegativeButton("戻る", null)
-            .create()
-        // AlertDialogを表示
-        dialog.show()
+        if(!check){
+            Toast.makeText(this, "日付を入力してください", Toast.LENGTH_SHORT).show()
+        }else{
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("確認") // タイトル
+                .setMessage("本当に記録してよろしいですか？") // メッセージ
+                .setPositiveButton("OK") { dialog, which -> // OK
+                    saveStepsToCloud(date, steps, cloudUName, cloudUId) //データストアに4要素をあげる
+                }
+                .setNegativeButton("戻る", null)
+                .create()
+            // AlertDialogを表示
+            dialog.show()
+        }
     }
 
     /**
