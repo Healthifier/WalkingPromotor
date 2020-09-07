@@ -109,8 +109,8 @@ class SignActivity : AppCompatActivity() {
         val userName = (findViewById<TextView>(R.id.userName)).text.toString()
         NCMBUser.logout()
         NCMBUser.login(userName, password)
-        val intent = Intent(this, ProgramActivity::class.java)
-        startActivity(intent)
+        //val intent = Intent(this, ProgramActivity::class.java)
+        //startActivity(intent)
         when (p_check) {
             "1000" -> {
                 val intent = Intent(this, ProgramActivity::class.java)

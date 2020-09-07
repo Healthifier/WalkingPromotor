@@ -5,27 +5,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import io.github.healthifier.walking_promoter.R
-import io.github.healthifier.walking_promoter.fragments.GoalFragment
-import io.github.healthifier.walking_promoter.fragments.SquareStepListFragment
-import io.github.healthifier.walking_promoter.fragments.TokaidoMapFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import io.github.healthifier.walking_promoter.fragments.WeeklyGraphFragment
+import kotlinx.android.synthetic.main.activity_dairy_graph.*
 
-class MainActivity : AppCompatActivity() {
-
+class DairyGraphActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_dairy_graph)
 
-        val check = intent.getStringExtra("CHECK")
+        showFragment(WeeklyGraphFragment::class.java)
 
-        showFragment(GoalFragment::class.java)
-
-        backButton.setOnClickListener {
-            if(check == "1001"){
-
-            }else if(check == "1002"){
-
-            }
+        btn_back.setOnClickListener {
+            val intent = Intent(this, WalkProgramActivity::class.java)
+            startActivity(intent)
         }
     }
 

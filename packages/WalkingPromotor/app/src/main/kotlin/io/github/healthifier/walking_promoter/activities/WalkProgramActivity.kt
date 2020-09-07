@@ -17,11 +17,18 @@ class WalkProgramActivity : AppCompatActivity() {
         }
 
         btn_look.setOnClickListener {
+            val intent = Intent(this, DairyGraphActivity::class.java)
+            startActivity(intent)
+        }
 
+        btn_look_all.setOnClickListener {
+            val intent = Intent(this, MetsActivity::class.java)
+            startActivity(intent)
         }
 
         btn_goal.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("CHECK", "1001")
             startActivity(intent)
         }
 

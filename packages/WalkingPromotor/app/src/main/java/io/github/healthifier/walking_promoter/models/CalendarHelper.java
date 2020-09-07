@@ -5,7 +5,8 @@ import java.util.Calendar;
 
 public class CalendarHelper {
 
-    private static final Calendar EXPERIMENT_START = create(2017, 9, 21);
+    //private static final Calendar EXPERIMENT_START = create(2017, 9, 21);
+    private static final Calendar EXPERIMENT_START = create(2020, 8, 6);
 
     public static Calendar getToday() {
         return Calendar.getInstance();

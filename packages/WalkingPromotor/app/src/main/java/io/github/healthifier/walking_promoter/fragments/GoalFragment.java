@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import io.github.healthifier.walking_promoter.R;
 import io.github.healthifier.walking_promoter.models.CalendarHelper;
@@ -94,6 +95,8 @@ public class GoalFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setGoal(true);
+                //Toast toast = Toast.makeText(this, "保存しました", Toast.LENGTH_SHORT);
+                //toast.show();
             }
         });
     }

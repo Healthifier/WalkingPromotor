@@ -38,7 +38,7 @@ class FirstDiaryActivity : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this)
                 .setTitle("自宅メニューって何が出来るの？") // タイトル
                 .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setPositiveButton("この画面を閉じる", null)
                 .create()
             // AlertDialogを表示
             dialog.show()
@@ -53,7 +53,7 @@ class FirstDiaryActivity : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this)
                 .setTitle("教室メニューって何が出来るの？") // タイトル
                 .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setPositiveButton("この画面を閉じる", null)
                 .create()
             // AlertDialogを表示
             dialog.show()
