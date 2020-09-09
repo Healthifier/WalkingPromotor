@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import io.github.healthifier.walking_promoter.R
@@ -47,78 +49,133 @@ class HomeProgramActivity : AppCompatActivity() {
         }
 
         btn_exp_write.setOnClickListener {
-            val msgView = TextView(this)
-            msgView.text = "ここでは「タイトルを入力すること」、「日付を入力すること」、「写真を撮ること」、「保存すること」で日記を書くことができます。"
-            msgView.textSize = 24F
-            msgView.setTextColor(Color.BLACK)
-            msgView.setPadding(30, 20, 30, 20)
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+            val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+            title.text = "日記の書き方は？"
+            val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+            message.text = "ここではウォーキング中に見つけたものを写真に撮って日記を書きます。"
+            val button: Button = view.findViewById(R.id.Button_dialog_positive)
+            button.text = "この画面を閉じる"
+
             val dialog = AlertDialog.Builder(this)
-                .setTitle("日記の書き方は？") // タイトル
-                .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setView(view)
                 .create()
+
             // AlertDialogを表示
             dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button.setOnClickListener {
+                dialog.dismiss() // AlertDialogを閉じる
+            }
         }
 
         btn_exp_look.setOnClickListener {
-            val msgView = TextView(this)
-            msgView.text = "ここでは「自分が書いた日記を見ること」、「他の人が書いた日記を見ること」ができます。"
-            msgView.textSize = 24F
-            msgView.setTextColor(Color.BLACK)
-            msgView.setPadding(30, 20, 30, 20)
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+            val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+            title.text = "日記を見るとは？"
+            val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+            message.text = "ここでは「自分が書いた日記を見ること」、「他の人が書いた日記を見ること」ができます。"
+            val button: Button = view.findViewById(R.id.Button_dialog_positive)
+            button.text = "この画面を閉じる"
+
             val dialog = AlertDialog.Builder(this)
-                .setTitle("日記を見るとは？") // タイトル
-                .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setView(view)
                 .create()
+
             // AlertDialogを表示
             dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button.setOnClickListener {
+                dialog.dismiss() // AlertDialogを閉じる
+            }
         }
 
         btn_exp_update.setOnClickListener {
-            val msgView = TextView(this)
-            msgView.text = "ここでは「自分が書いた日記を選択して、他の人が見れるようにすること」ができます。"
-            msgView.textSize = 24F
-            msgView.setTextColor(Color.BLACK)
-            msgView.setPadding(30, 20, 30, 20)
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+            val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+            title.text = "日記を投稿するとは？"
+            val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+            message.text = "ここでは「自分が書いた日記を選択して、他の人が見れるようにすること」ができます。"
+            val button: Button = view.findViewById(R.id.Button_dialog_positive)
+            button.text = "この画面を閉じる"
+
             val dialog = AlertDialog.Builder(this)
-                .setTitle("日記を投稿するとは？") // タイトル
-                .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setView(view)
                 .create()
+
             // AlertDialogを表示
             dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button.setOnClickListener {
+                dialog.dismiss() // AlertDialogを閉じる
+            }
         }
 
         btn_exp_walk.setOnClickListener {
-            val msgView = TextView(this)
-            msgView.text = "ここでは「歩数の記録すること」、「歩数を見ること」、「歩数の目標を設定すること」ができます。"
-            msgView.textSize = 24F
-            msgView.setTextColor(Color.BLACK)
-            msgView.setPadding(30, 20, 30, 20)
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+            val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+            title.text = "歩数についてとは？"
+            val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+            message.text = "ここでは「歩数の記録すること」、「歩数を見ること」、「歩数の目標を設定すること」ができます。"
+            val button: Button = view.findViewById(R.id.Button_dialog_positive)
+            button.text = "この画面を閉じる"
+
             val dialog = AlertDialog.Builder(this)
-                .setTitle("歩数についてとは？") // タイトル
-                .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setView(view)
                 .create()
+
             // AlertDialogを表示
             dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button.setOnClickListener {
+                dialog.dismiss() // AlertDialogを閉じる
+            }
         }
 
         btn_exp_step.setOnClickListener {
-            val msgView = TextView(this)
-            msgView.text = "ここでは緑色のマス目を触れていくことで、スクエアステップに似た練習ができます。"
-            msgView.textSize = 24F
-            msgView.setTextColor(Color.BLACK)
-            msgView.setPadding(30, 20, 30, 20)
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+            val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+            title.text = "ステップ練習とは？"
+            val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+            message.text = "ここでは緑色のマス目を触れていくことで、スクエアステップに似た練習ができます。"
+            val button: Button = view.findViewById(R.id.Button_dialog_positive)
+            button.text = "この画面を閉じる"
+
             val dialog = AlertDialog.Builder(this)
-                .setTitle("ステップ練習とは？") // タイトル
-                .setView(msgView) // メッセージ
-                .setPositiveButton("わかりました", null)
+                .setView(view)
                 .create()
+
             // AlertDialogを表示
             dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button.setOnClickListener {
+                dialog.dismiss() // AlertDialogを閉じる
+            }
         }
     }
 }
