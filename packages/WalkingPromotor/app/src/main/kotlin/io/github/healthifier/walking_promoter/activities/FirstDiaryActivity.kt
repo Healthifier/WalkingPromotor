@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -18,6 +20,18 @@ class FirstDiaryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_diary)
+
+        setSupportActionBar(main_toolbar)
+
+        /*
+
+        main_toolbar.inflateMenu(R.menu.option_menu)
+        main_toolbar.setOnMenuItemClickListener {
+            if(it.itemId == R.id.action_help){
+
+            }
+            return
+        }*/
 
         btn_show_home.setOnClickListener {
             //val intent = Intent(this, SecondActivity::class.java)
@@ -83,5 +97,17 @@ class FirstDiaryActivity : AppCompatActivity() {
                 dialog.dismiss() // AlertDialogを閉じる
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    //リスナー定義 複数設置できるのでitemIdごとに定義できる
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.action_help){
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

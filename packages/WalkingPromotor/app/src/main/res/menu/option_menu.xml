@@ -5,25 +5,8 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
-    android:id="@+id/action_settings0"
-    android:title="a"
-    app:showAsAction="never" />
-  <item
-    android:id="@+id/action_settings1"
-    android:title="b"
-    app:showAsAction="never" />
-  <item
-    android:id="@+id/action_settings2"
-    android:title="c"
-    app:showAsAction="never" />
-  <item
-    android:id="@+id/action_search"
-    android:icon="@android:drawable/ic_menu_search"
-    android:title="d"
-    app:showAsAction="always" />
-  <item
-    android:id="@+id/action_add"
-    android:icon="@android:drawable/ic_menu_add"
+    android:id="@+id/action_help"
+    android:icon="@drawable/ic_baseline_live_help_24"
     android:title="e"
     app:showAsAction="always" />
 </menu>

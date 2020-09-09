@@ -42,6 +42,7 @@
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.HomeProgramActivity"
+      android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.DataSelectActivity"
@@ -85,7 +86,8 @@
     <activity
       android:name=".activities.FirstDiaryActivity"
       android:label="スタートメニュー"
-      android:screenOrientation="landscape">
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <action android:name="android.intent.action.VIEW" />
