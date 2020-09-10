@@ -5,6 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         tools:context=".activities.SecondActivity">
 
   <Button
@@ -92,7 +94,6 @@
     android:layout_marginStart="12dp"
     android:ems="10"
     android:hint="タイトル"
-    android:inputType="none"
     android:text=""
     android:textSize="36sp"
     android:textStyle="bold"

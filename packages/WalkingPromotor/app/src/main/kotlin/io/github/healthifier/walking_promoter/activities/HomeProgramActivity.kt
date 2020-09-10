@@ -1,6 +1,8 @@
 package io.github.healthifier.walking_promoter.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,12 +11,25 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import io.github.healthifier.walking_promoter.R
+import kotlinx.android.synthetic.main.activity_first_diary.*
 import kotlinx.android.synthetic.main.activity_home_program.*
 
 class HomeProgramActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_program)
+
+        // "DataStore"という名前でインスタンスを生成
+        val dataStore: SharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE)
+        val dataBoolean = dataStore.getBoolean("Input", true)
+
+        if(!dataBoolean){
+            btn_exp_write.visibility = View.INVISIBLE
+            btn_exp_look.visibility = View.INVISIBLE
+            btn_exp_update.visibility = View.INVISIBLE
+            btn_exp_walk.visibility = View.INVISIBLE
+            btn_exp_step.visibility = View.INVISIBLE
+        }
 
         write_button.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)

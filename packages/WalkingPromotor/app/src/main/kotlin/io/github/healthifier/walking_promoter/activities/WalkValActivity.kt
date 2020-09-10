@@ -124,7 +124,6 @@ class WalkValActivity : AppCompatActivity() {
         val steps = goalEditText.text.toString()
         val date = calTextView.text.toString()
         if (save) {
-
             setupViews(date, steps, p_cloudUName, p_cloudUId)
         } else {
             updateGoalEdit()
