@@ -34,7 +34,7 @@ class CustomGridAdapter(private val customList: ArrayList<String>) : RecyclerVie
 
     // ViewHolderに表示する画像とテキストを挿入
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.view.imageView.setImageResource(R.mipmap.ic_launcher)
+        //holder.view.imageView.setImageResource(R.mipmap.ic_launcher)
         holder.view.textView.text = customList[position]
         // タップしたとき
         holder.view.setOnClickListener {

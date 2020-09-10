@@ -22,9 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         backButton.setOnClickListener {
             if(check == "1001"){
-
+                val intent = Intent(this, WalkProgramActivity::class.java)
+                startActivity(intent)
             }else if(check == "1002"){
-
+                val intent = Intent(this, ProgramActivity::class.java)
+                startActivity(intent)
             }
         }
     }

@@ -41,11 +41,6 @@ class HomeProgramActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        step_button.setOnClickListener {
-            val intent = Intent(this, StartActivity::class.java)
-            startActivity(intent)
-        }
-
         upload_button.setOnClickListener {
             val intent = Intent(this, SignActivity::class.java)
             intent.putExtra("CHECK", "1002")
@@ -58,10 +53,19 @@ class HomeProgramActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        step_button.setOnClickListener {
+            val intent = Intent(this, StartActivity::class.java)
+            startActivity(intent)
+        }
+
         back_button.setOnClickListener {
             val intent = Intent(this, FirstDiaryActivity::class.java)
             startActivity(intent)
         }
+
+        /**
+         * ここから説明ボタンの内容
+         */
 
         btn_exp_write.setOnClickListener {
             val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)

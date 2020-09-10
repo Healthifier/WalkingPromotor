@@ -4,7 +4,7 @@
   android:id="@+id/constrainLayout"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
-  android:layout_margin="8dp"
+  android:layout_margin="0dp"
   android:orientation="vertical">
 
   <androidx.cardview.widget.CardView
@@ -24,20 +24,23 @@
 
       <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:foreground="@drawable/ic_baseline_photo_size_select_actual_24"
+        android:foregroundTint="#00897B"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:layout_constraintTop_toTopOf="parent" />
 
       <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_horizontal"
         android:text="TextView"
-        android:textSize="36sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"

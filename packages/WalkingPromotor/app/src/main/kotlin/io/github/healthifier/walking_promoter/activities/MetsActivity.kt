@@ -36,11 +36,13 @@ class MetsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mets)
 
-        showFragment(TokaidoMapFragment::class.java)
+        //showFragment(TokaidoMapFragment::class.java)
+        /*
         tmpShowCal.setOnClickListener {
             showDatePicker()
-        }
-        backbutton.setOnClickListener {
+        }*/
+        showDiaryList()
+        btn_back.setOnClickListener {
             val intent = Intent(this, DiaryMenuActivity::class.java)
             startActivity(intent)
         }
@@ -71,7 +73,7 @@ class MetsActivity : AppCompatActivity() {
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 //updateDateInView()
                 cloudDate = sdf.format(cal.time)
-                showDiaryList(cloudDate) //OK押したら日記ポップアップ画面を表示
+                //showDiaryList(cloudDate) //OK押したら日記ポップアップ画面を表示
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
@@ -79,10 +81,10 @@ class MetsActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun showDiaryList(cloudDate:String){
+    private fun showDiaryList(){
         //cloudDiaryクラスからdateをキーにオブジェクト検索
         val querydiary = NCMBQuery<NCMBObject>("cloudDiary")
-        querydiary.whereEqualTo("date", cloudDate)
+        //querydiary.whereEqualTo("date", cloudDate)
         querydiary.findInBackground {objects, error ->
             if (error != null) {
                 Log.d("[Error91]", error.toString())
@@ -101,6 +103,7 @@ class MetsActivity : AppCompatActivity() {
                     }
                     Log.d("List", cloudTitleList[0])
 
+                    /*
                     //ダイアログ画面の表示準備
                     val dialog = Dialog(this)
                     dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
@@ -117,14 +120,14 @@ class MetsActivity : AppCompatActivity() {
                         (width * factor * 0.4).toInt(),
                         (height* factor * 0.4).toInt()
                     )
+                     */
                     val gridAdapter = CustomGridAdapter(cloudTitleList)
-                    val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-                    val gridRecyclerView = customDialogView.findViewById<RecyclerView>(R.id.gridRecyclerView)
+                    val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
                     //アダプターとレイアウトマネージャーをセット
                     gridRecyclerView.layoutManager = layoutManager
                     gridRecyclerView.setHasFixedSize(true)
                     gridRecyclerView.adapter = gridAdapter
-                    dialog.show()
+                    //dialog.show()
 
                     gridAdapter.setOnItemClickListener(object:CustomGridAdapter.OnItemClickListener{
                         override fun onItemClickListener(view: View, position: Int, clickedText: String) {
@@ -155,8 +158,8 @@ class MetsActivity : AppCompatActivity() {
         val height = size.y
         val factor = width.toFloat() / height.toFloat()
         dialog.window?.setLayout(
-            (width * factor * 0.4).toInt(),
-            (height* factor * 0.9).toInt()
+            (width * factor * 0.5).toInt(),
+            (height* factor * 0.5).toInt()
         )
 
         val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
@@ -184,8 +187,13 @@ class MetsActivity : AppCompatActivity() {
                         titleTextView_dialog.text = title
                         val dayTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_day_textView)
                         dayTextView_dialog.text = date
+                        val baclButton_dialog = customDialogView.findViewById<TextView>(R.id.ctm_back_button)
 
                         dialog.show()
+
+                        baclButton_dialog.setOnClickListener {
+                            dialog.dismiss()
+                        }
                     }
                 }
             }

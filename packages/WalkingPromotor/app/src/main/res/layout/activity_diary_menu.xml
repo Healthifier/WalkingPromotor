@@ -18,6 +18,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="日記を見るメニュー"
+    app:titleTextAppearance="@style/TextAppearance.Toolbar"
     tools:ignore="MissingConstraints" />
 
   <LinearLayout

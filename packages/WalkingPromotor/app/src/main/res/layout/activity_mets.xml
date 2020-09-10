@@ -17,41 +17,46 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:title="歩数メニュー"
+    app:title="みんなが書いた日記"
+    app:titleTextAppearance="@style/TextAppearance.Toolbar"
     android:textStyle="bold"
     tools:ignore="MissingConstraints" />
 
   <LinearLayout
-    android:id="@+id/container"
-    android:layout_width="900dp"
-    android:layout_height="450dp"
-    android:layout_marginTop="8dp"
-    android:orientation="horizontal"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
-
-  <Button
-    android:id="@+id/backbutton"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="100dp"
-    android:text="前の画面に戻る"
-    android:textSize="36sp"
+    android:orientation="vertical"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/container" />
-
-  <Button
-    android:id="@+id/tmpShowCal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="100dp"
-    android:layout_marginTop="8dp"
-    android:text="日にちを選ぼう"
-    android:textSize="36sp"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/container" />
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="390dp"
+      android:layout_weight="1">
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gridRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="1">
+
+      <Button
+        android:id="@+id/btn_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFF6CF"
+        android:textSize="40sp"
+        android:text="前の画面に戻る"
+        android:textStyle="bold"/>
+
+    </LinearLayout>
+  </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

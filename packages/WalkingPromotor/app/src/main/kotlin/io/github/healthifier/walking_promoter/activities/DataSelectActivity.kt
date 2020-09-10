@@ -128,15 +128,9 @@ class DataSelectActivity : AppCompatActivity() {
             textView_user.text = user.userName + "さんが選んだ写真の画面です"
         }
 
-        //カメラ撮影用のボタン
-        button_camera.setOnClickListener {
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager)?.let {
-                if (checkPermission()) {
-                    takePicture()
-                } else {
-                    grantCameraPermission()
-                }
-            } ?: Toast.makeText(this, "カメラを扱うアプリがありません", Toast.LENGTH_LONG).show()
+        button_back.setOnClickListener {
+            val intent = Intent(this, ProgramActivity::class.java)
+            startActivity(intent)
         }
 
         //user1の画像データ表示用のボタン

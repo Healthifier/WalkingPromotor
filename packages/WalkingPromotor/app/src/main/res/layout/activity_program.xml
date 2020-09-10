@@ -18,62 +18,109 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="教室メニュー"
+    app:titleTextColor="#FFFFFF"
+    app:titleTextAppearance="@style/TextAppearance.Toolbar"
     tools:ignore="MissingConstraints" />
 
 
-  <TableLayout
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:stretchColumns="0,1,2"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="460dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/main_toolbar">
 
-    <TableRow
+    <TableLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_weight="1">
+      android:stretchColumns="0,1,2">
 
-      <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
+      <TableRow
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:backgroundTint="#7AED00"
-        android:drawableTop="@drawable/ic_baseline_image_search_24"
-        android:drawableTint="#FFFFFF"
-        android:gravity="bottom|center"
-        android:text="みんなで写真共有"
-        android:textSize="36sp"
-        android:textStyle="bold" />
+        android:layout_weight="1">
 
-      <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:backgroundTint="#FFFFFF"
-        android:drawableTop="@drawable/ic_baseline_flag_24"
-        android:gravity="bottom|center"
-        android:text="みんなで目標設定"
-        android:textSize="36sp"
-        android:textStyle="bold" />
+        <Button
+          android:id="@+id/button4"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:backgroundTint="#9981CC"
+          android:drawableTop="@drawable/ic_baseline_image_search_24"
+          android:drawableTint="#FFFFFF"
+          android:gravity="bottom|center"
+          android:text="みんなで写真共有"
+          android:textColor="#ffffff"
+          android:textSize="36sp"
+          android:textStyle="bold" />
 
-      <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:backgroundTint="#7AED00"
-        android:drawableTop="@drawable/ic_baseline_undo_24"
-        android:drawableTint="#FFFFFF"
-        android:gravity="bottom|center"
-        android:text="始めに戻る"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        <Button
+          android:id="@+id/button3"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFBEA"
+          android:drawableTop="@drawable/ic_baseline_flag_24"
+          android:gravity="bottom|center"
+          android:text="みんなで目標設定"
+          android:textSize="36sp"
+          android:textStyle="bold" />
 
-    </TableRow>
-  </TableLayout>
+        <Button
+          android:id="@+id/button5"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:backgroundTint="#9981CC"
+          android:drawableTop="@drawable/ic_baseline_undo_24"
+          android:drawableTint="#FFFFFF"
+          android:gravity="bottom|center"
+          android:text="始めに戻る"
+          android:textColor="#ffffff"
+          android:textSize="32sp"
+          android:textStyle="bold" />
+
+      </TableRow>
+    </TableLayout>
+
+    <TableLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+          android:id="@+id/btn_exp_share"
+          android:layout_width="wrap_content"
+          android:layout_height="60dp"
+          android:textStyle="bold"
+          android:textSize="20sp"
+          android:background="@drawable/frame_style"
+          android:text="説明" />
+
+        <Button
+          android:id="@+id/btn_exp_goal"
+          android:layout_width="wrap_content"
+          android:layout_height="60dp"
+          android:layout_marginStart="280dp"
+          android:textStyle="bold"
+          android:textSize="20sp"
+          android:background="@drawable/frame_style"
+          android:text="説明" />
+
+        <Button
+          android:id="@+id/btn_exp_back"
+          android:layout_width="wrap_content"
+          android:layout_height="60dp"
+          android:layout_marginStart="220dp"
+          android:textStyle="bold"
+          android:textSize="20sp"
+          android:background="@drawable/frame_style"
+          android:visibility="gone"
+          android:text="説明" />
+      </TableRow>
+    </TableLayout>
+
+  </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

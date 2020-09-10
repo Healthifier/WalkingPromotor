@@ -47,11 +47,13 @@
     <activity
       android:name=".activities.DataSelectActivity"
       android:label="みんなの写真"
-      android:screenOrientation="landscape" />
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.SignActivity"
       android:label="みんなで情報共有する"
-      android:screenOrientation="landscape" />
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
       android:name=".activities.StartActivity"
       android:label="ステップ練習"
@@ -69,10 +71,12 @@
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.FourthActivity"
-      android:screenOrientation="landscape" />
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
       android:name=".activities.ThirdActivity"
-      android:screenOrientation="landscape" />
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
       android:name=".activities.SecondActivity"
       android:label="日記を書く"

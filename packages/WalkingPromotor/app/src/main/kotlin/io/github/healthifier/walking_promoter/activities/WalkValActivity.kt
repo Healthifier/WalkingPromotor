@@ -59,7 +59,7 @@ class WalkValActivity : AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-            val intent = Intent(this, HomeProgramActivity::class.java)
+            val intent = Intent(this, WalkProgramActivity::class.java)
             startActivity(intent)
         }
 

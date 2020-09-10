@@ -1,8 +1,16 @@
 package io.github.healthifier.walking_promoter.activities
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Point
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Display
+import android.view.View
+import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
@@ -31,10 +39,48 @@ class ThirdActivity : AppCompatActivity() {
             //Log.d("test", name1)
             Toast.makeText(this, "$title の日記を表示します", Toast.LENGTH_LONG).show()
 
+            val dialog = Dialog(this)
+            dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_diary, null)
+            dialog.setContentView(customDialogView)
+
+            val display: Display = windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val width = size.x
+            val height = size.y
+            val factor = width.toFloat() / height.toFloat()
+            dialog.window?.setLayout(
+                (width * factor * 0.5).toInt(),
+                (height* factor * 0.5).toInt()
+            )
+            //val bMap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
+            val imageView_dialog = customDialogView.findViewById<ImageView>(R.id.ctm_imgae_imageView)
+            imageView_dialog.setImageBitmap(BitmapFactory.decodeFile(photo))
+            val titleTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_title_textView)
+            titleTextView_dialog.text = title
+            val dayTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_day_textView)
+            dayTextView_dialog.text = day
+            val baclButton_dialog = customDialogView.findViewById<TextView>(R.id.ctm_back_button)
+
+            dialog.show()
+
+            baclButton_dialog.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            /*
             val intent = Intent(this, FourthActivity::class.java)
             intent.putExtra(FourthActivity.TITLE, title)
             intent.putExtra(FourthActivity.DAY, day)
             intent.putExtra(FourthActivity.PHOTO, photo)
+            startActivity(intent)
+
+             */
+        }
+
+        button_back.setOnClickListener {
+            val intent = Intent(this, DiaryMenuActivity::class.java)
             startActivity(intent)
         }
     }
