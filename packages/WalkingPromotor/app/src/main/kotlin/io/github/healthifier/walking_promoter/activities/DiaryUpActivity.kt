@@ -5,17 +5,22 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
 import com.nifcloud.mbaas.core.NCMBAcl
 import com.nifcloud.mbaas.core.NCMBFile
 import com.nifcloud.mbaas.core.NCMBObject
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
+import io.github.healthifier.walking_promoter.models.CustomGridAdapter
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import io.github.healthifier.walking_promoter.models.DiaryData
 import io.github.healthifier.walking_promoter.models.DiaryListAdapter
+import kotlinx.android.synthetic.main.activity_diary_up.*
 import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_start.backButton
 import kotlinx.android.synthetic.main.activity_third.*
 import java.io.File
 
@@ -32,6 +37,31 @@ class DiaryUpActivity : AppCompatActivity() {
         val cloudUName = cloudUser.userName
         val cloudUId = cloudUser.objectId
 
+        val titles = dbHandler.getAllTitles()
+        val diaries = dbHandler.getAllUsers()
+
+        val gridAdapter = CustomGridAdapter(titles)
+        val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
+        //アダプターとレイアウトマネージャーをセット
+        gridRecyclerView_up.layoutManager = layoutManager
+        gridRecyclerView_up.setHasFixedSize(true)
+        gridRecyclerView_up.adapter = gridAdapter
+        //dialog.show()
+
+        gridAdapter.setOnItemClickListener(object: CustomGridAdapter.OnItemClickListener{
+            override fun onItemClickListener(view: View, position: Int, clickedText: String) {
+                //Toast.makeText(applicationContext, "${clickedText}がタップされました.位置は${position}です", Toast.LENGTH_LONG).show()
+                val title = diaries[position].title
+                val date = diaries[position].day
+                val photo = diaries[position].photo
+
+                setupViews(photo, title, date, cloudUName, cloudUId)
+                //showDiary(title, date, photo)
+            }
+        })
+
+
+        /*
         var diaries = dbHandler.getAllUsers()
         val adapter = DiaryListAdapter(this, diaries)
         list_view.adapter = adapter
@@ -43,7 +73,7 @@ class DiaryUpActivity : AppCompatActivity() {
             val photo = diaryData.photo
 
             setupViews(photo, title, date, cloudUName, cloudUId)
-        }
+        }*/
 
         backButton.setOnClickListener {
             val intent = Intent(this, HomeProgramActivity::class.java)

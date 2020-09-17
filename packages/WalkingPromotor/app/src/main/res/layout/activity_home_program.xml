@@ -18,6 +18,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="自宅メニュー"
+    app:titleTextColor="#ffffff"
     app:titleTextAppearance="@style/TextAppearance.Toolbar"
     android:textStyle="bold"
     tools:ignore="MissingConstraints" />

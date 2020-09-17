@@ -33,14 +33,33 @@ class DatabaseHandler(context: Context) :
         return (Integer.parseInt("$_success") != -1)
     }
 
+    fun getAllTitles():ArrayList<String>{
+        val diaryTitles = arrayListOf<String>()
+        val db = readableDatabase
+        val selectALLQuery = "SELECT * FROM $TABLE_NAME"
+        val cursor = db.rawQuery(selectALLQuery, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    diaryTitles.add(cursor.getString(cursor.getColumnIndex(DIARY_TITLE)))
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        db.close()
+
+        return diaryTitles
+
+    }
+
     //get all users
     fun getAllUsers(): List<DiaryData> {
         //var allUser: String = ""
         //var data = arrayListOf<Triple<String, String, String>>()
         //var contents: String = ""
-        var diaryTitles = arrayListOf<String>()
-        var diaryDays = arrayListOf<String>()
-        var photoPaths = arrayListOf<String>()
+        val diaryTitles = arrayListOf<String>()
+        val diaryDays = arrayListOf<String>()
+        val photoPaths = arrayListOf<String>()
 
         val db = readableDatabase
         val selectALLQuery = "SELECT * FROM $TABLE_NAME"

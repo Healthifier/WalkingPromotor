@@ -22,7 +22,8 @@ class ProgramActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program)
-        Toast.makeText(this, "${curUser.userName}さんでログインしています", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "${curUser.userName}さんでログインしています", Toast.LENGTH_LONG).show()
+        textView_log.text="${curUser.userName}さんでログインしています。"
 
         button4.setOnClickListener {
             val intent = Intent(this, DataSelectActivity::class.java)

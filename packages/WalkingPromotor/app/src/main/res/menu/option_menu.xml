@@ -7,6 +7,7 @@
   <item
     android:id="@+id/action_help"
     android:icon="@drawable/ic_baseline_live_help_24"
+    android:visible="false"
     android:title="もう一度押してメニューを表示"
     app:showAsAction="always" />
 </menu>

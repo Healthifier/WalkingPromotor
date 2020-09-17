@@ -96,6 +96,79 @@ class FirstDiaryActivity : AppCompatActivity() {
                 dialog.dismiss() // AlertDialogを閉じる
             }
         }
+
+        imageView2.setOnClickListener {
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_help, null)
+            val button1: Button = view.findViewById(R.id.Button_dialog_explain)
+            val button2: Button = view.findViewById(R.id.Button_dialog_switch)
+            val button3: Button = view.findViewById(R.id.Button_dialog_back)
+            button1.text = "このアプリについて"
+            button2.text = "説明ボタン表示の切り替え"
+            button3.text = "この画面を閉じる"
+
+            val dialog = AlertDialog.Builder(this)
+                .setView(view)
+                .create()
+
+            // AlertDialogを表示
+            dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button1.setOnClickListener{
+                val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+                val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+                title.text = "このアプリで目指すこと"
+                val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+                message.text = "このアプリでは日々のウォーキング中の日記を記録し、その日記をほかの参加者と共有、そして交流を深めていく中で運動に対する意欲を向上していきます。"
+                val button: Button = view.findViewById(R.id.Button_dialog_positive)
+                button.text = "この画面を閉じる"
+
+                val dialog = AlertDialog.Builder(this)
+                    .setView(view)
+                    .create()
+
+                // AlertDialogを表示
+                dialog.show()
+
+                // AlertDialogのサイズ調整
+                val lp = dialog.window?.attributes
+                lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+                dialog.window?.attributes = lp
+
+                button.setOnClickListener {
+                    dialog.dismiss() // AlertDialogを閉じる
+                }
+
+            }
+
+            button2.setOnClickListener{
+                // "DataStore"という名前でインスタンスを生成
+                val dataStore: SharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE)
+                val dataBoolean = dataStore.getBoolean("Input", true)
+                val editor = dataStore.edit()
+                if(dataBoolean){
+                    btn_exp_home.visibility = View.INVISIBLE
+                    btn_exp_online.visibility = View.INVISIBLE
+                    editor.putBoolean("Input", false)
+                    editor.apply()
+                    Toast.makeText(this, "説明ボタンを非表示にしました", Toast.LENGTH_SHORT).show()
+                }else{
+                    btn_exp_home.visibility = View.VISIBLE
+                    btn_exp_online.visibility = View.VISIBLE
+                    editor.putBoolean("Input", true)
+                    editor.apply()
+                    Toast.makeText(this, "説明ボタンを常に表示にしました", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            button3.setOnClickListener{
+                dialog.dismiss()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

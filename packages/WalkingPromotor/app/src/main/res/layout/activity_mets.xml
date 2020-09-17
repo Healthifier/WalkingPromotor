@@ -18,6 +18,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="みんなが書いた日記"
+    app:titleTextColor="#ffffff"
     app:titleTextAppearance="@style/TextAppearance.Toolbar"
     android:textStyle="bold"
     tools:ignore="MissingConstraints" />
@@ -45,15 +46,22 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:orientation="vertical"
       android:layout_weight="1">
 
       <Button
         android:id="@+id/btn_back"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFF6CF"
-        android:textSize="40sp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/frame_style"
+        android:drawableStart="@drawable/ic_baseline_undo_24_60"
+        android:drawablePadding="10dp"
+        android:textSize="32sp"
         android:text="前の画面に戻る"
+        android:paddingHorizontal="16dp"
         android:textStyle="bold"/>
 
     </LinearLayout>
