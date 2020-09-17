@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.nifcloud.mbaas.core.NCMBFile
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.grid_view.view.*
 
 //// customListはrecyclerViewのコンテンツとしてに表示するString配列のデータ
-class CustomGridAdapter(private val customList: ArrayList<String>, private val customList2: ArrayList<String>) : RecyclerView.Adapter<CustomGridAdapter.CustomViewHolder>(){
+class CustomGridAdapterCloud(private val customList: ArrayList<String>, private val customList2: ArrayList<ByteArray>) : RecyclerView.Adapter<CustomGridAdapterCloud.CustomViewHolder>(){
 
     // リスナー格納変数
     lateinit var listener: OnItemClickListener
@@ -37,7 +38,8 @@ class CustomGridAdapter(private val customList: ArrayList<String>, private val c
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         //holder.view.imageView.setImageResource(R.mipmap.ic_launcher)
         holder.view.textView.text = customList[position]
-        Glide.with(holder.view).load(customList2[position]).into(holder.view.imageView)
+        //Glide.with(holder.view).load(customList2[position]).into(holder.view.imageView)
+        Glide.with(holder.view).load(customList2[position]).thumbnail(0.1f).into(holder.view.imageView)
         // タップしたとき
         holder.view.setOnClickListener {
             listener.onItemClickListener(it, position, customList[position])
@@ -54,3 +56,5 @@ class CustomGridAdapter(private val customList: ArrayList<String>, private val c
         this.listener = listener
     }
 }
+
+

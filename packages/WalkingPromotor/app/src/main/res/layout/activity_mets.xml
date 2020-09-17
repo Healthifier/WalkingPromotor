@@ -46,8 +46,20 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
       android:layout_weight="1">
+
+      <TextView
+        android:id="@+id/textView_log"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_marginStart="22dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:text="読み込み中です..."
+        android:textColor="#000000"
+        android:textSize="30sp"
+        tools:ignore="NestedWeights" />
 
       <Button
         android:id="@+id/btn_back"

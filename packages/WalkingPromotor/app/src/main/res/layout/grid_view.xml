@@ -26,8 +26,6 @@
         android:id="@+id/imageView"
         android:layout_width="170dp"
         android:layout_height="150dp"
-        android:foreground="@drawable/ic_baseline_photo_size_select_actual_24"
-        android:foregroundTint="#00897B"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

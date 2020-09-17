@@ -49,7 +49,24 @@ class DatabaseHandler(context: Context) :
         db.close()
 
         return diaryTitles
+    }
 
+    fun getAllPhotos():ArrayList<String>{
+        val diaryPhotos = arrayListOf<String>()
+        val db = readableDatabase
+        val selectALLQuery = "SELECT * FROM $TABLE_NAME"
+        val cursor = db.rawQuery(selectALLQuery, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    diaryPhotos.add(cursor.getString(cursor.getColumnIndex(PHOTO_PATH)))
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        db.close()
+
+        return diaryPhotos
     }
 
     //get all users

@@ -39,8 +39,9 @@ class DiaryUpActivity : AppCompatActivity() {
 
         val titles = dbHandler.getAllTitles()
         val diaries = dbHandler.getAllUsers()
+        val photos = dbHandler.getAllPhotos()
 
-        val gridAdapter = CustomGridAdapter(titles)
+        val gridAdapter = CustomGridAdapter(titles, photos)
         val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
         //アダプターとレイアウトマネージャーをセット
         gridRecyclerView_up.layoutManager = layoutManager
