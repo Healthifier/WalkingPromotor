@@ -22,7 +22,7 @@ class WalkProgramActivity : AppCompatActivity() {
         }
 
         btn_look_all.setOnClickListener {
-            val intent = Intent(this, MetsActivity::class.java)
+            val intent = Intent(this, FourthActivity::class.java)
             startActivity(intent)
         }
 

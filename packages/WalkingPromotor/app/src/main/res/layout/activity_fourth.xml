@@ -7,48 +7,44 @@
         android:layout_height="match_parent"
         tools:context=".activities.FourthActivity">
 
-  <TextView
-    android:id="@+id/title_View"
-    android:layout_width="267dp"
-    android:layout_height="58dp"
-    android:text="TextView"
-    android:textSize="36dp"
-    app:layout_constraintBottom_toBottomOf="parent"
+  <!-- ツールバー -->
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/main_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="#FF9800"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.952"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.268" />
+    app:title="みんなの総歩数"
+    app:titleTextAppearance="@style/TextAppearance.Toolbar"
+    android:textStyle="bold"
+    tools:ignore="MissingConstraints" />
 
-  <TextView
-    android:id="@+id/day_View"
-    android:layout_width="197dp"
-    android:layout_height="56dp"
-    android:text="TextView"
-    android:textSize="36dp"
-    app:layout_constraintBottom_toBottomOf="parent"
+  <LinearLayout
+    android:id="@+id/container"
+    android:layout_width="900dp"
+    android:layout_height="400dp"
+    android:orientation="horizontal"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.865"
+    app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.418" />
-
-  <ImageView
-            android:layout_width="582dp"
-            android:layout_height="437dp"
-            android:id="@+id/photo_View"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.108"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.846"/>
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
 
   <Button
-    android:id="@+id/button6"
-    android:layout_width="wrap_content"
+    android:id="@+id/backButton"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="32dp"
-    android:layout_marginBottom="32dp"
-    android:text="戻る"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+    android:layout_marginTop="8dp"
+    android:backgroundTint="#FFF6CF"
+    android:text="前の画面に戻る"
+    android:textSize="30sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/container" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
