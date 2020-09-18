@@ -1,6 +1,8 @@
 package io.github.healthifier.walking_promoter.activities
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_diary_up.*
 import kotlinx.android.synthetic.main.activity_start.*
 import kotlinx.android.synthetic.main.activity_start.backButton
 import kotlinx.android.synthetic.main.activity_third.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 class DiaryUpActivity : AppCompatActivity() {
@@ -108,7 +111,11 @@ class DiaryUpActivity : AppCompatActivity() {
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
         Log.d("[DEBUG296]", uriName)
-        val file = NCMBFile(uriName.substringAfterLast("/"), File(uriName).readBytes(), acl)
+        val bmp = BitmapFactory.decodeFile(uriName)
+        val stream = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
+        //val file = NCMBFile(uriName.substringAfterLast("/"), File(uriName).readBytes(), acl)
+        val file = NCMBFile(uriName.substringAfterLast("/"), stream.toByteArray(), acl)
         Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
         file.saveInBackground { e ->
             if (e != null) {
