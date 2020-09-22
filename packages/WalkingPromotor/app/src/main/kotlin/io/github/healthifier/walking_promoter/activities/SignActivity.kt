@@ -69,6 +69,8 @@ class SignActivity : AppCompatActivity() {
             signIn()
         }
 
+        /*
+
         val adapter = ArrayAdapter(applicationContext,
             android.R.layout.simple_spinner_item, spinnerItems)
 
@@ -88,7 +90,7 @@ class SignActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 //
             }
-        }
+        }*/
     }
 
     /**
