@@ -17,6 +17,8 @@ class SignActivity : AppCompatActivity() {
     private val password = "1023"
     private val spinnerItems = arrayOf("りんご", "ぶどう", "もも", "なし")
     private var p_check = ""
+    private var groupName = ""
+    //private var user = NCMBUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,9 @@ class SignActivity : AppCompatActivity() {
 
         val curUser = NCMBUser.getCurrentUser()
         val check = intent.getStringExtra("CHECK")
+        //var groupName = ""
         p_check = check
+        //user = curUser
 
         Log.d("DEBUG", curUser.toString())
 
@@ -61,12 +65,28 @@ class SignActivity : AppCompatActivity() {
         // 初回会員登録処理用のボタン
         btnSignUp.setOnClickListener {
             signUp()
-            signIn()
+            //signIn(curUser)
         }
 
         //ログイン用のボタン
         btnSignIn.setOnClickListener {
-            signIn()
+            signIn(curUser, groupName)
+        }
+
+        image_apple.setOnClickListener {
+            groupName = "apple"
+        }
+
+        image_grape.setOnClickListener {
+            groupName = "grape"
+        }
+
+        image_peach.setOnClickListener {
+            groupName = "peach"
+        }
+
+        image_lemon.setOnClickListener {
+            groupName = "lemon"
         }
 
         /*
@@ -108,10 +128,12 @@ class SignActivity : AppCompatActivity() {
     /**
      * ログイン処理用のfun
      */
-    private fun signIn() {
+    private fun signIn(user:NCMBUser, group:String) {
         val userName = (findViewById<TextView>(R.id.userName)).text.toString()
         NCMBUser.logout()
         NCMBUser.login(userName, password)
+        user.put("groupName", group)
+        
         //val intent = Intent(this, ProgramActivity::class.java)
         //startActivity(intent)
         when (p_check) {
