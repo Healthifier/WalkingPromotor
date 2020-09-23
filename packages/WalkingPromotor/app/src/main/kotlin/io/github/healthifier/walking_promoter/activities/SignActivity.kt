@@ -1,21 +1,24 @@
 package io.github.healthifier.walking_promoter.activities
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import com.nifcloud.mbaas.core.NCMB
+import com.nifcloud.mbaas.core.NCMBRole
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_sign.*
 import io.github.healthifier.walking_promoter.BuildConfig
+import java.util.*
 
 class SignActivity : AppCompatActivity() {
 
     private val password = "1023"
-    private val spinnerItems = arrayOf("りんご", "ぶどう", "もも", "なし")
+    //private val spinnerItems = arrayOf("りんご", "ぶどう", "もも", "なし")
     private var p_check = ""
     private var groupName = ""
     //private var user = NCMBUser()
@@ -36,28 +39,43 @@ class SignActivity : AppCompatActivity() {
         Log.d("DEBUG", curUser.toString())
 
         //ログイン済か判定する
-        if(curUser.getString("sessionToken") == null){ //セッショントークンが切れていた場合
-            NCMBUser.logout()
-            (findViewById<TextView>(R.id.lblStats)).text = "新規登録または再度ログインを行ってください"
-        }else{ //セッショントークンが残っていた場合
-            NCMBUser.logout()
-            NCMBUser.login(curUser.userName, password)
-            when (check) {
-                "1000" -> {
-                    val intent = Intent(this, ProgramActivity::class.java)
-                    startActivity(intent)
-                }
-                "1001" -> {
-                    val intent = Intent(this, MetsActivity::class.java)
-                    startActivity(intent)
-                }
-                "1002" -> {
-                    val intent = Intent(this, DiaryUpActivity::class.java)
-                    startActivity(intent)
-                }
-                "1003" -> {
-                    val intent = Intent(this, WalkProgramActivity::class.java)
-                    startActivity(intent)
+        when {
+            /*
+            curUser == null -> { //端末で初めて扱うとき用
+                lblStats.text = "新規登録またはログインを行ってください"
+            }*/
+            curUser.getString("sessionToken") == null -> { //セッショントークンが切れていた場合
+                //Log.d("[name]", curUser.userName.toString())
+                NCMBUser.logout()
+                (findViewById<TextView>(R.id.lblStats)).text = "新規登録またはログインを行ってください"
+            }
+            else -> { //セッショントークンが残っていた場合
+                //一度ログアウトしてログインすることでセッショントークンの更新を行う
+                NCMBUser.logout()
+                NCMBUser.loginInBackground(curUser.userName, password){ncmbUser, e ->
+                    if(e != null){
+                        Log.d("[Login Error]", e.toString())
+                    }else{
+                        Log.d("[Login Result]", "Success")
+                        when (check) {
+                            "1000" -> {
+                                val intent = Intent(this, ProgramActivity::class.java)
+                                startActivity(intent)
+                            }
+                            "1001" -> {
+                                val intent = Intent(this, MetsActivity::class.java)
+                                startActivity(intent)
+                            }
+                            "1002" -> {
+                                val intent = Intent(this, DiaryUpActivity::class.java)
+                                startActivity(intent)
+                            }
+                            "1003" -> {
+                                val intent = Intent(this, WalkProgramActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -70,23 +88,39 @@ class SignActivity : AppCompatActivity() {
 
         //ログイン用のボタン
         btnSignIn.setOnClickListener {
-            signIn(curUser, groupName)
+            signIn(groupName)
         }
 
         image_apple.setOnClickListener {
-            groupName = "apple"
+            groupName = "group_apple"
+            image_apple.setBackgroundColor(Color.parseColor("#FFFB8C00"))
+            image_grape.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_peach.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_lemon.setBackgroundColor(Color.parseColor("#FFFFFF"))
         }
 
         image_grape.setOnClickListener {
-            groupName = "grape"
+            groupName = "group_grape"
+            image_apple.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_grape.setBackgroundColor(Color.parseColor("#FFFB8C00"))
+            image_peach.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_lemon.setBackgroundColor(Color.parseColor("#FFFFFF"))
         }
 
         image_peach.setOnClickListener {
-            groupName = "peach"
+            groupName = "group_peach"
+            image_apple.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_grape.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_peach.setBackgroundColor(Color.parseColor("#FFFB8C00"))
+            image_lemon.setBackgroundColor(Color.parseColor("#FFFFFF"))
         }
 
         image_lemon.setOnClickListener {
-            groupName = "lemon"
+            groupName = "group_lemon"
+            image_apple.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_grape.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_peach.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            image_lemon.setBackgroundColor(Color.parseColor("#FFFB8C00"))
         }
 
         /*
@@ -128,30 +162,69 @@ class SignActivity : AppCompatActivity() {
     /**
      * ログイン処理用のfun
      */
-    private fun signIn(user:NCMBUser, group:String) {
-        val userName = (findViewById<TextView>(R.id.userName)).text.toString()
-        NCMBUser.logout()
-        NCMBUser.login(userName, password)
-        user.put("groupName", group)
-        
-        //val intent = Intent(this, ProgramActivity::class.java)
-        //startActivity(intent)
-        when (p_check) {
-            "1000" -> {
-                val intent = Intent(this, ProgramActivity::class.java)
-                startActivity(intent)
-            }
-            "1001" -> {
-                val intent = Intent(this, MetsActivity::class.java)
-                startActivity(intent)
-            }
-            "1002" -> {
-                val intent = Intent(this, DiaryUpActivity::class.java)
-                startActivity(intent)
-            }
-            "1003" -> {
-                val intent = Intent(this, WalkValActivity::class.java)
-                startActivity(intent)
+    private fun signIn(group:String) {
+        if(group == ""){ //グループが選択されていないとき
+            Toast.makeText(this, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
+        }else{
+            val userName = (findViewById<TextView>(R.id.userName)).text.toString()
+            NCMBUser.logout()
+            //NCMBUser.login(userName, password)
+            NCMBUser.loginInBackground(userName, password){ ncmbUser, e ->
+                if(e != null){
+                    Log.d("[Login Error]", e.toString())
+                }else{
+                    Log.d("[Login Result]", "Success")
+                    val currentUser = NCMBUser.getCurrentUser()
+                    currentUser.put("groupName", group)
+
+                    //ユーザー情報として所属グループ名のセーブ
+                    currentUser.saveInBackground { e ->
+                        if(e != null){
+                            Log.d("[Save Error]", e.toString())
+                        }else{
+                            Log.d("[Save Result]", "Success")
+                            val query = NCMBRole.getQuery()
+                            query.whereEqualTo("roleName", group)
+                            //所属グループ名と合致するロールの検索
+                            query.findInBackground { list, e ->
+                                if(e != null){
+                                    Log.d("[Find Error]", e.toString())
+                                }else{
+                                    Log.d("[Find Result]", "Success")
+                                    if(list.size > 0){
+                                        val role =list[0]
+                                        //ロールにユーザーを追加
+                                        role.addUserInBackground(listOf(currentUser)){ e ->
+                                            if(e != null){
+                                                Log.d("[Add Error]", e.toString())
+                                            }else{
+                                                Log.d("[Add Result]", "Success")
+                                                when (p_check) {
+                                                    "1000" -> {
+                                                        val intent = Intent(this, ProgramActivity::class.java)
+                                                        startActivity(intent)
+                                                    }
+                                                    "1001" -> {
+                                                        val intent = Intent(this, MetsActivity::class.java)
+                                                        startActivity(intent)
+                                                    }
+                                                    "1002" -> {
+                                                        val intent = Intent(this, DiaryUpActivity::class.java)
+                                                        startActivity(intent)
+                                                    }
+                                                    "1003" -> {
+                                                        val intent = Intent(this, WalkValActivity::class.java)
+                                                        startActivity(intent)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

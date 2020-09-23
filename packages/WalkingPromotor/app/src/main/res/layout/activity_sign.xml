@@ -28,7 +28,7 @@
     android:id="@+id/userName"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
+    android:layout_marginTop="16dp"
     android:descendantFocusability="beforeDescendants"
     android:ems="14"
     android:focusableInTouchMode="true"
@@ -90,9 +90,10 @@
 
   <TableLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toTopOf="@+id/linearLayout_sign"
-    android:stretchColumns="0,1,2,3">
+    android:layout_height="180dp"
+    android:layout_marginBottom="8dp"
+    android:shrinkColumns="0,1,2,3,4"
+    app:layout_constraintBottom_toTopOf="@+id/linearLayout_sign">
 
     <TableRow
       android:layout_width="match_parent"
@@ -100,27 +101,39 @@
 
       <ImageButton
         android:id="@+id/image_apple"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cat_success" />
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/apple" />
 
       <ImageButton
         android:id="@+id/image_grape"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cat_success" />
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/grape" />
 
       <ImageButton
         android:id="@+id/image_peach"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cat_success" />
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/peach" />
 
       <ImageButton
         android:id="@+id/image_lemon"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cat_success" />
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/lemon" />
     </TableRow>
   </TableLayout>
 

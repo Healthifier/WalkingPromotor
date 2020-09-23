@@ -71,8 +71,8 @@ class SecondActivity : AppCompatActivity() {
         button_save.setOnClickListener{
             // checking input text should not be null
             if (validation()){
-                val user: Users = Users()
-                var success: Boolean = false
+                val user = Users()
+                var success = false
                 val title = editText_diaryTitle.text.toString()
                 val date = textCalView2.text.toString()
 
@@ -168,18 +168,18 @@ class SecondActivity : AppCompatActivity() {
 
     private fun createSaveFileUri(): Uri {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.JAPAN).format(Date())
-        val imageFileName = "example" + timeStamp
+        val imageFileName = "example$timeStamp"
 
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/example")
         if (!storageDir.exists()) {
             storageDir.mkdir()
         }
-        Log.d("Dir place", storageDir.toString())
+        //Log.d("Dir place", storageDir.toString())
 
         val file = File(storageDir, "$imageFileName.jpg")
-        Log.d("Maked file name", file.toString())
+        //Log.d("Maked file name", file.toString())
         path = file.absolutePath
-        Log.d("path", path.toString())
+        //Log.d("path", path)
 
         return FileProvider.getUriForFile(this, "io.github.healthifier.walking_promoter", file)
     }
@@ -213,17 +213,17 @@ class SecondActivity : AppCompatActivity() {
     private fun validation(): Boolean{
         var validate = false
 
-        if (!editText_diaryTitle.text.toString().equals("") &&
-            !textCalView2.text.toString().equals("")){
-            if(!path.equals("")){
+        if (editText_diaryTitle.text.toString() != "" &&
+            textCalView2.text.toString() != ""){
+            if(path != ""){
                 validate = true
             }else{
                 validate = false
-                val toast = Toast.makeText(this,"すべての項目を入力してください", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"すべての項目を入力してください", Toast.LENGTH_LONG).show()
             }
         }else{
             validate = false
-            val toast = Toast.makeText(this,"すべての項目を入力してください", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"すべての項目を入力してください", Toast.LENGTH_LONG).show()
         }
 
         return validate
