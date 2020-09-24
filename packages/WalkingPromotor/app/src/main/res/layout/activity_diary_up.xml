@@ -17,6 +17,9 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="日記を投稿する"
+    app:titleTextColor="#ffffff"
+    app:titleTextAppearance="@style/TextAppearance.Toolbar"
+    android:textStyle="bold"
     tools:ignore="MissingConstraints" />
 
   <LinearLayout

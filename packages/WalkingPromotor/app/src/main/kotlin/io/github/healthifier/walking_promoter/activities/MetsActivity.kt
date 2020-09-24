@@ -226,6 +226,7 @@ class MetsActivity : AppCompatActivity() {
                         }
                     })*/
                 } else {
+                    textView_log.text = "まだ日記は投稿されていないみたいです"
                     Log.d("d97", "ないよ")
                 }
             }

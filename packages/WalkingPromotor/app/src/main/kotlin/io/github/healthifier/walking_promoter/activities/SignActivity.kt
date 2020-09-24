@@ -187,6 +187,7 @@ class SignActivity : AppCompatActivity() {
         user.setPassword(password)
         user.acl = acl
         user.save()
+        lblStats.text = "新規登録が完了しました！ログインをタッチしてください"
     }
 
     /**
@@ -198,7 +199,10 @@ class SignActivity : AppCompatActivity() {
         }else{
             val userName = (findViewById<TextView>(R.id.userName)).text.toString()
             NCMBUser.logout()
-            //NCMBUser.login(userName, password)
+
+            /**
+             * 古いグループのユーザー情報を削除
+             */
             val queryUser = NCMBUser.getQuery()
             queryUser.whereEqualTo("userName", userName)
             val a = queryUser.find()
@@ -224,6 +228,9 @@ class SignActivity : AppCompatActivity() {
                 Log.d("[User Find Error]", "userなし")
             }
 
+            /**
+             * 削除が終わってからログインして新しいグループにユーザー情報を追加
+             */
             NCMBUser.loginInBackground(userName, password){ ncmbUser, e ->
                 if(e != null){
                     Log.d("[Login Error]", e.toString())
