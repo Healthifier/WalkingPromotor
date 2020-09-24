@@ -140,7 +140,7 @@ class SecondActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
 
         val extraStoragePermission = PackageManager.PERMISSION_GRANTED ==
-            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
         return cameraPermission && extraStoragePermission
     }

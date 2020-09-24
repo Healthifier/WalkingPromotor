@@ -27,10 +27,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
-import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import kotlinx.android.synthetic.main.activity_data_select.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -42,7 +43,7 @@ class DataSelectActivity : AppCompatActivity() {
     private var objList = listOf<NCMBObject>()
     private val user = NCMBUser.getCurrentUser()
     private var abc = NCMBObject("photoPath")
-    private var dbHandler = DatabaseHandler(this)
+    //private var dbHandler = DatabaseHandler(this)
     private val REQUEST_CAMERA = 1000
     private val REQUEST_GARALLY1 = 1001
     private val REQUEST_GARALLY2 = 1002
@@ -63,11 +64,13 @@ class DataSelectActivity : AppCompatActivity() {
         val buttonsList = arrayListOf<Button>(button_user1, button_user2, button_user3, button_user4, button_user5)
         val imageList = arrayListOf<ImageView>(imageView3, imageView4, imageView5)
         var name = user.userName
+        val group = user.getString("groupName")
         textView_user.text = name + "さんが選んだ写真の画面です"
         val querySelect = NCMBQuery<NCMBObject>("photoPath")
+        querySelect.whereEqualTo("groupName", group)
         querySelect.findInBackground { objects, error ->
             if (error != null) {
-                Log.d("[Error69]", error.toString())
+                Log.d("[Find Error]", error.toString())
             } else {
                 Log.d("[DEBUG71]", objects.toString())
                 Log.d("[DEBUG72]", objects.size.toString())
@@ -85,15 +88,16 @@ class DataSelectActivity : AppCompatActivity() {
                 Log.d("[DEBUG83]", objList.size.toString())
             }
         }
-        val queryphoto = NCMBQuery<NCMBObject>("photoPath")
-        queryphoto.whereEqualTo("userID", user.objectId.toString())
-        queryphoto.findInBackground {objects, error ->
+        val queryPhoto = NCMBQuery<NCMBObject>("photoPath")
+        queryPhoto.whereEqualTo("groupName", group)
+        queryPhoto.whereEqualTo("userID", user.objectId.toString())
+        queryPhoto.findInBackground {objects, error ->
             if (error != null) {
                 Log.d("[Error91]", error.toString())
             } else {
                 if (objects.size == 1) {
                     abc = objects[0]
-                    Log.d("d95", "あるよ")
+                    Log.d("d95", "写真データあり")
                 } else {
                     Log.d("d97", "ないよ")
                 }
@@ -417,8 +421,10 @@ class DataSelectActivity : AppCompatActivity() {
                                 .show()
                         } else {
                             //成功処理
-                            val bMap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
-                            imageName[i].setImageBitmap(bMap)
+                            //val bMap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
+                            //imageName[i].setImageBitmap(bMap)
+
+                            Glide.with(this).load(dataFetch).thumbnail(0.1f).into(imageName[i])
                         }
                     }
                 }
@@ -426,50 +432,46 @@ class DataSelectActivity : AppCompatActivity() {
         }
     }
 
-    private fun takePicture() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-            addCategory(Intent.CATEGORY_DEFAULT)
-            putExtra(MediaStore.EXTRA_OUTPUT, createSaveFileUri())
-        }
-
-        startActivityForResult(intent, REQUEST_CAMERA)
-    }
-
     private fun selectPhoto1(){
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_GARALLY1 )
+        if(checkPermission()){
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_GARALLY1 )
+        }else{
+            grantStoragePermission()
+        }
     }
 
     private fun selectPhoto2(){
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_GARALLY2 )
+        if(checkPermission()){
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_GARALLY2 )
+        }else{
+            grantStoragePermission()
+        }
     }
 
     private fun selectPhoto3(){
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_GARALLY3 )
+        if(checkPermission()){
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_GARALLY3 )
+        }else{
+            grantStoragePermission()
+        }
     }
 
     private fun checkPermission(): Boolean {
-        val cameraPermission = PackageManager.PERMISSION_GRANTED ==
-            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
 
-        val extraStoragePermission = PackageManager.PERMISSION_GRANTED ==
-            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
-
-        return cameraPermission && extraStoragePermission
+        return PackageManager.PERMISSION_GRANTED ==
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
-    private fun grantCameraPermission() =
-        ActivityCompat.requestPermissions(this,
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            PERMISSION_REQUEST)
+    private fun grantStoragePermission() = ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -502,6 +504,7 @@ class DataSelectActivity : AppCompatActivity() {
                         cursor.close()
                         Log.d("[DEBUG516]", name)
                     }
+                    val group = user.getString("groupName")
                     val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
                     query.whereEqualTo("fileName", name.substringAfterLast("/"))
                     query.findInBackground { list, ncmbException ->
@@ -519,10 +522,10 @@ class DataSelectActivity : AppCompatActivity() {
                             if(updateList == null){
                                 photoNameListCloud.add(name.substringAfterLast("/"))
                                 abc.put("array", photoNameListCloud)
-                                saveUsersList(user.objectId.toString(), user.userName.toString(), photoNameListCloud)
+                                saveUsersList(user.objectId.toString(), user.userName.toString(), group, photoNameListCloud)
                             }else{
                                 updateList[0] = name.substringAfterLast("/")
-                                saveUsersList(user.objectId.toString(), user.userName.toString(), updateList)
+                                saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
                             }
                         }
                     }
@@ -552,6 +555,7 @@ class DataSelectActivity : AppCompatActivity() {
                         cursor.close()
                         Log.d("[DEBUG]", name)
                     }
+                    val group = user.getString("groupName")
                     val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
                     query.whereEqualTo("fileName", name.substringAfterLast("/"))
                     query.findInBackground { list, ncmbException ->
@@ -577,7 +581,7 @@ class DataSelectActivity : AppCompatActivity() {
                                     updateList[1] = name.substringAfterLast("/")
                                 }
                             }
-                            saveUsersList(user.objectId.toString(), user.userName.toString(), updateList)
+                            saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
                         }
                     }
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
@@ -606,6 +610,7 @@ class DataSelectActivity : AppCompatActivity() {
                         cursor.close()
                         Log.d("[DEBUG620]", name)
                     }
+                    val group = user.getString("groupName")
                     val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
                     query.whereEqualTo("fileName", name.substringAfterLast("/"))
                     query.findInBackground { list, ncmbException ->
@@ -634,7 +639,7 @@ class DataSelectActivity : AppCompatActivity() {
                                     updateList[2] = name.substringAfterLast("/")
                                 }
                             }
-                            saveUsersList(user.objectId.toString(), user.userName.toString(), updateList)
+                            saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
                         }
                     }
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
@@ -652,7 +657,10 @@ class DataSelectActivity : AppCompatActivity() {
         val acl = NCMBAcl()
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
-        val file = NCMBFile(uriName.substringAfterLast("/"), File(uriName).readBytes(), acl)
+        val bmp = BitmapFactory.decodeFile(uriName)
+        val stream = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
+        val file = NCMBFile(uriName.substringAfterLast("/"), stream.toByteArray(), acl)
         Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
         file.saveInBackground { e ->
             if (e != null) {
@@ -664,7 +672,7 @@ class DataSelectActivity : AppCompatActivity() {
                     .show()
             }else{
                 //保存に成功したとき
-                Log.d("[RESULT:photoUpload]", "SUCCESS")
+                Log.d("[PhotoUpload Result]", "SUCCESS")
             }
         }
     }
@@ -672,16 +680,17 @@ class DataSelectActivity : AppCompatActivity() {
     /**
      * 各ユーザのアップロードした画像のリストを更新.
      */
-    private fun saveUsersList(id:String, name:String, list:List<Any?>){
+    private fun saveUsersList(id:String, name:String, group:String, list:List<Any?>){
         abc.put("userID", id)
         abc.put("name", name)
+        abc.put("groupName", group)
         abc.put("array", list)
 
         abc.saveInBackground { e ->
             if(e != null){
                 Log.d("[Error]", e.toString())
             }else{
-                Log.d("[RESULT:objectUpload]", "SUCCESS")
+                Log.d("[ObjectUpload Result]", "SUCCESS")
                 Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
             }
         }

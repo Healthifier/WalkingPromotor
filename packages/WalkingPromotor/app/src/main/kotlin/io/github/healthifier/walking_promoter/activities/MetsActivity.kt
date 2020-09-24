@@ -85,15 +85,15 @@ class MetsActivity : AppCompatActivity() {
 
     private fun showDiaryList(){
         //cloudDiaryクラスからdateをキーにオブジェクト検索
-        val querydiary = NCMBQuery<NCMBObject>("cloudDiary")
-        //querydiary.whereEqualTo("date", cloudDate)
-        querydiary.findInBackground {objects, error ->
+        val queryDiary = NCMBQuery<NCMBObject>("cloudDiary")
+        //queryDiary.whereEqualTo("date", cloudDate)
+        queryDiary.findInBackground {objects, error ->
             if (error != null) {
                 Log.d("[Error91]", error.toString())
             } else {
                 if (objects.size != 0) {
-                    var cloudList = listOf<NCMBObject>()
-                    cloudList = objects
+                    //var cloudList = listOf<NCMBObject>()
+                    val cloudList = objects
                     copyObjList = objects //検索結果であるオブジェクトリストをcopyObjListにコピー
                     Log.d("d95", "あるよ")
                     Log.d("size", copyObjList.size.toString())
@@ -186,13 +186,12 @@ class MetsActivity : AppCompatActivity() {
                             }
                         }*/
 
-
-                        val gridAdapter = CustomGridAdapterCloud(cloudTitleList, dataList)
-                        val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
                         //アダプターとレイアウトマネージャーをセット
+                        val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
                         gridRecyclerView.layoutManager = layoutManager
-                        gridRecyclerView.setHasFixedSize(true)
+                        val gridAdapter = CustomGridAdapterCloud(cloudTitleList, dataList)
                         gridRecyclerView.adapter = gridAdapter
+                        gridRecyclerView.setHasFixedSize(true)
                         gridAdapter.notifyDataSetChanged()
                         //dialog.show()
 

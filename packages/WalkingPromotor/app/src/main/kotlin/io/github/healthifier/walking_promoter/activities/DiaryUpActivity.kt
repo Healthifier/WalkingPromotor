@@ -126,7 +126,7 @@ class DiaryUpActivity : AppCompatActivity() {
                     .setPositiveButton("OK", null)
                     .show()
             }else{
-                Log.d("[RESULT:photoUpload]", "SUCCESS")
+                Log.d("[PhotoUpload Result]", "SUCCESS")
             }
         }
     }
