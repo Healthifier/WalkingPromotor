@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import com.nifcloud.mbaas.core.NCMB
+import com.nifcloud.mbaas.core.NCMBAcl
 import com.nifcloud.mbaas.core.NCMBRole
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
@@ -27,16 +28,19 @@ class SignActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign)
 
-        //クラウドアプリの選択
-        NCMB.initialize(applicationContext, BuildConfig.APPLICATION_KEY, BuildConfig.CLIENT_KEY)
-
         val curUser = NCMBUser.getCurrentUser()
+        //val old_group:String
         val check = intent.getStringExtra("CHECK")
         //var groupName = ""
         p_check = check
         //user = curUser
 
         Log.d("DEBUG", curUser.toString())
+
+        /*
+        if(curUser.getString("groupName")!=null) {
+            old_group = curUser.getString("groupName")
+        }*/
 
         //ログイン済か判定する
         when {
@@ -47,7 +51,7 @@ class SignActivity : AppCompatActivity() {
             curUser.getString("sessionToken") == null -> { //セッショントークンが切れていた場合
                 //Log.d("[name]", curUser.userName.toString())
                 NCMBUser.logout()
-                (findViewById<TextView>(R.id.lblStats)).text = "新規登録またはログインを行ってください"
+                //(findViewById<TextView>(R.id.lblStats)).text = ""
             }
             else -> { //セッショントークンが残っていた場合
                 //一度ログアウトしてログインすることでセッショントークンの更新を行う
@@ -57,6 +61,7 @@ class SignActivity : AppCompatActivity() {
                         Log.d("[Login Error]", e.toString())
                     }else{
                         Log.d("[Login Result]", "Success")
+                        Toast.makeText(this, "自動的にログインしました", Toast.LENGTH_SHORT).show()
                         when (check) {
                             "1000" -> {
                                 val intent = Intent(this, ProgramActivity::class.java)
@@ -89,6 +94,27 @@ class SignActivity : AppCompatActivity() {
         //ログイン用のボタン
         btnSignIn.setOnClickListener {
             signIn(groupName)
+        }
+
+        btnBack.setOnClickListener {
+            when(check){
+                "1000" -> {
+                    val intent = Intent(this, FirstDiaryActivity::class.java)
+                    startActivity(intent)
+                }
+                "1001" -> {
+                    val intent = Intent(this, DiaryMenuActivity::class.java)
+                    startActivity(intent)
+                }
+                "1002" -> {
+                    val intent = Intent(this, HomeProgramActivity::class.java)
+                    startActivity(intent)
+                }
+                "1003" -> {
+                    val intent = Intent(this, HomeProgramActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
 
         image_apple.setOnClickListener {
@@ -151,11 +177,15 @@ class SignActivity : AppCompatActivity() {
      * 新規登録処理用のfun
      */
     private fun signUp() {
+        val acl = NCMBAcl()
+        acl.publicReadAccess = true
+        acl.publicWriteAccess = true
         val userName = (findViewById<TextView>(R.id.userName)).text.toString()
         val user = NCMBUser()
         NCMBUser.logout()
         user.userName = userName
         user.setPassword(password)
+        user.acl = acl
         user.save()
     }
 
@@ -169,6 +199,31 @@ class SignActivity : AppCompatActivity() {
             val userName = (findViewById<TextView>(R.id.userName)).text.toString()
             NCMBUser.logout()
             //NCMBUser.login(userName, password)
+            val queryUser = NCMBUser.getQuery()
+            queryUser.whereEqualTo("userName", userName)
+            val a = queryUser.find()
+            if(a.size > 0){
+                val findUser = a[0]
+                if(findUser.getString("groupName") != null){
+                    val oldGroup = findUser.getString("groupName")
+                    val queryRole = NCMBRole.getQuery()
+                    queryRole.whereEqualTo("roleName", oldGroup)
+                    val b = queryRole.find()
+                    if(b.size > 0){
+                        val findRole = b[0]
+                        findRole.removeUserInBackground(listOf(findUser)){ e ->
+                            if(e != null){
+                                Log.d("[Remove Error]", e.toString())
+                            }else {
+                                Log.d("[Remove Result]", "Success")
+                            }
+                        }
+                    }
+                }
+            }else{
+                Log.d("[User Find Error]", "userなし")
+            }
+
             NCMBUser.loginInBackground(userName, password){ ncmbUser, e ->
                 if(e != null){
                     Log.d("[Login Error]", e.toString())

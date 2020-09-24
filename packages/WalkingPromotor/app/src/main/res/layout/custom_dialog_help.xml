@@ -31,7 +31,7 @@
 
   <!-- ボタン -->
   <Button
-    android:id="@+id/Button_dialog_back"
+    android:id="@+id/Button_dialog_logout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -40,5 +40,16 @@
     android:padding="16dp"
     android:text="aaaa"
     android:textSize="24sp" />
+
+  <Button
+    android:id="@+id/Button_dialog_back"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="8dp"
+    android:background="@drawable/frame_style"
+    android:padding="16dp"
+    android:text="aaaa"
+    android:textSize="24sp"/>
 
 </LinearLayout>

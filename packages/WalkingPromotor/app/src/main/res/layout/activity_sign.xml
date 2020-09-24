@@ -18,7 +18,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:title="スタートメニュー"
+    app:title="新規登録/ログイン メニュー"
     app:titleTextAppearance="@style/TextAppearance.Toolbar"
     app:titleTextColor="#FFFFFF"
     tools:ignore="MissingConstraints" />
@@ -32,7 +32,7 @@
     android:descendantFocusability="beforeDescendants"
     android:ems="14"
     android:focusableInTouchMode="true"
-    android:hint="ユーザー名"
+    android:hint="ここをタッチして名前を入力"
     android:inputType="textPersonName"
     android:textSize="38sp"
     app:layout_constraintEnd_toEndOf="parent"
@@ -45,10 +45,10 @@
     android:id="@+id/lblStats"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
+    android:layout_marginTop="24dp"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:text="ユーザー名を入力して新規登録/ログインしてください"
+    android:text="あなたの名前を入力してグループを選択してください"
     android:textColor="#000000"
     android:textSize="30sp"
     app:layout_constraintEnd_toEndOf="parent"
@@ -86,11 +86,21 @@
       android:background="@drawable/frame_style"
       android:text="ログイン"
       android:textSize="38sp" />
+
+    <Button
+      android:id="@+id/btnBack"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_margin="4dp"
+      android:layout_weight="1"
+      android:background="@drawable/frame_style"
+      android:text="前の画面に戻る"
+      android:textSize="38sp" />
   </LinearLayout>
 
   <TableLayout
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="170dp"
     android:layout_marginBottom="8dp"
     android:shrinkColumns="0,1,2,3,4"
     app:layout_constraintBottom_toTopOf="@+id/linearLayout_sign">
