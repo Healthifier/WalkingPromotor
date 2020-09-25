@@ -64,21 +64,6 @@ class DiaryUpActivity : AppCompatActivity() {
             }
         })
 
-
-        /*
-        var diaries = dbHandler.getAllUsers()
-        val adapter = DiaryListAdapter(this, diaries)
-        list_view.adapter = adapter
-
-        list_view.setOnItemClickListener { adapterView, view, position, id ->
-            val diaryData = adapterView.getItemAtPosition(position) as DiaryData
-            val title = diaryData.title
-            val date = diaryData.day
-            val photo = diaryData.photo
-
-            setupViews(photo, title, date, cloudUName, cloudUId)
-        }*/
-
         backButton.setOnClickListener {
             val intent = Intent(this, HomeProgramActivity::class.java)
             startActivity(intent)

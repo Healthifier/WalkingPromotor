@@ -43,7 +43,6 @@ class DataSelectActivity : AppCompatActivity() {
     private var objList = listOf<NCMBObject>()
     private val user = NCMBUser.getCurrentUser()
     private var abc = NCMBObject("photoPath")
-    //private var dbHandler = DatabaseHandler(this)
     private val REQUEST_CAMERA = 1000
     private val REQUEST_GARALLY1 = 1001
     private val REQUEST_GARALLY2 = 1002
@@ -79,7 +78,7 @@ class DataSelectActivity : AppCompatActivity() {
                     buttonsList[i-1].text = objList[i-1].getString("name")
                     if(user.userName == buttonsList[i-1].text){
                         if(objList[i-1].getList("array") != null) {
-                            //setImages(objList[i - 1].getList("array"), imageList)
+                            setImages(objList[i - 1].getList("array"), imageList)
                         }
                         myNumber = i-1
                     }
@@ -139,254 +138,50 @@ class DataSelectActivity : AppCompatActivity() {
 
         //user1の画像データ表示用のボタン
         button_user1.setOnClickListener {
-            name = button_user1.text.toString()
-            displayNumber = 0
-            deleteImages()
-            textView_user.text = name + "さんが選んだ写真の画面です"
-            if(objList.isEmpty()){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-            }else {
-                setImages(objList[0].getList("array"), imageList)
-                Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
-            }
+            showImages(0, imageList)
         }
 
         //user2の画像データ表示用のボタン
         button_user2.setOnClickListener {
-            name = button_user2.text.toString()
-            displayNumber = 1
-            deleteImages()
-            textView_user.text = name + "さんが選んだ写真の画面です"
-            if(objList.size < 2){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-            }else{
-                setImages(objList[1].getList("array"), imageList)
-                Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
-            }
+            showImages(1, imageList)
         }
 
         //user3の画像データ表示用のボタン
         button_user3.setOnClickListener {
-            name = button_user3.text.toString()
-            displayNumber = 2
-            deleteImages()
-            textView_user.text = name + "さんが選んだ写真の画面です"
-            if(objList.size < 3){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-            }else{
-                setImages(objList[2].getList("array"), imageList)
-                Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
-            }
+            showImages(2, imageList)
         }
 
         //user4の画像データ表示用のボタン
         button_user4.setOnClickListener {
-            name = button_user4.text.toString()
-            displayNumber = 3
-            deleteImages()
-            textView_user.text = name + "さんが選んだ写真の画面です"
-            if(objList.size < 4){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-            }else{
-                setImages(objList[3].getList("array"), imageList)
-                Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
-            }
+            showImages(3, imageList)
         }
 
         //user5の画像データ表示用のボタン
         button_user5.setOnClickListener {
-            name = button_user5.text.toString()
-            displayNumber = 4
-            deleteImages()
-            textView_user.text = name + "さんが選んだ写真の画面です"
-            if(objList.size < 5){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-            }else{
-                setImages(objList[4].getList("array"), imageList)
-                Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
-            }
+            showImages(4, imageList)
         }
 
         imageView3.setOnClickListener{
             if(null == imageView3.drawable){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-                selectPhoto1()
+                selectPhoto("1")
             }else {
-                val dialog = Dialog(this)
-                dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                val bitmap = (imageView3.drawable as BitmapDrawable).bitmap
-                val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
-                dialog.setContentView(customdialogView)
-                Log.d("bitmap", bitmap.width.toString())
-                val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
-                imageView_dialog.setImageBitmap(bitmap)
-                val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
-                btn_change.setOnClickListener {
-                    if(displayNumber == myNumber) {
-                        selectPhoto1()
-                        //Toast.makeText(this, "写真の差し替えに成功しました", Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(this, "他の人の写真は差し替えられません", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
-                btn_close.setOnClickListener {
-                    dialog.dismiss()
-                }
-
-                val btn_speaker = customdialogView.findViewById<Button>(R.id.btn_speaker)
-                btn_speaker.setOnClickListener {
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_speak, null)
-                    dialog.setContentView(customdialogView)
-                    dialog.show()
-                }
-
-                val btn_listener = customdialogView.findViewById<Button>(R.id.btn_listener)
-                btn_listener.setOnClickListener {
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_listen, null)
-                    dialog.setContentView(customdialogView)
-                    dialog.window?.setLayout(1450, 500)
-                    dialog.show()
-                }
-
-                val display: Display = windowManager.defaultDisplay
-                val size = Point()
-                display.getSize(size)
-                val width = size.x
-                val factor = width.toFloat() / bitmap.width.toFloat()
-                dialog.window?.setLayout(
-                    (bitmap.width * factor).toInt(),
-                    (bitmap.height * factor *0.7).toInt()
-                )
-
-                dialog.show()
+                showDialog(imageView3)
             }
         }
 
         imageView4.setOnClickListener{
             if(null == imageView4.drawable){
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-                selectPhoto2()
+                selectPhoto("2")
             }else {
-                val dialog = Dialog(this)
-                dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                val bitmap = (imageView4.drawable as BitmapDrawable).bitmap
-                val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
-                dialog.setContentView(customdialogView)
-                Log.d("bitmap", bitmap.width.toString())
-                val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
-                imageView_dialog.setImageBitmap(bitmap)
-                val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
-                btn_change.setOnClickListener {
-                    if(displayNumber == myNumber) {
-                        selectPhoto2()
-                        //Toast.makeText(this, "写真の差し替えに成功しました", Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(this, "他の人の写真は差し替えられません", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
-                btn_close.setOnClickListener {
-                    dialog.dismiss()
-                }
-
-                val btn_speaker = customdialogView.findViewById<Button>(R.id.btn_speaker)
-                btn_speaker.setOnClickListener {
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_speak, null)
-                    dialog.setContentView(customdialogView)
-                    dialog.show()
-                }
-
-                val btn_listener = customdialogView.findViewById<Button>(R.id.btn_listener)
-                btn_listener.setOnClickListener {
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_listen, null)
-                    dialog.setContentView(customdialogView)
-                    dialog.window?.setLayout(1450, 500)
-                    dialog.show()
-                }
-
-                val display: Display = windowManager.defaultDisplay
-                val size = Point()
-                display.getSize(size)
-                val width = size.x
-                val factor = width.toFloat() / bitmap.width.toFloat()
-                dialog.window?.setLayout(
-                    (bitmap.width * factor).toInt(),
-                    (bitmap.height * factor *0.7).toInt()
-                )
-
-                dialog.show()
+                showDialog(imageView4)
             }
         }
 
         imageView5.setOnClickListener {
             if (null == imageView5.drawable) {
-                Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-                selectPhoto3()
+                selectPhoto("3")
             } else {
-                val dialog = Dialog(this)
-                dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                val bitmap = (imageView5.drawable as BitmapDrawable).bitmap
-                val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
-                dialog.setContentView(customdialogView)
-                Log.d("bitmap", bitmap.width.toString())
-                val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
-                imageView_dialog.setImageBitmap(bitmap)
-                val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
-                btn_change.setOnClickListener {
-                    if(displayNumber == myNumber) {
-                        selectPhoto3()
-                        //Toast.makeText(this, "写真の差し替えに成功しました", Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(this, "他の人の写真は差し替えられません", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
-                btn_close.setOnClickListener {
-                    dialog.dismiss()
-                }
-
-                val btn_speaker = customdialogView.findViewById<Button>(R.id.btn_speaker)
-                btn_speaker.setOnClickListener {
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_speak, null)
-                    dialog.setContentView(customdialogView)
-                    dialog.show()
-                }
-
-                val btn_listener = customdialogView.findViewById<Button>(R.id.btn_listener)
-                btn_listener.setOnClickListener {
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_listen, null)
-                    dialog.setContentView(customdialogView)
-                    dialog.window?.setLayout(1450, 500)
-                    dialog.show()
-                }
-
-                val display: Display = windowManager.defaultDisplay
-                val size = Point()
-                display.getSize(size)
-                val width = size.x
-                val factor = width.toFloat() / bitmap.width.toFloat()
-                dialog.window?.setLayout(
-                    (bitmap.width * factor).toInt(),
-                    (bitmap.height * factor *0.7).toInt()
-                )
-
-                dialog.show()
+                showDialog(imageView5)
             }
         }
     }
@@ -421,9 +216,6 @@ class DataSelectActivity : AppCompatActivity() {
                                 .show()
                         } else {
                             //成功処理
-                            //val bMap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
-                            //imageName[i].setImageBitmap(bMap)
-
                             Glide.with(this).load(dataFetch).thumbnail(0.1f).into(imageName[i])
                         }
                     }
@@ -432,36 +224,191 @@ class DataSelectActivity : AppCompatActivity() {
         }
     }
 
-    private fun selectPhoto1(){
+    private fun showImages(number:Int, imageList:ArrayList<ImageView>){
+        val name = button_user2.text.toString()
+        displayNumber = number
+        deleteImages()
+        textView_user.text = name + "さんが選んだ写真の画面です"
+        if(objList.size < number+1){
+            Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
+        }else{
+            setImages(objList[number].getList("array"), imageList)
+            Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun showDialog(imageView: ImageView){
+        val dialog = Dialog(this)
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
+        dialog.setContentView(customdialogView)
+        Log.d("bitmap", bitmap.width.toString())
+        val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
+        imageView_dialog.setImageBitmap(bitmap)
+        val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
+        btn_change.setOnClickListener {
+            if(displayNumber == myNumber) {
+                //selectPhoto3()
+                when (imageView) {
+                    imageView3 -> {
+                        selectPhoto("1")
+                    }
+                    imageView4 -> {
+                        selectPhoto("2")
+                    }
+                    imageView5 -> {
+                        selectPhoto("3")
+                    }
+                }
+            }else{
+                Toast.makeText(this, "他の人の写真は差し替えられません", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+        val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
+        btn_close.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val btn_speaker = customdialogView.findViewById<Button>(R.id.btn_speaker)
+        btn_speaker.setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_speak, null)
+            dialog.setContentView(customdialogView)
+            dialog.show()
+        }
+
+        val btn_listener = customdialogView.findViewById<Button>(R.id.btn_listener)
+        btn_listener.setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_listen, null)
+            dialog.setContentView(customdialogView)
+            dialog.window?.setLayout(1450, 500)
+            dialog.show()
+        }
+
+        val display: Display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        val width = size.x
+        val factor = width.toFloat() / bitmap.width.toFloat()
+        dialog.window?.setLayout(
+            (bitmap.width * factor).toInt(),
+            (bitmap.height * factor *0.7).toInt()
+        )
+
+        dialog.show()
+    }
+
+    private fun selectPhoto(number:String){
         if(checkPermission()){
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_GARALLY1 )
+            when (number) {
+                "1" -> {
+                    startActivityForResult(intent, REQUEST_GARALLY1 )
+                }
+                "2" -> {
+                    startActivityForResult(intent, REQUEST_GARALLY2 )
+                }
+                "3" -> {
+                    startActivityForResult(intent, REQUEST_GARALLY3 )
+                }
+            }
         }else{
             grantStoragePermission()
         }
     }
 
-    private fun selectPhoto2(){
-        if(checkPermission()){
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_GARALLY2 )
-        }else{
-            grantStoragePermission()
-        }
-    }
-
-    private fun selectPhoto3(){
-        if(checkPermission()){
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_GARALLY3 )
-        }else{
-            grantStoragePermission()
+    private fun uploadPic(data: Intent?, imageView: ImageView){
+        Log.d("deb", "REQUEST_GARALLY1")
+        val uri: Uri?
+        if(data != null) {
+            uri = data.data
+            try {
+                Log.d("[DEBUG503]", uri.toString())
+                Log.d("[DEBUG504]", uri?.path.toString())
+                val strDocId = DocumentsContract.getDocumentId(uri)
+                val strSplittedDocId = strDocId.split(":")
+                val strId = strSplittedDocId[strSplittedDocId.size - 1]
+                val projection = arrayOf(MediaStore.MediaColumns.DATA)
+                val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
+                var name = ""
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+                        name = cursor.getString(0)
+                    }
+                    cursor.close()
+                    Log.d("[DEBUG516]", name)
+                }
+                val group = user.getString("groupName")
+                val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
+                query.whereEqualTo("fileName", name.substringAfterLast("/"))
+                query.findInBackground { list, ncmbException ->
+                    if (ncmbException != null) {
+                        Log.d("[Error522]", ncmbException.toString())
+                    } else {
+                        if (list.size != 0) {
+                            Log.d("[DEBUG525]", "クラウド上にあるよ")
+                            Log.d("Size461", File(name).readBytes().toString())
+                        } else {
+                            savePicToCloud(name)
+                        }
+                        val updateList = abc.getList("array")
+                        when (imageView) {
+                            imageView3 -> {
+                                val photoNameListCloud = arrayListOf<String>()
+                                if (updateList == null) {
+                                    photoNameListCloud.add(name.substringAfterLast("/"))
+                                    abc.put("array", photoNameListCloud)
+                                    saveUsersList(user.objectId.toString(), user.userName.toString(), group, photoNameListCloud)
+                                } else {
+                                    updateList[0] = name.substringAfterLast("/")
+                                    saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
+                                }
+                            }
+                            imageView4 -> {
+                                when (updateList.size) {
+                                    0 -> {
+                                        updateList.add(0, name.substringAfterLast("/"))
+                                    }
+                                    1 -> {
+                                        updateList.add(1, name.substringAfterLast("/"))
+                                    }
+                                    else -> {
+                                        updateList[1] = name.substringAfterLast("/")
+                                    }
+                                }
+                                saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
+                            }
+                            imageView5 -> {
+                                when (updateList.size) {
+                                    0 -> {
+                                        updateList.add(0, name.substringAfterLast("/"))
+                                    }
+                                    1 -> {
+                                        updateList.add(1, name.substringAfterLast("/"))
+                                    }
+                                    2 -> {
+                                        updateList.add(2, name.substringAfterLast("/"))
+                                    }
+                                    else -> {
+                                        updateList[2] = name.substringAfterLast("/")
+                                    }
+                                }
+                                saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
+                            }
+                        }
+                    }
+                }
+                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                imageView.setImageBitmap(bitmap)
+            } catch (e: IOException) {
+            }
         }
     }
 
@@ -485,168 +432,13 @@ class DataSelectActivity : AppCompatActivity() {
 
         }else if(requestCode == REQUEST_GARALLY1 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY1")
-            val uri: Uri?
-            if(data != null){
-                uri = data.data
-                try{
-                    Log.d("[DEBUG503]", uri.toString())
-                    Log.d("[DEBUG504]", uri?.path.toString())
-                    val strDocId = DocumentsContract.getDocumentId(uri)
-                    val strSplittedDocId = strDocId.split(":")
-                    val strId = strSplittedDocId[strSplittedDocId.size-1]
-                    val projection = arrayOf(MediaStore.MediaColumns.DATA)
-                    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
-                    var name = ""
-                    if(cursor != null){
-                        if(cursor.moveToFirst()){
-                            name = cursor.getString(0)
-                        }
-                        cursor.close()
-                        Log.d("[DEBUG516]", name)
-                    }
-                    val group = user.getString("groupName")
-                    val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
-                    query.whereEqualTo("fileName", name.substringAfterLast("/"))
-                    query.findInBackground { list, ncmbException ->
-                        if (ncmbException != null) {
-                            Log.d("[Error522]", ncmbException.toString())
-                        } else {
-                            if(list.size != 0){
-                                Log.d("[DEBUG525]", "クラウド上にあるよ")
-                                Log.d("Size461", File(name).readBytes().toString())
-                            }else{
-                                savePicToCloud(name)
-                            }
-                            val updateList = abc.getList("array")
-                            val photoNameListCloud = arrayListOf<String>()
-                            if(updateList == null){
-                                photoNameListCloud.add(name.substringAfterLast("/"))
-                                abc.put("array", photoNameListCloud)
-                                saveUsersList(user.objectId.toString(), user.userName.toString(), group, photoNameListCloud)
-                            }else{
-                                updateList[0] = name.substringAfterLast("/")
-                                saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
-                            }
-                        }
-                    }
-                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                    imageView3.setImageBitmap(bitmap)
-                }catch (e: IOException){
-                }
-            }
+            uploadPic(data, imageView3)
         }else if(requestCode == REQUEST_GARALLY2 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY2")
-            val uri: Uri?
-            if(data != null){
-                uri = data.data
-                try{
-                    Log.d("[DEBUG]", uri.toString())
-                    Log.d("[DEBUG]", uri?.path.toString())
-                    val strDocId = DocumentsContract.getDocumentId(uri)
-                    val strSplittedDocId = strDocId.split(":")
-                    val strId = strSplittedDocId[strSplittedDocId.size-1]
-                    val projection = arrayOf(MediaStore.MediaColumns.DATA)
-                    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
-                    var name = ""
-                    if(cursor != null){
-                        if(cursor.moveToFirst()){
-                            name = cursor.getString(0)
-                        }
-                        cursor.close()
-                        Log.d("[DEBUG]", name)
-                    }
-                    val group = user.getString("groupName")
-                    val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
-                    query.whereEqualTo("fileName", name.substringAfterLast("/"))
-                    query.findInBackground { list, ncmbException ->
-                        if (ncmbException != null) {
-                            Log.d("[Error]", ncmbException.toString())
-                        } else {
-                            if(list.size != 0){
-                                Log.d("[DEBUG]", "クラウド上にあるよ")
-                                Log.d("Size", File(name).readBytes().toString())
-                            }else{
-                                savePicToCloud(name)
-                            }
-                            val updateList = abc.getList("array")
-                            Log.d("deb", updateList.toString())
-                            when (updateList.size) {
-                                0 -> {
-                                    updateList.add(0, name.substringAfterLast("/"))
-                                }
-                                1 -> {
-                                    updateList.add(1, name.substringAfterLast("/"))
-                                }
-                                else -> {
-                                    updateList[1] = name.substringAfterLast("/")
-                                }
-                            }
-                            saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
-                        }
-                    }
-                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                    imageView4.setImageBitmap(bitmap)
-                }catch (e: IOException){
-                }
-            }
+            uploadPic(data, imageView4)
         }else if(requestCode == REQUEST_GARALLY3 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY3")
-            val uri: Uri?
-            if(data != null){
-                uri = data.data
-                try{
-                    Log.d("[DEBUG607]", uri.toString())
-                    Log.d("[DEBUG608]", uri?.path.toString())
-                    val strDocId = DocumentsContract.getDocumentId(uri)
-                    val strSplittedDocId = strDocId.split(":")
-                    val strId = strSplittedDocId[strSplittedDocId.size-1]
-                    val projection = arrayOf(MediaStore.MediaColumns.DATA)
-                    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
-                    var name = ""
-                    if(cursor != null){
-                        if(cursor.moveToFirst()){
-                            name = cursor.getString(0)
-                        }
-                        cursor.close()
-                        Log.d("[DEBUG620]", name)
-                    }
-                    val group = user.getString("groupName")
-                    val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
-                    query.whereEqualTo("fileName", name.substringAfterLast("/"))
-                    query.findInBackground { list, ncmbException ->
-                        if (ncmbException != null) {
-                            Log.d("[Error]", ncmbException.toString())
-                        } else {
-                            if(list.size != 0){
-                                Log.d("[DEBUG]", "クラウド上にあるよ")
-                                Log.d("Size", File(name).readBytes().toString())
-                            }else{
-                                savePicToCloud(name)
-                            }
-                            val updateList = abc.getList("array")
-                            Log.d("deb", updateList.toString())
-                            when (updateList.size) {
-                                0 -> {
-                                    updateList.add(0, name.substringAfterLast("/"))
-                                }
-                                1 -> {
-                                    updateList.add(1, name.substringAfterLast("/"))
-                                }
-                                2 -> {
-                                    updateList.add(2, name.substringAfterLast("/"))
-                                }
-                                else -> {
-                                    updateList[2] = name.substringAfterLast("/")
-                                }
-                            }
-                            saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
-                        }
-                    }
-                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                    imageView5.setImageBitmap(bitmap)
-                }catch (e: IOException){
-                }
-            }
+            uploadPic(data, imageView5)
         }
     }
 
@@ -694,27 +486,5 @@ class DataSelectActivity : AppCompatActivity() {
                 Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    /**
-     * FileのUriを作成.
-     */
-    private fun createSaveFileUri(): Uri {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.JAPAN).format(Date())
-        val imageFileName = "example$timeStamp"
-
-        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/example")
-        if (!storageDir.exists()) {
-            storageDir.mkdir()
-        }
-        Log.d("Dir place", storageDir.toString())
-
-        val file = File(storageDir, "$imageFileName.jpg")
-        Log.d("Maked file name", file.toString())
-        filename = "$imageFileName.jpg"
-        path = file.absolutePath
-        Log.d("path", path)
-
-        return FileProvider.getUriForFile(this, "io.github.healthifier.walking_promoter", file)
     }
 }

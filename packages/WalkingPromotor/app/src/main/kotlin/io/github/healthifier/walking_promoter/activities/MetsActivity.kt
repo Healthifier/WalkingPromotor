@@ -38,29 +38,11 @@ class MetsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mets)
 
-        //showFragment(TokaidoMapFragment::class.java)
-        /*
-        tmpShowCal.setOnClickListener {
-            showDatePicker()
-        }*/
         showDiaryList()
         btn_back.setOnClickListener {
             val intent = Intent(this, DiaryMenuActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun showFragment(clazz: Class<out Fragment>) {
-            try {
-                val fragment = clazz.newInstance()
-                fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .commit()
-            } catch (e: InstantiationException) {
-                e.printStackTrace()
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            }
     }
 
     private fun showDatePicker() {
@@ -108,83 +90,13 @@ class MetsActivity : AppCompatActivity() {
                     }
                     Log.d("List", cloudTitleList[0])
 
-                    /*
-                    //ダイアログ画面の表示準備
-                    val dialog = Dialog(this)
-                    dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-                    val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_diary_grid, null)
-                    dialog.setContentView(customDialogView)
-                    //ダイアログ画面のサイズ調整
-                    val display: Display = windowManager.defaultDisplay
-                    val size = Point()
-                    display.getSize(size)
-                    val width = size.x
-                    val height = size.y
-                    val factor = width.toFloat() / height.toFloat()
-                    dialog.window?.setLayout(
-                        (width * factor * 0.4).toInt(),
-                        (height* factor * 0.4).toInt()
-                    )
-                     */
-
                     val dataList = arrayListOf<ByteArray>()
-                    /*
-                    val gridAdapter = CustomGridAdapterCloud(cloudTitleList, dataList)
-                    val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
-                    //アダプターとレイアウトマネージャーをセット
-                    gridRecyclerView.layoutManager = layoutManager
-                    gridRecyclerView.setHasFixedSize(true)
-                    gridRecyclerView.adapter = gridAdapter*/
 
                     var check = false
 
                     for(loopList in cloudPhotoList){
                         val file = NCMBFile(loopList)
-                        //dataList.add(NCMBFile(loopList))
                         dataList.add(file.fetch())
-                        //Glide.with(this).load(file).thumbnail(0.1f)
-                        //dataList.add(file.fileData)
-                        /*
-                        file.fetchInBackground { bytes, ncmbException ->
-                            if(ncmbException != null){
-
-                            }else{
-                                if(!check){
-                                    dataList.add(bytes)
-                                    val dataList = arrayListOf<ByteArray>()
-                                    val gridAdapter = CustomGridAdapterCloud(cloudTitleList, dataList)
-                                    val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
-                                    //アダプターとレイアウトマネージャーをセット
-                                    gridRecyclerView.layoutManager = layoutManager
-                                    gridRecyclerView.setHasFixedSize(true)
-                                    gridRecyclerView.adapter = gridAdapter
-                                    check = true
-                                }else{
-                                    dataList.add(bytes)
-                                    gridAdapter.notifyDataSetChanged()
-                                }
-                                /*
-                                val gridAdapter = CustomGridAdapterCloud(cloudTitleList, dataList)
-                                val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
-                                //アダプターとレイアウトマネージャーをセット
-                                gridRecyclerView.layoutManager = layoutManager
-                                gridRecyclerView.setHasFixedSize(true)
-                                gridRecyclerView.adapter = gridAdapter
-                                //dialog.show()
-
-
-                                 */
-                                gridAdapter.setOnItemClickListener(object:CustomGridAdapterCloud.OnItemClickListener{
-                                    override fun onItemClickListener(view: View, position: Int, clickedText: String) {
-                                        //Toast.makeText(applicationContext, "${clickedText}がタップされました.位置は${position}です", Toast.LENGTH_LONG).show()
-                                        val title = cloudList[position].getString("title")
-                                        val date = cloudList[position].getString("date")
-                                        val photo = cloudList[position].getString("photo")
-                                        showCloudDiary(title, date, photo)
-                                    }
-                                })
-                            }
-                        }*/
 
                         //アダプターとレイアウトマネージャーをセット
                         val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
@@ -193,7 +105,6 @@ class MetsActivity : AppCompatActivity() {
                         gridRecyclerView.adapter = gridAdapter
                         gridRecyclerView.setHasFixedSize(true)
                         gridAdapter.notifyDataSetChanged()
-                        //dialog.show()
 
                         gridAdapter.setOnItemClickListener(object:CustomGridAdapterCloud.OnItemClickListener{
                             override fun onItemClickListener(view: View, position: Int, clickedText: String) {
@@ -205,25 +116,6 @@ class MetsActivity : AppCompatActivity() {
                             }
                         })
                     }
-
-                    /*
-                    val gridAdapter = CustomGridAdapterCloud(cloudTitleList, dataList)
-                    val layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
-                    //アダプターとレイアウトマネージャーをセット
-                    gridRecyclerView.layoutManager = layoutManager
-                    gridRecyclerView.setHasFixedSize(true)
-                    gridRecyclerView.adapter = gridAdapter
-                    //dialog.show()
-
-                    gridAdapter.setOnItemClickListener(object:CustomGridAdapterCloud.OnItemClickListener{
-                        override fun onItemClickListener(view: View, position: Int, clickedText: String) {
-                            //Toast.makeText(applicationContext, "${clickedText}がタップされました.位置は${position}です", Toast.LENGTH_LONG).show()
-                            val title = cloudList[position].getString("title")
-                            val date = cloudList[position].getString("date")
-                            val photo = cloudList[position].getString("photo")
-                            showCloudDiary(title, date, photo)
-                        }
-                    })*/
                 } else {
                     textView_log.text = "まだ日記は投稿されていないみたいです"
                     Log.d("d97", "ないよ")

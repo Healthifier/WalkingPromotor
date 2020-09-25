@@ -35,7 +35,6 @@ class CustomGridAdapter(private val customList: ArrayList<String>, private val c
 
     // ViewHolderに表示する画像とテキストを挿入
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        //holder.view.imageView.setImageResource(R.mipmap.ic_launcher)
         holder.view.textView.text = customList[position]
         Glide.with(holder.view).load(customList2[position]).into(holder.view.imageView)
         // タップしたとき
