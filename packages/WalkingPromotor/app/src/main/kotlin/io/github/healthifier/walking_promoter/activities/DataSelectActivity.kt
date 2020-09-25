@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
@@ -26,7 +25,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
@@ -34,8 +32,6 @@ import kotlinx.android.synthetic.main.activity_data_select.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class DataSelectActivity : AppCompatActivity() {
@@ -62,7 +58,7 @@ class DataSelectActivity : AppCompatActivity() {
 
         val buttonsList = arrayListOf<Button>(button_user1, button_user2, button_user3, button_user4, button_user5)
         val imageList = arrayListOf<ImageView>(imageView3, imageView4, imageView5)
-        var name = user.userName
+        val name = user.userName
         val group = user.getString("groupName")
         textView_user.text = name + "さんが選んだ写真の画面です"
         val querySelect = NCMBQuery<NCMBObject>("photoPath")
@@ -240,12 +236,12 @@ class DataSelectActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-        val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
-        dialog.setContentView(customdialogView)
+        val customLayoutView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
+        dialog.setContentView(customLayoutView)
         Log.d("bitmap", bitmap.width.toString())
-        val imageView_dialog = customdialogView.findViewById<ImageView>(R.id.imageView_dialog)
+        val imageView_dialog = customLayoutView.findViewById<ImageView>(R.id.imageView_dialog)
         imageView_dialog.setImageBitmap(bitmap)
-        val btn_change = customdialogView.findViewById<Button>(R.id.btn_change)
+        val btn_change = customLayoutView.findViewById<Button>(R.id.btn_change)
         btn_change.setOnClickListener {
             if(displayNumber == myNumber) {
                 //selectPhoto3()
@@ -266,28 +262,28 @@ class DataSelectActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
-        val btn_close = customdialogView.findViewById<Button>(R.id.btn_close)
+        val btn_close = customLayoutView.findViewById<Button>(R.id.btn_close)
         btn_close.setOnClickListener {
             dialog.dismiss()
         }
 
-        val btn_speaker = customdialogView.findViewById<Button>(R.id.btn_speaker)
+        val btn_speaker = customLayoutView.findViewById<Button>(R.id.btn_speaker)
         btn_speaker.setOnClickListener {
-            val dialog = Dialog(this)
-            dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-            val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_speak, null)
-            dialog.setContentView(customdialogView)
-            dialog.show()
+            val dialog2 = Dialog(this)
+            dialog2.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_speak, null)
+            dialog2.setContentView(customDialogView)
+            dialog2.show()
         }
 
-        val btn_listener = customdialogView.findViewById<Button>(R.id.btn_listener)
+        val btn_listener = customLayoutView.findViewById<Button>(R.id.btn_listener)
         btn_listener.setOnClickListener {
-            val dialog = Dialog(this)
-            dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-            val customdialogView: View = layoutInflater.inflate(R.layout.custom_dialog_listen, null)
-            dialog.setContentView(customdialogView)
-            dialog.window?.setLayout(1450, 500)
-            dialog.show()
+            val dialog2 = Dialog(this)
+            dialog2.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            val customDialogView: View = layoutInflater.inflate(R.layout.custom_dialog_listen, null)
+            dialog2.setContentView(customDialogView)
+            dialog2.window?.setLayout(1450, 500)
+            dialog2.show()
         }
 
         val display: Display = windowManager.defaultDisplay
