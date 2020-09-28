@@ -23,6 +23,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:gravity="start"
+    android:textColor="#000000"
     android:textSize="24sp" />
 
   <!-- ボタン -->
