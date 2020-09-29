@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -29,6 +30,8 @@ import com.bumptech.glide.Glide
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_data_select.*
+import kotlinx.android.synthetic.main.activity_data_select.button_back
+import kotlinx.android.synthetic.main.activity_second.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -212,7 +215,17 @@ class DataSelectActivity : AppCompatActivity() {
                                 .show()
                         } else {
                             //成功処理
-                            Glide.with(this).load(dataFetch).thumbnail(0.1f).into(imageName[i])
+                            val preBitmap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
+                            if(preBitmap.width < preBitmap.height){ //縦長のとき
+                                val mat = Matrix()
+                                mat.postRotate(-90F)
+                                val newBitmap = Bitmap.createBitmap(preBitmap, 0, 0, preBitmap.width, preBitmap.height, mat, true)
+                                Glide.with(this).load(newBitmap).thumbnail(1f).into(imageName[i])
+                                //imageView.setImageBitmap(newBitmap)
+                            }else{
+                                Glide.with(this).load(dataFetch).thumbnail(1f).into(imageName[i])
+                                //imageView.setImageBitmap(bitmap)
+                            }
                         }
                     }
                 }
@@ -402,7 +415,15 @@ class DataSelectActivity : AppCompatActivity() {
                     }
                 }
                 val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                imageView.setImageBitmap(bitmap)
+                if(bitmap.width < bitmap.height){ //縦長のとき
+                    val mat = Matrix()
+                    mat.postRotate(-90F)
+                    val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
+                    imageView.setImageBitmap(newBitmap)
+                }else{
+                    imageView.setImageBitmap(bitmap)
+                }
+                //imageView.setImageBitmap(bitmap)
             } catch (e: IOException) {
             }
         }

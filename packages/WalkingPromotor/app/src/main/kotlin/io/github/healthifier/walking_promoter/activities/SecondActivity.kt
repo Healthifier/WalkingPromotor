@@ -7,7 +7,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -154,7 +156,14 @@ class SecondActivity : AppCompatActivity() {
 
             val inputStream = FileInputStream(File(path))
             val bitmap = BitmapFactory.decodeStream(inputStream)
-            imageView.setImageBitmap(bitmap)
+            if(bitmap.width < bitmap.height){ //縦長のとき
+                val mat = Matrix()
+                mat.postRotate(-90F)
+                val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
+                imageView.setImageBitmap(newBitmap)
+            }else{
+                imageView.setImageBitmap(bitmap)
+            }
         }
     }
 
