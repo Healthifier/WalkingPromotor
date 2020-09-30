@@ -80,7 +80,9 @@ class SecondActivity : AppCompatActivity() {
 
                 if (success){
                     Toast.makeText(this,"日記を保存しました", Toast.LENGTH_LONG).show()
-                    Toast.makeText(this,"戻るボタンで戻れます", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this,"戻るボタンで戻れます", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, HomeProgramActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }

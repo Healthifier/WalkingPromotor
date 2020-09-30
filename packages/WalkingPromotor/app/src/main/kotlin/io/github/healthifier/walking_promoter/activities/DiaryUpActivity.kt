@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,11 +23,13 @@ import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import io.github.healthifier.walking_promoter.models.DiaryData
 import io.github.healthifier.walking_promoter.models.DiaryListAdapter
 import kotlinx.android.synthetic.main.activity_diary_up.*
+import kotlinx.android.synthetic.main.activity_sign.*
 import kotlinx.android.synthetic.main.activity_start.*
 import kotlinx.android.synthetic.main.activity_start.backButton
 import kotlinx.android.synthetic.main.activity_third.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.lang.Exception
 
 class DiaryUpActivity : AppCompatActivity() {
 
@@ -75,6 +79,7 @@ class DiaryUpActivity : AppCompatActivity() {
      */
     private fun setupViews(path:String, title:String, date:String, cloudUName:String, cloudUId:String) {
         // BuilderからAlertDialogを作成
+        /*
         val dialog = AlertDialog.Builder(this)
             .setTitle("確認") // タイトル
             .setMessage("選択した日記を投稿してよろしいですか？") // メッセージ
@@ -85,7 +90,37 @@ class DiaryUpActivity : AppCompatActivity() {
             .setNegativeButton("戻る", null)
             .create()
         // AlertDialogを表示
+        dialog.show()*/
+        val view: View = layoutInflater.inflate(R.layout.custom_dialog_check, null)
+        val dialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
+        dialogTitle.text = "選択した日記を投稿してよろしいですか？"
+        val message: TextView = view.findViewById(R.id.TextView_dialog_message)
+        message.text = "タイトル：${title} 日付：${date}"
+        val button1: Button = view.findViewById(R.id.Button_dialog_positive)
+        button1.text = "やっぱりやめる"
+        val button2: Button = view.findViewById(R.id.Button_dialog_negative)
+        button2.text = "投稿する"
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        // AlertDialogを表示
         dialog.show()
+
+        // AlertDialogのサイズ調整
+        val lp = dialog.window?.attributes
+        lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+        dialog.window?.attributes = lp
+
+        button1.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        button2.setOnClickListener {
+            savePicToCloud(path) //ファイルストアに画像をあげる
+            saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
+        }
     }
 
     /**

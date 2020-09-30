@@ -8,9 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import com.nifcloud.mbaas.core.NCMBAcl
-import com.nifcloud.mbaas.core.NCMBRole
-import com.nifcloud.mbaas.core.NCMBUser
+import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_sign.*
 import java.lang.Exception
@@ -101,7 +99,7 @@ class SignActivity : AppCompatActivity() {
 
                 button2.setOnClickListener {
                     try {
-                        signUp()
+                        signUp(groupName)
                         dialog.dismiss()
                     }catch (e:Exception){
                         Log.d("[SignUp Error]", e.toString())
@@ -179,18 +177,30 @@ class SignActivity : AppCompatActivity() {
     /**
      * 新規登録処理用のfun
      */
-    private fun signUp() {
-        val acl = NCMBAcl()
-        acl.publicReadAccess = true
-        acl.publicWriteAccess = true
-        val userName = userName.text.toString()
-        val user = NCMBUser()
-        NCMBUser.logout()
-        user.userName = userName
-        user.setPassword(password)
-        user.acl = acl
-        user.save()
-        lblStats.text = "新規登録が完了しました！ログインをタッチしてください"
+    private fun signUp(group:String) {
+        if(group==""){
+            Toast.makeText(this, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
+        }else{
+            val query = NCMBUser.getQuery()
+            query.whereEqualTo("groupName", group)
+            val c = query.find()
+            if(c.size >= 5){
+                Toast.makeText(this, "選択したグループは満員となってしまいました", Toast.LENGTH_SHORT).show()
+                Log.d("User Count Result", c.size.toString())
+            }else{
+                val acl = NCMBAcl()
+                acl.publicReadAccess = true
+                acl.publicWriteAccess = true
+                val userName = userName.text.toString()
+                val user = NCMBUser()
+                NCMBUser.logout()
+                user.userName = userName
+                user.setPassword(password)
+                user.acl = acl
+                user.save()
+                lblStats.text = "新規登録が完了しました！ログインをタッチしてください"
+            }
+        }
     }
 
     /**
@@ -235,57 +245,68 @@ class SignActivity : AppCompatActivity() {
                                     }
                                 }
                             }else{ //今回のグループが前回のグループと異なるとき削除&追加を行う
-                                val queryRole = NCMBRole.getQuery()
-                                queryRole.whereEqualTo("roleName", oldGroup)
-                                val b = queryRole.find()
-                                if(b.size > 0){
-                                    val findRole = b[0]
-                                    findRole.removeUserInBackground(listOf(findUser)){ e ->
-                                        if(e != null){
-                                            Log.d("[Remove Error]", e.toString())
-                                        }else {
-                                            Log.d("[Remove Result]", "Success")
-                                            val currentUser = NCMBUser.getCurrentUser()
-                                            currentUser.put("groupName", newGroup)
+                                //まず新しい登録先のグループメンバー数を確認
+                                val queryUserGroup = NCMBUser.getQuery()
+                                queryUserGroup.whereEqualTo("groupName", newGroup)
+                                queryUserGroup.findInBackground{list, e ->
+                                    if(e != null){
+                                        Log.d("[Find Error]", e.toString())
+                                    }else{
+                                        if(list.size >= 5){ //5人以上だった場合には満員表示
+                                            Toast.makeText(this, "選択したグループは満員となってしまいました", Toast.LENGTH_SHORT).show()
+                                            NCMBUser.logout()
+                                            Log.d("Logout Result", "Success")
+                                            Log.d("User Count Result", list.size.toString())
+                                        }else{ //空きがあるとき削除&追加を行う
+                                            Log.d("User Count Result", list.size.toString())
+                                            val queryOldRole = NCMBRole.getQuery()
+                                            queryOldRole.whereEqualTo("roleName", oldGroup)
+                                            val b = queryOldRole.find()
+                                            if(b.size > 0){
+                                                val findOldRole = b[0]
 
-                                            //ユーザー情報として所属グループ名のセーブ
-                                            currentUser.saveInBackground { e ->
-                                                if(e != null){
-                                                    Log.d("[Save Error]", e.toString())
-                                                }else{
-                                                    Log.d("[Save Result]", "Success")
-                                                    val query = NCMBRole.getQuery()
-                                                    query.whereEqualTo("roleName", newGroup)
-                                                    //所属グループ名と合致するロールの検索
-                                                    query.findInBackground { list, e ->
-                                                        if(e != null){
-                                                            Log.d("[Find Error]", e.toString())
-                                                        }else{
-                                                            Log.d("[Find Result]", "Success")
-                                                            if(list.size > 0){
-                                                                val role =list[0]
-                                                                //ロールにユーザーを追加
-                                                                role.addUserInBackground(listOf(currentUser)){ e ->
-                                                                    if(e != null){
-                                                                        Log.d("[Add Error]", e.toString())
-                                                                    }else{
-                                                                        Log.d("[Add Result]", "Success")
-                                                                        when (p_check) {
-                                                                            "1000" -> {
-                                                                                val intent = Intent(this, ProgramActivity::class.java)
-                                                                                startActivity(intent)
-                                                                            }
-                                                                            "1001" -> {
-                                                                                val intent = Intent(this, MetsActivity::class.java)
-                                                                                startActivity(intent)
-                                                                            }
-                                                                            "1002" -> {
-                                                                                val intent = Intent(this, DiaryUpActivity::class.java)
-                                                                                startActivity(intent)
-                                                                            }
-                                                                            "1003" -> {
-                                                                                val intent = Intent(this, WalkValActivity::class.java)
-                                                                                startActivity(intent)
+                                                //前回のグループ内でのユーザー情報を削除
+                                                findOldRole.removeUserInBackground(listOf(findUser)){ e ->
+                                                    if(e != null){
+                                                        Log.d("[Remove Error]", e.toString())
+                                                    }else {
+                                                        Log.d("[Remove Result]", "Success")
+                                                        val currentUser = NCMBUser.getCurrentUser()
+                                                        currentUser.put("groupName", newGroup)
+
+                                                        //新しい所属グループ内にユーザー情報を追加
+                                                        currentUser.saveInBackground { e ->
+                                                            if(e != null){
+                                                                Log.d("[Save Error]", e.toString())
+                                                            }else{
+                                                                Log.d("[Save Result]", "Success")
+                                                                val queryNewRole = NCMBRole.getQuery()
+                                                                queryNewRole.whereEqualTo("roleName", newGroup)
+                                                                val n = queryNewRole.find()
+                                                                if(n.size > 0){
+                                                                    val findNewRole = n[0]
+                                                                    findNewRole.addUserInBackground(listOf(currentUser)){ e ->
+                                                                        if(e != null){
+                                                                            Log.d("[Add Error]", e.toString())
+                                                                        }else{
+                                                                            Log.d("[Add Result]", "Success")
+                                                                            when (p_check) {
+                                                                                "1000" -> {
+                                                                                    val intent = Intent(this, ProgramActivity::class.java)
+                                                                                    startActivity(intent)
+                                                                                }
+                                                                                "1001" -> {
+                                                                                    val intent = Intent(this, MetsActivity::class.java)
+                                                                                    startActivity(intent)
+                                                                                }
+                                                                                "1002" -> {
+                                                                                    val intent = Intent(this, DiaryUpActivity::class.java)
+                                                                                    startActivity(intent)
+                                                                                }
+                                                                                "1003" -> {
+                                                                                    val intent = Intent(this, WalkValActivity::class.java)
+                                                                                    startActivity(intent)
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
