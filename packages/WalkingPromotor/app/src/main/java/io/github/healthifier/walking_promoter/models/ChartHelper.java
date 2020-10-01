@@ -35,7 +35,7 @@ public class ChartHelper {
     private ChartHelper() {
     }
 
-    public static void generateWeeklyStepCountsAndGoals(Database db, BarChart chart, @Nullable ImageMarkerView marker) {
+    public static void generateWeeklyStepCountsAndGoals(DatabaseHandler db, BarChart chart, @Nullable ImageMarkerView marker) {
         List<Calendar> weeklyCalendars = CalendarHelper.createWeeklyList(CalendarHelper.startDateOfExperiment(), CalendarHelper.getToday());
 
         List<String> labels = new ArrayList<>(weeklyCalendars.size());

@@ -8,9 +8,12 @@ import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.fragments.GoalFragment
 import io.github.healthifier.walking_promoter.fragments.SquareStepListFragment
 import io.github.healthifier.walking_promoter.fragments.TokaidoMapFragment
+import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private var dbHandler: DatabaseHandler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

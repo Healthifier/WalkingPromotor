@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.nifcloud.mbaas.core.NCMBObject
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
+import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import kotlinx.android.synthetic.main.activity_walk_val.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -19,6 +20,7 @@ import java.util.*
 class WalkValActivity : AppCompatActivity() {
 
     private val cal = Calendar.getInstance()
+    private var dbHandler: DatabaseHandler? = null
     private var _count = 0
     private val cloudUser = NCMBUser.getCurrentUser()
     private var cloudWalkObj = NCMBObject("walkValue")
@@ -29,6 +31,8 @@ class WalkValActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walk_val)
+
+        dbHandler = DatabaseHandler(this)
 
         val cloudUName = cloudUser.userName
         val cloudUId = cloudUser.objectId
@@ -121,16 +125,17 @@ class WalkValActivity : AppCompatActivity() {
     }
 
     private fun setGoal(save: Boolean) {
-        val steps = goalEditText.text.toString()
+        //val steps = goalEditText.text.toString()
+        val steps = _count
         val date = calTextView.text.toString()
         if (save) {
-            setupViews(date, steps, p_cloudUName, p_cloudUId)
+            setupViews(cal, date, steps, p_cloudUName, p_cloudUId)
         } else {
             updateGoalEdit()
         }
     }
 
-    private fun formatNumber(num: Int): String? {
+    private fun formatNumber(num: Int): String{
         val format = NumberFormat.getNumberInstance()
         return format.format(num.toLong())
     }
@@ -138,7 +143,7 @@ class WalkValActivity : AppCompatActivity() {
     /**
      * アラートダイアログ生成
      */
-    private fun setupViews(date:String, steps:String, cloudUName:String, cloudUId:String) {
+    private fun setupViews(cal: Calendar, date:String, steps:Int, cloudUName:String, cloudUId:String) {
         // BuilderからAlertDialogを作成
         if(!check){
             Toast.makeText(this, "日付を入力してください", Toast.LENGTH_SHORT).show()
@@ -147,13 +152,19 @@ class WalkValActivity : AppCompatActivity() {
                 .setTitle("確認") // タイトル
                 .setMessage("本当に記録してよろしいですか？") // メッセージ
                 .setPositiveButton("OK") { dialog, which -> // OK
-                    saveStepsToCloud(date, steps, cloudUName, cloudUId) //データストアに4要素をあげる
+                    saveSteps(cal, steps.toInt())
+                    saveStepsToCloud(date, formatNumber(steps), cloudUName, cloudUId) //データストアに4要素をあげる
                 }
                 .setNegativeButton("戻る", null)
                 .create()
             // AlertDialogを表示
             dialog.show()
         }
+    }
+
+    private fun saveSteps(cal: Calendar, steps: Int){
+        val stepCounts = DatabaseHandler.StepCounts(cal, steps)
+        dbHandler?.setStep(cal, steps)
     }
 
     /**

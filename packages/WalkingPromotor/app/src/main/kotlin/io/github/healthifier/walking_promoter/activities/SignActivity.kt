@@ -240,7 +240,7 @@ class SignActivity : AppCompatActivity() {
                                         startActivity(intent)
                                     }
                                     "1003" -> {
-                                        val intent = Intent(this, WalkValActivity::class.java)
+                                        val intent = Intent(this, WalkProgramActivity::class.java)
                                         startActivity(intent)
                                     }
                                 }
@@ -304,7 +304,7 @@ class SignActivity : AppCompatActivity() {
                                                                                     startActivity(intent)
                                                                                 }
                                                                                 "1003" -> {
-                                                                                    val intent = Intent(this, WalkValActivity::class.java)
+                                                                                    val intent = Intent(this, WalkProgramActivity::class.java)
                                                                                     startActivity(intent)
                                                                                 }
                                                                             }

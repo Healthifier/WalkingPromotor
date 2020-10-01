@@ -16,10 +16,11 @@ import io.github.healthifier.walking_promoter.R;
 import io.github.healthifier.walking_promoter.custom.ImageMarkerView;
 import io.github.healthifier.walking_promoter.models.ChartHelper;
 import io.github.healthifier.walking_promoter.models.Database;
+import io.github.healthifier.walking_promoter.models.DatabaseHandler;
 
 public class WeeklyGraphFragment extends Fragment {
     protected BarChart _chart;
-    protected Database _db;
+    protected DatabaseHandler _db;
     protected ImageMarkerView _markerView;
 
     public WeeklyGraphFragment() {
@@ -29,7 +30,9 @@ public class WeeklyGraphFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_monthly, container, false);
 
-        _db = new Database(getActivity());
+        //_db = new Database(getActivity());
+        //　以下都竹追加
+        _db = new DatabaseHandler(getActivity());
 
         _chart = v.findViewById(R.id.monthlyChart);
         _markerView = new ImageMarkerView(getActivity());

@@ -141,6 +141,7 @@ public class Database extends SQLiteOpenHelper {
 
     // </editor-fold>
 
+
     public void setDummyIfEmpty() {
         if (!BuildConfig.DEBUG) {
             return;
@@ -148,6 +149,9 @@ public class Database extends SQLiteOpenHelper {
         /*if (getUserId().isEmpty() == false) {
             return;       // TODO: uncomment out this line
         }*/
+
+        // 以下都竹がコメントアウト
+        /*
         App.logDebug("---- set dummy data ----");
         Random rand = new Random(0);
         ArrayList<String> allUserId = new ArrayList<>();
@@ -172,6 +176,9 @@ public class Database extends SQLiteOpenHelper {
             }
         }
         updateStepCountRecords(list);
+
+         */
+
     }
 
     // <editor-fold desc="user_data">

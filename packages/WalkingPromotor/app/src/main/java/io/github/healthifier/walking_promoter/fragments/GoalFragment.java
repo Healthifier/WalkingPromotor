@@ -13,6 +13,7 @@ import android.widget.Toast;
 import io.github.healthifier.walking_promoter.R;
 import io.github.healthifier.walking_promoter.models.CalendarHelper;
 import io.github.healthifier.walking_promoter.models.Database;
+import io.github.healthifier.walking_promoter.models.DatabaseHandler;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 public class GoalFragment extends Fragment {
     private static final SimpleDateFormat LABEL_FORMAT = new SimpleDateFormat("M/d");
 
-    private Database _db;
+    private DatabaseHandler _db;
     private int _count;
     private EditText _goalEdit;
     private TextView _goalTextView, _titleTextView;
@@ -33,7 +34,7 @@ public class GoalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goal, container, false);
 
-        _db = new Database(getActivity());
+        _db = new DatabaseHandler(getActivity());
 
         _goalEdit = v.findViewById(R.id.goalEditText);
         _goalEdit.setInputType(0);

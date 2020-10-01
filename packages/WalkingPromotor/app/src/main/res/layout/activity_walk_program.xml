@@ -48,7 +48,7 @@
         android:drawableTint="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="bold"
-        android:text="歩数を記録する" />
+        android:text="歩数を記録" />
 
       <Button
         android:id="@+id/btn_goal"
@@ -56,7 +56,7 @@
         android:layout_height="match_parent"
         android:backgroundTint="#FFF6CF"
         android:drawableTop="@drawable/ic_baseline_create_24"
-        android:text="目標値を記録する"
+        android:text="自分の目標値を記録"
         android:textSize="36sp"
         android:textStyle="bold" />
 

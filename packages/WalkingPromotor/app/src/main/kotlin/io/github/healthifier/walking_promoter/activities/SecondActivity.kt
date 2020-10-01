@@ -31,11 +31,11 @@ import java.util.*
 
 class SecondActivity : AppCompatActivity() {
 
-    var dbHandler: DatabaseHandler? = null
-    val cal = Calendar.getInstance()
-    var RESULT_CAMERA = 1001
-    val PERMISSION_REQUEST = 1002
-    var path: String =""
+    private var dbHandler: DatabaseHandler? = null
+    private val cal = Calendar.getInstance()
+    private var RESULT_CAMERA = 1001
+    private val PERMISSION_REQUEST = 1002
+    private var path: String =""
     private var r: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
