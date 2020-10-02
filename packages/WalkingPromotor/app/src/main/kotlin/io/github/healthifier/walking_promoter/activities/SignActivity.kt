@@ -197,6 +197,7 @@ class SignActivity : AppCompatActivity() {
                 user.userName = userName
                 user.setPassword(password)
                 user.acl = acl
+                user.put("groupName", group)
                 user.save()
                 lblStats.text = "新規登録が完了しました！ログインをタッチしてください"
             }
@@ -221,91 +222,95 @@ class SignActivity : AppCompatActivity() {
                     val queryUser = NCMBUser.getQuery()
                     queryUser.whereEqualTo("userName", userName)
                     val a = queryUser.find()
-                    if(a.size > 0){
-                        val findUser = a[0]
-                        if(findUser.getString("groupName") != null){ //基本的にここを通るはず
-                            val oldGroup = findUser.getString("groupName")
-                            if(oldGroup == newGroup){ //前回のグループと同じとき削除&追加しない
-                                when (p_check) { //そのままアクティビティ遷移
-                                    "1000" -> {
-                                        val intent = Intent(this, ProgramActivity::class.java)
-                                        startActivity(intent)
+                    queryUser.findInBackground { userList, error ->
+                        if(error != null){
+                            Log.d("[Find Error]", e.toString())
+                        }else{
+                            Log.d("user", userList[0].toString())
+                            if(userList[0].getString("groupName") != null){
+                                val oldGroup = userList[0].getString("groupName")
+                                if(oldGroup == newGroup){ //前回のグループと同じとき削除&追加しない
+                                    when (p_check) { //そのままアクティビティ遷移
+                                        "1000" -> {
+                                            val intent = Intent(this, ProgramActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        "1001" -> {
+                                            val intent = Intent(this, MetsActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        "1002" -> {
+                                            val intent = Intent(this, DiaryUpActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        "1003" -> {
+                                            val intent = Intent(this, WalkProgramActivity::class.java)
+                                            startActivity(intent)
+                                        }
                                     }
-                                    "1001" -> {
-                                        val intent = Intent(this, MetsActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    "1002" -> {
-                                        val intent = Intent(this, DiaryUpActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                    "1003" -> {
-                                        val intent = Intent(this, WalkProgramActivity::class.java)
-                                        startActivity(intent)
-                                    }
-                                }
-                            }else{ //今回のグループが前回のグループと異なるとき削除&追加を行う
-                                //まず新しい登録先のグループメンバー数を確認
-                                val queryUserGroup = NCMBUser.getQuery()
-                                queryUserGroup.whereEqualTo("groupName", newGroup)
-                                queryUserGroup.findInBackground{list, e ->
-                                    if(e != null){
-                                        Log.d("[Find Error]", e.toString())
-                                    }else{
-                                        if(list.size >= 5){ //5人以上だった場合には満員表示
-                                            Toast.makeText(this, "選択したグループは満員となってしまいました", Toast.LENGTH_SHORT).show()
-                                            NCMBUser.logout()
-                                            Log.d("Logout Result", "Success")
-                                            Log.d("User Count Result", list.size.toString())
-                                        }else{ //空きがあるとき削除&追加を行う
-                                            Log.d("User Count Result", list.size.toString())
-                                            val queryOldRole = NCMBRole.getQuery()
-                                            queryOldRole.whereEqualTo("roleName", oldGroup)
-                                            val b = queryOldRole.find()
-                                            if(b.size > 0){
-                                                val findOldRole = b[0]
+                                }else{ //今回のグループが前回のグループと異なるとき削除&追加を行う
+                                    //まず新しい登録先のグループメンバー数を確認
+                                    val queryUserGroup = NCMBUser.getQuery()
+                                    queryUserGroup.whereEqualTo("groupName", newGroup)
+                                    queryUserGroup.findInBackground{list, e ->
+                                        if(e != null){
+                                            Log.d("[Find Error]", e.toString())
+                                        }else{
+                                            if(list.size >= 5){ //5人以上だった場合には満員表示
+                                                Toast.makeText(this, "選択したグループは満員となってしまいました", Toast.LENGTH_SHORT).show()
+                                                NCMBUser.logout()
+                                                Log.d("Logout Result", "Success")
+                                                Log.d("User Count Result", list.size.toString())
+                                            }else{ //空きがあるとき削除&追加を行う
+                                                Log.d("User Count Result", list.size.toString())
+                                                val queryOldRole = NCMBRole.getQuery()
+                                                queryOldRole.whereEqualTo("roleName", oldGroup)
+                                                val b = queryOldRole.find()
+                                                if(b.size > 0){
+                                                    val findOldRole = b[0]
 
-                                                //前回のグループ内でのユーザー情報を削除
-                                                findOldRole.removeUserInBackground(listOf(findUser)){ e ->
-                                                    if(e != null){
-                                                        Log.d("[Remove Error]", e.toString())
-                                                    }else {
-                                                        Log.d("[Remove Result]", "Success")
-                                                        val currentUser = NCMBUser.getCurrentUser()
-                                                        currentUser.put("groupName", newGroup)
+                                                    //前回のグループ内でのユーザー情報を削除
+                                                    findOldRole.removeUserInBackground(listOf(userList[0])){ e ->
+                                                        if(e != null){
+                                                            Log.d("[Remove Error]", e.toString())
+                                                        }else {
+                                                            Log.d("[Remove Result]", "Success")
+                                                            val currentUser = NCMBUser.getCurrentUser()
+                                                            currentUser.put("groupName", newGroup)
 
-                                                        //新しい所属グループ内にユーザー情報を追加
-                                                        currentUser.saveInBackground { e ->
-                                                            if(e != null){
-                                                                Log.d("[Save Error]", e.toString())
-                                                            }else{
-                                                                Log.d("[Save Result]", "Success")
-                                                                val queryNewRole = NCMBRole.getQuery()
-                                                                queryNewRole.whereEqualTo("roleName", newGroup)
-                                                                val n = queryNewRole.find()
-                                                                if(n.size > 0){
-                                                                    val findNewRole = n[0]
-                                                                    findNewRole.addUserInBackground(listOf(currentUser)){ e ->
-                                                                        if(e != null){
-                                                                            Log.d("[Add Error]", e.toString())
-                                                                        }else{
-                                                                            Log.d("[Add Result]", "Success")
-                                                                            when (p_check) {
-                                                                                "1000" -> {
-                                                                                    val intent = Intent(this, ProgramActivity::class.java)
-                                                                                    startActivity(intent)
-                                                                                }
-                                                                                "1001" -> {
-                                                                                    val intent = Intent(this, MetsActivity::class.java)
-                                                                                    startActivity(intent)
-                                                                                }
-                                                                                "1002" -> {
-                                                                                    val intent = Intent(this, DiaryUpActivity::class.java)
-                                                                                    startActivity(intent)
-                                                                                }
-                                                                                "1003" -> {
-                                                                                    val intent = Intent(this, WalkProgramActivity::class.java)
-                                                                                    startActivity(intent)
+                                                            //新しい所属グループ内にユーザー情報を追加
+                                                            currentUser.saveInBackground { e ->
+                                                                if(e != null){
+                                                                    Log.d("[Save Error]", e.toString())
+                                                                }else{
+                                                                    Log.d("[Save Result]", "Success")
+                                                                    val queryNewRole = NCMBRole.getQuery()
+                                                                    queryNewRole.whereEqualTo("roleName", newGroup)
+                                                                    val n = queryNewRole.find()
+                                                                    if(n.size > 0){
+                                                                        val findNewRole = n[0]
+                                                                        findNewRole.addUserInBackground(listOf(currentUser)){ e ->
+                                                                            if(e != null){
+                                                                                Log.d("[Add Error]", e.toString())
+                                                                            }else{
+                                                                                Log.d("[Add Result]", "Success")
+                                                                                when (p_check) {
+                                                                                    "1000" -> {
+                                                                                        val intent = Intent(this, ProgramActivity::class.java)
+                                                                                        startActivity(intent)
+                                                                                    }
+                                                                                    "1001" -> {
+                                                                                        val intent = Intent(this, MetsActivity::class.java)
+                                                                                        startActivity(intent)
+                                                                                    }
+                                                                                    "1002" -> {
+                                                                                        val intent = Intent(this, DiaryUpActivity::class.java)
+                                                                                        startActivity(intent)
+                                                                                    }
+                                                                                    "1003" -> {
+                                                                                        val intent = Intent(this, WalkProgramActivity::class.java)
+                                                                                        startActivity(intent)
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -319,10 +324,10 @@ class SignActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
+                            }else{
+
                             }
                         }
-                    }else{
-                        Log.d("[User Find Error]", "user登録なし")
                     }
                 }
             }
