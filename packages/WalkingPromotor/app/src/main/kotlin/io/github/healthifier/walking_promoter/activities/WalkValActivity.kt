@@ -111,7 +111,9 @@ class WalkValActivity : AppCompatActivity() {
             _count = 0
             updateGoalEdit()
         }
-        button_decision.setOnClickListener { setGoal(true) }
+        button_decision.setOnClickListener {
+            setGoal(true)
+        }
     }
 
     private fun updateDateInView() {
@@ -152,8 +154,9 @@ class WalkValActivity : AppCompatActivity() {
                 .setTitle("確認") // タイトル
                 .setMessage("本当に記録してよろしいですか？") // メッセージ
                 .setPositiveButton("OK") { dialog, which -> // OK
-                    saveSteps(cal, steps.toInt())
-                    saveStepsToCloud(date, formatNumber(steps), cloudUName, cloudUId) //データストアに4要素をあげる
+                    saveSteps(cal, steps)
+                    //saveStepsToCloud(date, formatNumber(steps), cloudUName, cloudUId) //データストアに4要素をあげる
+                    saveStepsToCloud(date, steps, cloudUName, cloudUId) //データストアに4要素をあげる
                 }
                 .setNegativeButton("戻る", null)
                 .create()
@@ -170,7 +173,7 @@ class WalkValActivity : AppCompatActivity() {
     /**
      * 日記データをクラウドデータストアにアップロード
      */
-    private fun saveStepsToCloud(date:String, steps:String, userName:String, userId:String){
+    private fun saveStepsToCloud(date:String, steps:Int, userName:String, userId:String){
         /*
             データストアに4つの要素をアップ
          */

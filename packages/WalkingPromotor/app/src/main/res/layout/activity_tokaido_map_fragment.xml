@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="io.github.healthifier.walking_promoter.activities.TokaidoMapFragmentActivity">
+
+  <LinearLayout
+    android:id="@+id/titleRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- ツールバー -->
+    <androidx.appcompat.widget.Toolbar
+      android:id="@+id/main_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="#FF9800"
+      android:fitsSystemWindows="true"
+      android:minHeight="?attr/actionBarSize"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:title="みんなの総歩数を見る"
+      app:titleTextColor="#ffffff"
+      app:titleTextAppearance="@style/TextAppearance.Toolbar"
+      android:textStyle="bold"
+      tools:ignore="MissingConstraints" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/map"
+      android:name="com.google.android.gms.maps.SupportMapFragment"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal">
+
+      <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="総歩数：120,000歩"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="32sp" />
+
+      <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/frame_style"
+        android:text="前の画面に戻る"
+        android:textSize="32sp"/>
+    </LinearLayout>
+
+  </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

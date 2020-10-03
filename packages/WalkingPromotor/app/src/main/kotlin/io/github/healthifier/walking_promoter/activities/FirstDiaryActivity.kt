@@ -25,7 +25,8 @@ class FirstDiaryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_first_diary)
 
         //クラウドアプリの選択
-        NCMB.initialize(applicationContext, BuildConfig.APPLICATION_KEY, BuildConfig.CLIENT_KEY)
+        //NCMB.initialize(applicationContext, BuildConfig.APPLICATION_KEY, BuildConfig.CLIENT_KEY)
+        NCMB.initialize(applicationContext, "8d3584c70aedac126b19635825096cbe82ac4f4b863a2b18d43e6fada9505ba2", "c3750b96bb4c722dc73228c16eea6ddecae52d10af3d626ef9da8643488a4abf")
 
         setSupportActionBar(main_toolbar) // toolbar
 

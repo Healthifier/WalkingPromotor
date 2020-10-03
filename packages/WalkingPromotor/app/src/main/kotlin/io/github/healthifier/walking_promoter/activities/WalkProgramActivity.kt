@@ -28,7 +28,7 @@ class WalkProgramActivity : AppCompatActivity() {
         }
 
         btn_look_all.setOnClickListener { //みんなの歩数を見る
-            val intent = Intent(this, FourthActivity::class.java)
+            val intent = Intent(this, TokaidoMapFragmentActivity::class.java)
             startActivity(intent)
         }
 

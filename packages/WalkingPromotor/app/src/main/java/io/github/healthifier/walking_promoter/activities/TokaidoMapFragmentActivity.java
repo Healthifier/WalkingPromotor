@@ -1,4 +1,9 @@
-package io.github.healthifier.walking_promoter.fragments;
+package io.github.healthifier.walking_promoter.activities;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+
+import android.os.Bundle;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -43,7 +48,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
+public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter{
+
     private static final int LINE_COLOR = Color.BLUE;
     private static final int LOOP_LINE_COLOR = Color.argb(64, 0, 0, 255);
 
@@ -53,83 +59,30 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
     private long walkedStep;
     private TextView textView;
 
-    public TokaidoMapFragment() {
-    }
-
-    // See http://stackoverflow.com/questions/14083950/duplicate-id-tag-null-or-parent-id-with-another-fragment-for-com-google-androi
-    private static View view;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        App.logDebug("TokaidoMapFragment.onCreateView");
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null) {
-                parent.removeView(view);
-            }
-        }
-        try {
-            view = inflater.inflate(R.layout.fragment_map, container, false);
-        } catch (InflateException e) {
-            /* map is already there, just return view as it is */
-        }
-        if (view == null) {
-            throw new RuntimeException("map is null");
-        }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tokaido_map_fragment);
 
-        DatabaseHandler db = new DatabaseHandler(getActivity());
+        DatabaseHandler db = new DatabaseHandler(this);
         walkedStep = db.getMyStepCount();
         Log.d("DEBUG", String.valueOf(walkedStep));
-//        walkedStep = 1000 * 1000;
+        textView = findViewById(R.id.textView);
 
-        textView = view.findViewById(R.id.textView);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        //SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
-        // TODO: remove the following if statement (but, keep mapFragment.getMapAsync)
-        /*
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-            Log.d("getMapAsync", "getMapAsync");
-        }*/
-
-        //mapFragment.getMapAsync(this);
-        Log.d("notgetMapAsync", "notgetMapAsync");
-
-        return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //SupportMapFragment m = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-            Log.d("getMapAsync", "getMapAsync");
-        }
-        Log.d("notgetMapAsync", "notgetMapAsync");
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        for (Polyline p : polylinesToRemove) {
-            p.remove();
-        }
-        polylinesToRemove.clear();
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap){
         App.logDebug("TokaidoMapFragment.onMapReady");
         _map = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         googleMap.setInfoWindowAdapter(this);
 
         try {
-            GeoJsonLayer layer = new GeoJsonLayer(googleMap, R.raw.toukaidou, getActivity().getApplicationContext());
+            GeoJsonLayer layer = new GeoJsonLayer(googleMap, R.raw.toukaidou, this.getApplicationContext());
             GeoJsonLineStringStyle lineStringStyle = layer.getDefaultLineStringStyle();
             lineStringStyle.setColor(Color.BLUE);
 
@@ -171,7 +124,7 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
 
             String fileName = "tokaido_" + feature.getProperty("filename");
             String resName = fileName.substring(0, fileName.lastIndexOf('.'));
-            int resId = getResources().getIdentifier(resName, "drawable", getActivity().getPackageName());
+            int resId = getResources().getIdentifier(resName, "drawable", this.getPackageName());
             if (resId != 0) {
                 markerToImgId.put(title, resId);
             } else {
@@ -226,7 +179,6 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
         arrayList.set(index, value);
     }
 
-
     @Override
     public View getInfoWindow(Marker marker) {
         return null;
@@ -239,7 +191,7 @@ public class TokaidoMapFragment extends Fragment implements OnMapReadyCallback, 
 
     private View getMarkerView(Marker marker) {
         String title = marker.getTitle();
-        View view = getActivity().getLayoutInflater().inflate(R.layout.map_marker, null);
+        View view = this.getLayoutInflater().inflate(R.layout.map_marker, null);
         // タイトル設定
         TextView titleView = view.findViewById(R.id.textView);
         titleView.setText(title);

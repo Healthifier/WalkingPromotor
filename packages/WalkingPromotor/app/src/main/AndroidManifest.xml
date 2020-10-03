@@ -20,10 +20,11 @@
     android:theme="@style/AppTheme"
     android:uiOptions="splitActionBarWhenNarrow"
     tools:ignore="GoogleAppIndexingWarning">
+    <activity android:name=".activities.TokaidoMapFragmentActivity"></activity>
     <activity
       android:name=".activities.DairyGraphActivity"
       android:screenOrientation="landscape"
-      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.WalkProgramActivity"
       android:screenOrientation="landscape"
@@ -53,7 +54,7 @@
       android:name=".activities.SignActivity"
       android:label="みんなで情報共有する"
       android:screenOrientation="landscape"
-      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.StartActivity"
       android:label="ステップ練習"
@@ -72,11 +73,11 @@
     <activity
       android:name=".activities.FourthActivity"
       android:screenOrientation="landscape"
-      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.ThirdActivity"
       android:screenOrientation="landscape"
-      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.SecondActivity"
       android:label="日記を書く"

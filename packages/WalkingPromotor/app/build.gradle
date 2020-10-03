@@ -19,8 +19,8 @@ android {
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
-        buildConfigField("String", "APPLICATION_KEY", "\"${applicationKey}\"")
-        buildConfigField("String", "CLIENT_KEY", "\"${clientKey}\"")
+        //buildConfigField "String", "APPLICATION_KEY", "\"${project.property("applicationKey")}\""
+        //buildConfigField "String", "CLIENT_KEY", "\"${project.property("clientKey")}\""
     }
     buildTypes {
         debug {

@@ -194,7 +194,7 @@ class DatabaseHandler(context: Context) :
     }
 
     fun getMyStepCount():Int{
-        val query = "SELECT SUM($COUNT) FROM $TABLE_NAME3 WHERE $DATE = ?"
+        val query = "SELECT SUM($COUNT) FROM $TABLE_NAME3"
         //val params = arrayOf()
         val db = writableDatabase
         val cursor = db.rawQuery(query, null)
