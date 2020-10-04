@@ -3,7 +3,10 @@ package io.github.healthifier.walking_promoter.activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -39,17 +42,29 @@ class FirstDiaryActivity : AppCompatActivity() {
             btn_exp_online.visibility = View.INVISIBLE
         }
 
-        btn_show_home.setOnClickListener {
+        btn_show_home.setOnClickListener {//自宅メニュー
             //val intent = Intent(this, SecondActivity::class.java)
             val intent = Intent(this, HomeProgramActivity::class.java)
             startActivity(intent)
         }
 
-        btn_show_online.setOnClickListener {
-            Toast.makeText(this, "読み込み中", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, SignActivity::class.java)
-            intent.putExtra("CHECK", "1000")
-            startActivity(intent)
+        btn_show_online.setOnClickListener {//教室メニュー
+            // ConnectivityManagerの取得
+            val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            // NetworkCapabilitiesの取得
+            // 引数にcm.activeNetworkを指定し、現在アクティブなデフォルトネットワークに対応するNetworkオブジェクトを渡している
+            val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+            if(capabilities != null){
+                if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
+                    Toast.makeText(this, "読み込み中", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, SignActivity::class.java)
+                    intent.putExtra("CHECK", "1000")
+                    startActivity(intent)
+                }
+            }else{
+                Toast.makeText(this, "ネットワークに接続していません", Toast.LENGTH_SHORT).show()
+                Log.d("DEBUG", "ネットワークに接続していません")
+            }
         }
 
         btn_exp_home.setOnClickListener {
@@ -174,36 +189,45 @@ class FirstDiaryActivity : AppCompatActivity() {
             }
 
             button3.setOnClickListener {
-                val view: View = layoutInflater.inflate(R.layout.custom_dialog_check, null)
-                val title:TextView = view.findViewById(R.id.TextView_dialog_title)
-                title.text = "本当にログアウトしますか？"
-                val message:TextView = view.findViewById(R.id.TextView_dialog_message)
-                message.text = "あとでもう一度ログインする必要が出てきます"
-                val button1: Button = view.findViewById(R.id.Button_dialog_positive)
-                button1.text = "この画面を閉じる"
-                val button2: Button = view.findViewById(R.id.Button_dialog_negative)
-                button2.text = "ログアウトする"
+                val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+                if(capabilities != null){
+                    if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
+                        val view: View = layoutInflater.inflate(R.layout.custom_dialog_check, null)
+                        val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+                        title.text = "本当にログアウトしますか？"
+                        val message:TextView = view.findViewById(R.id.TextView_dialog_message)
+                        message.text = "あとでもう一度ログインする必要が出てきます"
+                        val button1: Button = view.findViewById(R.id.Button_dialog_positive)
+                        button1.text = "この画面を閉じる"
+                        val button2: Button = view.findViewById(R.id.Button_dialog_negative)
+                        button2.text = "ログアウトする"
 
-                val dialog = AlertDialog.Builder(this)
-                    .setView(view)
-                    .create()
+                        val dialog = AlertDialog.Builder(this)
+                            .setView(view)
+                            .create()
 
-                // AlertDialogを表示
-                dialog.show()
+                        // AlertDialogを表示
+                        dialog.show()
 
-                // AlertDialogのサイズ調整
-                val lp = dialog.window?.attributes
-                lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
-                dialog.window?.attributes = lp
+                        // AlertDialogのサイズ調整
+                        val lp = dialog.window?.attributes
+                        lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+                        dialog.window?.attributes = lp
 
-                button1.setOnClickListener {
-                    dialog.dismiss() // AlertDialogを閉じる
-                }
+                        button1.setOnClickListener {
+                            dialog.dismiss() // AlertDialogを閉じる
+                        }
 
-                button2.setOnClickListener {
-                    NCMBUser.logout()
-                    Toast.makeText(this, "ログアウトしました", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
+                        button2.setOnClickListener {
+                            NCMBUser.logout()
+                            Toast.makeText(this, "ログアウトしました", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                        }
+                    }
+                }else{
+                    Toast.makeText(this, "ネットワークに接続していません", Toast.LENGTH_SHORT).show()
+                    Log.d("DEBUG", "ネットワークに接続していません")
                 }
             }
 
