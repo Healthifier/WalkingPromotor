@@ -3,6 +3,7 @@ package io.github.healthifier.walking_promoter.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +35,12 @@ import com.google.maps.android.geojson.GeoJsonGeometry;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.geojson.GeoJsonPoint;
+import com.nifcloud.mbaas.core.FetchCallback;
+import com.nifcloud.mbaas.core.FindCallback;
+import com.nifcloud.mbaas.core.NCMBBase;
+import com.nifcloud.mbaas.core.NCMBException;
+import com.nifcloud.mbaas.core.NCMBObject;
+import com.nifcloud.mbaas.core.NCMBQuery;
 
 import io.github.healthifier.walking_promoter.App;
 import io.github.healthifier.walking_promoter.R;
@@ -47,6 +55,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter{
 
@@ -64,14 +73,70 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tokaido_map_fragment);
 
-        DatabaseHandler db = new DatabaseHandler(this);
-        walkedStep = db.getMyStepCount();
+        //DatabaseHandler db = new DatabaseHandler(this);
+        //walkedStep = db.getMyStepCount();
+
+        NCMBQuery<NCMBObject> query = new NCMBQuery<>("walkValue");
+        /*
+        query.findInBackground(new FindCallback<NCMBObject>() {
+            @Override
+            public void done(List<NCMBObject> list, NCMBException e) {
+                if(e != null){
+                    e.printStackTrace();
+                }else{
+                    if(list != null){
+                        //int size = list.size();
+                        //Log.d("list size", String.valueOf(size));
+                        int steps = 0;
+                        for(int i = 0; i < list.size(); i++){
+                            NCMBObject object = list.get(i);
+                            int value = object.getInt("value");
+                            steps = steps + value;
+                        }
+                        walkedStep = steps;
+                    }else{
+                        Log.d("DEBUG", "list is null");
+                    }
+                }
+            }
+        });*/
+        try {
+            List<NCMBObject> list = query.find();
+            if(list != null){
+                //int size = list.size();
+                //Log.d("list size", String.valueOf(size));
+                int steps = 0;
+                for(int i = 0; i < list.size(); i++){
+                    NCMBObject object = list.get(i);
+                    int value = object.getInt("value");
+                    steps = steps + value;
+                }
+                walkedStep = steps;
+            }else{
+                Log.d("DEBUG", "list is null");
+            }
+        } catch (NCMBException e) {
+            e.printStackTrace();
+        }
+
         Log.d("DEBUG", String.valueOf(walkedStep));
         textView = findViewById(R.id.textView);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if(mapFragment != null){
+            mapFragment.getMapAsync(this);
+        }else{
+            Log.d("DEBUG", "mapFragment is null");
+        }
 
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), WalkProgramActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
