@@ -20,7 +20,10 @@
     android:theme="@style/AppTheme"
     android:uiOptions="splitActionBarWhenNarrow"
     tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".activities.TokaidoMapFragmentActivity"></activity>
+    <activity
+      android:name=".activities.TokaidoMapFragmentActivity"
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.DairyGraphActivity"
       android:screenOrientation="landscape"
@@ -47,27 +50,22 @@
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.DataSelectActivity"
-      android:label="みんなの写真"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.SignActivity"
-      android:label="みんなで情報共有する"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.StartActivity"
-      android:label="ステップ練習"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.ProgramActivity"
-      android:label="オンラインメニュー"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.MetsActivity"
-      android:label="みんなの日記"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
@@ -80,17 +78,14 @@
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.SecondActivity"
-      android:label="日記を書く"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.MainActivity"
-      android:label="目標設定"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
       android:name=".activities.FirstDiaryActivity"
-      android:label="スタートメニュー"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar">
       <intent-filter>

@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_first_diary.*
@@ -31,29 +35,38 @@ class HomeProgramActivity : AppCompatActivity() {
             btn_exp_step.visibility = View.INVISIBLE
         }
 
-        write_button.setOnClickListener {
+        write_button.setOnClickListener {//日記を書く
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
         }
 
-        look_button.setOnClickListener {
+        look_button.setOnClickListener {//日記を見る
             val intent = Intent(this, DiaryMenuActivity::class.java)
             startActivity(intent)
         }
 
-        upload_button.setOnClickListener {
-            val intent = Intent(this, SignActivity::class.java)
-            intent.putExtra("CHECK", "1002")
+        upload_button.setOnClickListener {//日記を投稿する
+            val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+            if(capabilities != null){
+                if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
+                    val intent = Intent(this, SignActivity::class.java)
+                    intent.putExtra("CHECK", "1002")
+                    startActivity(intent)
+                }
+            }else{
+                Toast.makeText(this, "Wi-Fi接続をしてください", Toast.LENGTH_SHORT).show()
+                Log.d("DEBUG", "ネットワークに接続していません")
+            }
+        }
+
+        walk_button.setOnClickListener {//歩数に関して
+            val intent = Intent(this, WalkProgramActivity::class.java)
+            //intent.putExtra("CHECK", "1003")
             startActivity(intent)
         }
 
-        walk_button.setOnClickListener {
-            val intent = Intent(this, SignActivity::class.java)
-            intent.putExtra("CHECK", "1003")
-            startActivity(intent)
-        }
-
-        step_button.setOnClickListener {
+        step_button.setOnClickListener {//ステップ練習
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
         }

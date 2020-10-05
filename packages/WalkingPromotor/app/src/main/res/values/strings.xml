@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Walking Promoter</string>
+    <string name="app_name">運動コミュニケーション</string>
     <string name="menu_settings">Settings</string>
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>

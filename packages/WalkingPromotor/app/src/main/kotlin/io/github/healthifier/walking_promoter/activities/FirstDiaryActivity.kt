@@ -62,7 +62,7 @@ class FirstDiaryActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }else{
-                Toast.makeText(this, "ネットワークに接続していません", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Wi-Fi接続をしてください", Toast.LENGTH_SHORT).show()
                 Log.d("DEBUG", "ネットワークに接続していません")
             }
         }
@@ -226,7 +226,7 @@ class FirstDiaryActivity : AppCompatActivity() {
                         }
                     }
                 }else{
-                    Toast.makeText(this, "ネットワークに接続していません", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Wi-Fi接続をしてください", Toast.LENGTH_SHORT).show()
                     Log.d("DEBUG", "ネットワークに接続していません")
                 }
             }
