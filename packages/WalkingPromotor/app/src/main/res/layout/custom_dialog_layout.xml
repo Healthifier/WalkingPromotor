@@ -1,56 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <ImageView
-    android:id="@+id/imageView_dialog"
-    android:layout_width="700dp"
-    android:layout_height="580dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-  <Button
-    android:id="@+id/btn_change"
-    android:layout_width="120dp"
-    android:layout_height="110dp"
-    android:layout_marginBottom="8dp"
-    android:text="差し替える"
-    android:textSize="19sp"
-    app:layout_constraintBottom_toTopOf="@+id/btn_close"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/imageView_dialog" />
+    <ImageView
+      android:id="@+id/imageView_dialog"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="3" />
 
-  <Button
-    android:id="@+id/btn_close"
-    android:layout_width="120dp"
-    android:layout_height="110dp"
-    android:text="閉じる"
-    android:textSize="19sp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/imageView_dialog" />
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:orientation="vertical">
 
-  <Button
-    android:id="@+id/btn_speaker"
-    android:layout_width="120dp"
-    android:layout_height="110dp"
-    android:text="話し手"
-    android:textSize="19sp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/imageView_dialog"
-    app:layout_constraintTop_toTopOf="parent" />
+      <Button
+        android:id="@+id/btn_speaker"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="2dp"
+        android:background="@drawable/frame_style"
+        android:text="話し手"
+        android:textSize="36sp"
+        tools:ignore="NestedWeights" />
 
-  <Button
-    android:id="@+id/btn_listener"
-    android:layout_width="120dp"
-    android:layout_height="110dp"
-    android:layout_marginTop="8dp"
-    android:text="聞き手"
-    android:textSize="19sp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/imageView_dialog"
-    app:layout_constraintTop_toBottomOf="@+id/btn_speaker" />
+      <Button
+        android:id="@+id/btn_listener"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="2dp"
+        android:background="@drawable/frame_style"
+        android:text="聞き手"
+        android:textSize="36sp" />
+
+      <Button
+        android:id="@+id/btn_change"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="2dp"
+        android:background="@drawable/frame_style"
+        android:text="差し替える"
+        android:textSize="36sp" />
+
+      <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="2dp"
+        android:background="@drawable/frame_style"
+        android:text="閉じる"
+        android:textSize="36sp" />
+    </LinearLayout>
+  </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

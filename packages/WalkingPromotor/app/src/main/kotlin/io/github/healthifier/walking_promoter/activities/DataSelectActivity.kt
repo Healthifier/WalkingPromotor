@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,19 +28,27 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
+import io.github.healthifier.walking_promoter.models.GlideApp
 import kotlinx.android.synthetic.main.activity_data_select.*
 import kotlinx.android.synthetic.main.activity_data_select.button_back
 import kotlinx.android.synthetic.main.activity_second.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
+import java.net.URL
 import kotlin.collections.ArrayList
 
 class DataSelectActivity : AppCompatActivity() {
 
     private var objList = listOf<NCMBObject>()
+    private var currentPathList = arrayListOf<String>()
     private val user = NCMBUser.getCurrentUser()
     private var abc = NCMBObject("photoPath")
     private val REQUEST_CAMERA = 1000
@@ -164,7 +173,7 @@ class DataSelectActivity : AppCompatActivity() {
             if(null == imageView3.drawable){
                 selectPhoto("1")
             }else {
-                showDialog(imageView3)
+                showDialog(currentPathList[0])
             }
         }
 
@@ -172,7 +181,7 @@ class DataSelectActivity : AppCompatActivity() {
             if(null == imageView4.drawable){
                 selectPhoto("2")
             }else {
-                showDialog(imageView4)
+                showDialog(currentPathList[1])
             }
         }
 
@@ -180,7 +189,7 @@ class DataSelectActivity : AppCompatActivity() {
             if (null == imageView5.drawable) {
                 selectPhoto("3")
             } else {
-                showDialog(imageView5)
+                showDialog(currentPathList[2])
             }
         }
     }
@@ -198,6 +207,8 @@ class DataSelectActivity : AppCompatActivity() {
         Toast.makeText(this, "画像を準備中", Toast.LENGTH_SHORT).show()
         val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
         val listSize = selectName.size-1
+        val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
+        currentPathList.clear()
         for (i in 0..listSize) {
             query.whereEqualTo("fileName", selectName[i])
             query.findInBackground { list, ncmbException ->
@@ -216,25 +227,44 @@ class DataSelectActivity : AppCompatActivity() {
                         } else {
                             //成功処理
                             val preBitmap = BitmapFactory.decodeByteArray(dataFetch, 0, dataFetch.size)
-                            if(preBitmap.width < preBitmap.height){ //縦長のとき
+                            if (preBitmap.width < preBitmap.height) { //縦長のとき
                                 val mat = Matrix()
                                 mat.postRotate(-90F)
                                 val newBitmap = Bitmap.createBitmap(preBitmap, 0, 0, preBitmap.width, preBitmap.height, mat, true)
                                 Glide.with(this).load(newBitmap).thumbnail(1f).into(imageName[i])
-                                //imageView.setImageBitmap(newBitmap)
-                            }else{
+                            } else {
                                 Glide.with(this).load(dataFetch).thumbnail(1f).into(imageName[i])
-                                //imageView.setImageBitmap(bitmap)
                             }
                         }
                     }
                 }
             }
+
+            currentPathList.add(i, pathStr + selectName[i])
         }
     }
 
     private fun showImages(number:Int, imageList:ArrayList<ImageView>){
-        val name = button_user2.text.toString()
+
+        var name = String()
+        when (number) {
+            0 -> {
+                name = button_user1.text.toString()
+            }
+            1 -> {
+                name = button_user2.text.toString()
+            }
+            2 -> {
+                name = button_user3.text.toString()
+            }
+            3 -> {
+                name = button_user4.text.toString()
+            }
+            4 -> {
+                name = button_user5.text.toString()
+            }
+        }
+
         displayNumber = number
         deleteImages()
         textView_user.text = name + "さんが選んだ写真の画面です"
@@ -245,15 +275,25 @@ class DataSelectActivity : AppCompatActivity() {
             Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun showDialog(imageView: ImageView){
+    private fun showDialog(path: String){
         val dialog = Dialog(this)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
         val customLayoutView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)
         dialog.setContentView(customLayoutView)
-        Log.d("bitmap", bitmap.width.toString())
+
+        val display: Display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        val width = size.x
+        val height = size.y
+        val factor = width.toFloat() / height.toFloat()
+        dialog.window?.setLayout(
+            (width * factor * 0.5).toInt(),
+            (height* factor * 0.5).toInt()
+        )
+
         val imageView_dialog = customLayoutView.findViewById<ImageView>(R.id.imageView_dialog)
-        imageView_dialog.setImageBitmap(bitmap)
+        GlideApp.with(this).load(path).into(imageView_dialog)
         val btn_change = customLayoutView.findViewById<Button>(R.id.btn_change)
         btn_change.setOnClickListener {
             if(displayNumber == myNumber) {
@@ -299,15 +339,7 @@ class DataSelectActivity : AppCompatActivity() {
             dialog2.show()
         }
 
-        val display: Display = windowManager.defaultDisplay
-        val size = Point()
-        display.getSize(size)
-        val width = size.x
-        val factor = width.toFloat() / bitmap.width.toFloat()
-        dialog.window?.setLayout(
-            (bitmap.width * factor).toInt(),
-            (bitmap.height * factor *0.7).toInt()
-        )
+
 
         dialog.show()
     }
@@ -336,6 +368,7 @@ class DataSelectActivity : AppCompatActivity() {
     private fun uploadPic(data: Intent?, imageView: ImageView){
         Log.d("deb", "REQUEST_GARALLY1")
         val uri: Uri?
+        val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
         if(data != null) {
             uri = data.data
             try {
@@ -356,7 +389,8 @@ class DataSelectActivity : AppCompatActivity() {
                 }
                 val group = user.getString("groupName")
                 val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
-                query.whereEqualTo("fileName", name.substringAfterLast("/"))
+                val jpgName = name.substringAfterLast("/")
+                query.whereEqualTo("fileName", jpgName)
                 query.findInBackground { list, ncmbException ->
                     if (ncmbException != null) {
                         Log.d("[Error522]", ncmbException.toString())
@@ -372,24 +406,32 @@ class DataSelectActivity : AppCompatActivity() {
                             imageView3 -> {
                                 val photoNameListCloud = arrayListOf<String>()
                                 if (updateList == null) {
-                                    photoNameListCloud.add(name.substringAfterLast("/"))
+                                    photoNameListCloud.add(jpgName)
                                     abc.put("array", photoNameListCloud)
+                                    currentPathList.add(0, pathStr + jpgName)
                                     saveUsersList(user.objectId.toString(), user.userName.toString(), group, photoNameListCloud)
+                                    //currentPathList[0] = pathStr + jpgName
                                 } else {
-                                    updateList[0] = name.substringAfterLast("/")
+                                    updateList[0] = jpgName
+                                    currentPathList[0] = pathStr + jpgName
                                     saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
                                 }
                             }
                             imageView4 -> {
                                 when (updateList.size) {
                                     0 -> {
-                                        updateList.add(0, name.substringAfterLast("/"))
+                                        updateList.add(0, jpgName)
+                                        currentPathList.add(0, pathStr + jpgName)
+                                        //currentPathList[0] = pathStr + jpgName
                                     }
                                     1 -> {
-                                        updateList.add(1, name.substringAfterLast("/"))
+                                        updateList.add(1, jpgName)
+                                        currentPathList.add(1, pathStr + jpgName)
+                                        //currentPathList[1] = pathStr + jpgName
                                     }
-                                    else -> {
-                                        updateList[1] = name.substringAfterLast("/")
+                                    else -> { //3枚すでにup済みのとき
+                                        updateList[1] = jpgName
+                                        currentPathList[1] = pathStr + jpgName
                                     }
                                 }
                                 saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)
@@ -397,16 +439,23 @@ class DataSelectActivity : AppCompatActivity() {
                             imageView5 -> {
                                 when (updateList.size) {
                                     0 -> {
-                                        updateList.add(0, name.substringAfterLast("/"))
+                                        updateList.add(0, jpgName)
+                                        currentPathList.add(0, pathStr + jpgName)
+                                        //currentPathList[0] = pathStr + jpgName
                                     }
                                     1 -> {
-                                        updateList.add(1, name.substringAfterLast("/"))
+                                        updateList.add(1, jpgName)
+                                        currentPathList.add(1, pathStr + jpgName)
+                                        //currentPathList[1] = pathStr + jpgName
                                     }
                                     2 -> {
-                                        updateList.add(2, name.substringAfterLast("/"))
+                                        updateList.add(2, jpgName)
+                                        currentPathList.add(2, pathStr + jpgName)
+                                        //currentPathList[2] = pathStr + jpgName
                                     }
-                                    else -> {
-                                        updateList[2] = name.substringAfterLast("/")
+                                    else -> { //3枚すでにup済みのとき
+                                        updateList[2] = jpgName
+                                        currentPathList[2] = pathStr + jpgName
                                     }
                                 }
                                 saveUsersList(user.objectId.toString(), user.userName.toString(), group, updateList)

@@ -78,19 +78,6 @@ class DiaryUpActivity : AppCompatActivity() {
      * アラートダイアログ生成
      */
     private fun setupViews(path:String, title:String, date:String, cloudUName:String, cloudUId:String) {
-        // BuilderからAlertDialogを作成
-        /*
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("確認") // タイトル
-            .setMessage("選択した日記を投稿してよろしいですか？") // メッセージ
-            .setPositiveButton("OK") { dialog, which -> // OK
-                savePicToCloud(path) //ファイルストアに画像をあげる
-                saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
-            }
-            .setNegativeButton("戻る", null)
-            .create()
-        // AlertDialogを表示
-        dialog.show()*/
         val view: View = layoutInflater.inflate(R.layout.custom_dialog_check, null)
         val dialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
         dialogTitle.text = "選択した日記を投稿してよろしいですか？"

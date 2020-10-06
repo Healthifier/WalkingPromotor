@@ -4,7 +4,10 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -150,23 +153,41 @@ class WalkValActivity : AppCompatActivity() {
         if(!check){
             Toast.makeText(this, "日付を入力してください", Toast.LENGTH_SHORT).show()
         }else{
+            val view: View = layoutInflater.inflate(R.layout.custom_dialog_check, null)
+            val dialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
+            dialogTitle.text = "この記録でよろしいですか？"
+            val message: TextView = view.findViewById(R.id.TextView_dialog_message)
+            message.text = "日付：${date} 歩数：${steps}"
+            val button1: Button = view.findViewById(R.id.Button_dialog_positive)
+            button1.text = "やっぱりやめる"
+            val button2: Button = view.findViewById(R.id.Button_dialog_negative)
+            button2.text = "記録する"
+
             val dialog = AlertDialog.Builder(this)
-                .setTitle("確認") // タイトル
-                .setMessage("本当に記録してよろしいですか？") // メッセージ
-                .setPositiveButton("OK") { dialog, which -> // OK
-                    saveSteps(cal, steps)
-                    //saveStepsToCloud(date, formatNumber(steps), cloudUName, cloudUId) //データストアに4要素をあげる
-                    saveStepsToCloud(date, steps, cloudUName, cloudUId) //データストアに4要素をあげる
-                }
-                .setNegativeButton("戻る", null)
+                .setView(view)
                 .create()
+
             // AlertDialogを表示
             dialog.show()
+
+            // AlertDialogのサイズ調整
+            val lp = dialog.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.7).toInt()
+            dialog.window?.attributes = lp
+
+            button1.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            button2.setOnClickListener {
+                saveSteps(cal, steps) //DBに保存
+                saveStepsToCloud(date, steps, cloudUName, cloudUId) //クラウドデータストアに保存
+            }
+
         }
     }
 
     private fun saveSteps(cal: Calendar, steps: Int){
-        val stepCounts = DatabaseHandler.StepCounts(cal, steps)
         dbHandler?.setStep(cal, steps)
     }
 
