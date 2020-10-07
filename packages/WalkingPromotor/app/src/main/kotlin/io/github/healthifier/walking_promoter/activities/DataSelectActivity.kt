@@ -10,8 +10,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Point
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,21 +26,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.GlideApp
 import kotlinx.android.synthetic.main.activity_data_select.*
 import kotlinx.android.synthetic.main.activity_data_select.button_back
 import kotlinx.android.synthetic.main.activity_second.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.net.URL
 import kotlin.collections.ArrayList
 
 class DataSelectActivity : AppCompatActivity() {

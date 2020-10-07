@@ -71,7 +71,6 @@ class ThirdActivity : AppCompatActivity() {
         )
 
         val imageView_dialog = customDialogView.findViewById<ImageView>(R.id.ctm_imgae_imageView)
-        //imageView_dialog.setImageBitmap(BitmapFactory.decodeFile(photo))
         GlideApp.with(this).load(photo).into(imageView_dialog)
         val titleTextView_dialog = customDialogView.findViewById<TextView>(R.id.ctm_title_textView)
         titleTextView_dialog.text = title
