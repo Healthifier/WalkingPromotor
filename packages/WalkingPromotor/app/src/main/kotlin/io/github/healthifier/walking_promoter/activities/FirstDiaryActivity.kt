@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -18,6 +19,7 @@ import com.nifcloud.mbaas.core.NCMBUser
 //import io.github.healthifier.walking_promoter.BuildConfig
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_first_diary.*
+import kotlinx.coroutines.*
 
 class FirstDiaryActivity : AppCompatActivity() {
 
@@ -129,10 +131,25 @@ class FirstDiaryActivity : AppCompatActivity() {
     }
 
     private fun startClass(){
-        Toast.makeText(this, "読み込み中", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, SignActivity::class.java)
-        intent.putExtra("CHECK", "1000")
-        startActivity(intent)
+        val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+        val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+        dialog.show()
+
+        val curUser = NCMBUser.getCurrentUser()
+
+        GlobalScope.launch {
+            delay(1200)
+            if(curUser.getString("sessionToken") != null){
+                val intent = Intent(this@FirstDiaryActivity, ProgramActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }else{
+                val intent = Intent(this@FirstDiaryActivity, SignActivity::class.java)
+                intent.putExtra("CHECK", "1000")
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        }
     }
 
     private fun introApp(titleText:String, messageText: String, buttonText: String){

@@ -25,52 +25,8 @@ class SignActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign)
 
-        val curUser = NCMBUser.getCurrentUser()
         val check = intent.getStringExtra("CHECK")
         p_check = check
-
-        Log.d("DEBUG", curUser.toString())
-
-        //ログイン済か判定する
-        when {
-            curUser.getString("sessionToken") == null -> { //セッショントークンが切れていた場合
-                NCMBUser.logout()
-            }
-            else -> { //セッショントークンが残っていた場合
-                //一度ログアウトしてログインすることでセッショントークンの更新を行う
-                NCMBUser.logout()
-                NCMBUser.loginInBackground(curUser.userName, password){ncmbUser, e ->
-                    if(e != null){
-                        Log.d("[Login Error]", e.toString())
-                    }else{
-                        Log.d("[Login Result]", "Success")
-                        Toast.makeText(this, "自動的にログインしました", Toast.LENGTH_SHORT).show()
-                        when (check) {
-                            "1000" -> {
-                                val intent = Intent(this, ProgramActivity::class.java)
-                                startActivity(intent)
-                            }
-                            "1001" -> {
-                                val intent = Intent(this, MetsActivity::class.java)
-                                startActivity(intent)
-                            }
-                            "1002" -> {
-                                val intent = Intent(this, DiaryUpActivity::class.java)
-                                startActivity(intent)
-                            }
-                            "1003" -> {
-                                val intent = Intent(this, TokaidoMapFragmentActivity::class.java)
-                                startActivity(intent)
-                            }
-                            "1004" -> {
-                                val intent = Intent(this, WalkValActivity::class.java)
-                                startActivity(intent)
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         // 初回会員登録処理用のボタン
         btnSignUp.setOnClickListener {
@@ -188,38 +144,6 @@ class SignActivity : AppCompatActivity() {
      * 新規登録処理用のfun
      */
     private fun signUp(group:String) = runBlocking{
-        /*
-        if(group==""){
-            Toast.makeText(this@SignActivity, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
-        }else{
-            val query = NCMBUser.getQuery()
-            query.whereEqualTo("groupName", group)
-            val c = query.find()
-            if(c.size >= 5){
-                Toast.makeText(this@SignActivity, "選択したグループは満員となってしまいました", Toast.LENGTH_SHORT).show()
-                Log.d("User Count Result", c.size.toString())
-            }else{
-                val acl = NCMBAcl()
-                acl.publicReadAccess = true
-                acl.publicWriteAccess = true
-                val userName = userName.text.toString()
-                val user = NCMBUser()
-                NCMBUser.logout()
-                user.userName = userName
-                user.setPassword(password)
-                user.acl = acl
-                //user.put("groupName", group)
-                async { user.save()}.await()
-
-                /*
-                val queryRole = NCMBRole.getQuery()
-                queryRole.whereEqualTo("roleName", group)
-                val findRole = async { queryRole.find()[0] }.await()
-                //val findRole = queryRole.find()[0]
-                async { findRole.addUser(listOf(user)) }.await()*/
-                lblStats.text = "新規登録が完了しました！ログインをタッチしてください"
-            }
-        }*/
         val acl = NCMBAcl()
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
