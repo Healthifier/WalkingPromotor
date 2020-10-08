@@ -107,6 +107,7 @@ class DiaryUpActivity : AppCompatActivity() {
         button2.setOnClickListener {
             savePicToCloud(path) //ファイルストアに画像をあげる
             saveDiaryToCloud(path.substringAfterLast("/"), title, date, cloudUName, cloudUId) //データストアに5要素をあげる
+            dialog.dismiss()
         }
     }
 

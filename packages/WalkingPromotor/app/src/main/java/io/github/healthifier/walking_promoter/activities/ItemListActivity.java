@@ -43,7 +43,7 @@ public class ItemListActivity extends Activity {
 
         ListView listView = findViewById(R.id.item_list);
         assert listView != null;
-        setupSideMenu(listView);
+        //setupSideMenu(listView);
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
@@ -67,6 +67,7 @@ public class ItemListActivity extends Activity {
         db.updateHosts(Constant.serverHosts);
     }
 
+    /*
     private void setupSideMenu(@NonNull final ListView listView) {
         final ArrayList<MenuItem> list = new ArrayList<>();
         list.add(new MenuItem("東海道五十三次", TokaidoMapFragment.class));
@@ -89,7 +90,7 @@ public class ItemListActivity extends Activity {
                 }
             }
         });
-    }
+    }*/
 
     private void showFragment(Class<? extends Fragment> clazz) {
         if (mTwoPane) {

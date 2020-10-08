@@ -17,8 +17,18 @@ class WalkProgramActivity : AppCompatActivity() {
         setContentView(R.layout.activity_walk_program)
 
         btn_write.setOnClickListener { //歩数を記録
-            val intent = Intent(this, WalkValActivity::class.java)
-            startActivity(intent)
+            val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+            if(capabilities != null){
+                if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
+                    val intent = Intent(this, SignActivity::class.java)
+                    intent.putExtra("CHECK", "1004")
+                    startActivity(intent)
+                }
+            }else{
+                Toast.makeText(this, "Wi-Fi接続をしてください", Toast.LENGTH_SHORT).show()
+                Log.d("DEBUG", "ネットワークに接続していません")
+            }
         }
 
         btn_goal.setOnClickListener { //目標値を記録

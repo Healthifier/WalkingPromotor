@@ -18,6 +18,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="目標値を設定"
+    app:titleTextColor="#FFFFFF"
     app:titleTextAppearance="@style/TextAppearance.Toolbar"
     android:textStyle="bold"
     tools:ignore="MissingConstraints" />
@@ -30,19 +31,31 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" >
+
+    <fragment
+      android:id="@+id/fragment3"
+      android:name="io.github.healthifier.walking_promoter.fragments.GoalFragment"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_weight="1" />
+  </LinearLayout>
 
   <Button
     android:id="@+id/backButton"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:backgroundTint="#FFF6CF"
+    android:layout_gravity="end"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="22dp"
+    android:background="@drawable/frame_style"
+    android:drawableStart="@drawable/ic_baseline_undo_24_60"
+    android:drawablePadding="10dp"
+    android:paddingHorizontal="16dp"
     android:text="前の画面に戻る"
-    android:textSize="30sp"
+    android:textSize="32sp"
+    android:textStyle="bold"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

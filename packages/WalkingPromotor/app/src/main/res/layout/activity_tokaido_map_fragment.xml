@@ -54,7 +54,7 @@
           android:layout_weight="5"
           android:text="総歩数：120,000歩"
           android:textAppearance="?android:attr/textAppearanceLarge"
-          android:textSize="32sp" />
+          android:textSize="36sp" />
 
         <Button
           android:id="@+id/button"
@@ -65,7 +65,7 @@
           android:drawableStart="@drawable/ic_baseline_undo_24_60"
           android:paddingHorizontal="16dp"
           android:text="前の画面に戻る"
-          android:textSize="32sp" />
+          android:textSize="36sp" />
       </LinearLayout>
     </LinearLayout>
 

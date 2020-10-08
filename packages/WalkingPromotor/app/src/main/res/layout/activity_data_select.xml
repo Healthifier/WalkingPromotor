@@ -91,8 +91,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="32dp"
-    android:layout_marginBottom="24dp"
-    android:textSize="24sp"
+    android:layout_marginBottom="14dp"
+    android:textSize="36sp"
     android:text="example"
     android:textColor="#000000"
     app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -183,11 +183,12 @@
       android:layout_height="match_parent"
       android:layout_weight="1"
       android:layout_margin="8dp"
-      android:padding="16dp"
+      android:padding="8dp"
       android:stateListAnimator="@null"
       android:background="@drawable/frame_style"
       android:text="前の画面に戻る"
-      android:textSize="24sp" />
+      android:textStyle="bold"
+      android:textSize="36sp" />
 
     <Button
       android:id="@+id/button_update"
@@ -195,9 +196,10 @@
       android:layout_height="match_parent"
       android:layout_weight="1"
       android:layout_margin="8dp"
-      android:padding="16dp"
+      android:padding="8dp"
       android:background="@drawable/frame_style"
       android:text="更新"
-      android:textSize="24sp" />
+      android:textStyle="bold"
+      android:textSize="36sp" />
   </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

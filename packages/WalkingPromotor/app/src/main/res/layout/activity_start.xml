@@ -18,6 +18,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:title="ステップ練習"
+    app:titleTextColor="#FFFFFF"
     app:titleTextAppearance="@style/TextAppearance.Toolbar"
     android:textStyle="bold"
     tools:ignore="MissingConstraints" />
@@ -30,7 +31,15 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" >
+
+    <fragment
+      android:id="@+id/fragment2"
+      android:name="io.github.healthifier.walking_promoter.fragments.SquareStepListFragment"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_weight="1" />
+  </LinearLayout>
 
   <Button
     android:id="@+id/backButton"

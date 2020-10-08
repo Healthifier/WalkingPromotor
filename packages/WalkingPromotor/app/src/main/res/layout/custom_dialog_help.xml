@@ -15,7 +15,7 @@
     android:background="@drawable/frame_style"
     android:padding="16dp"
     android:text="aaaa"
-    android:textSize="24sp" />
+    android:textSize="36sp" />
 
   <!-- ボタン -->
   <Button
@@ -27,7 +27,7 @@
     android:background="@drawable/frame_style"
     android:padding="16dp"
     android:text="aaaa"
-    android:textSize="24sp" />
+    android:textSize="36sp" />
 
   <!-- ボタン -->
   <Button
@@ -39,7 +39,7 @@
     android:background="@drawable/frame_style"
     android:padding="16dp"
     android:text="aaaa"
-    android:textSize="24sp" />
+    android:textSize="36sp" />
 
   <Button
     android:id="@+id/Button_dialog_back"
@@ -50,6 +50,6 @@
     android:background="@drawable/frame_style"
     android:padding="16dp"
     android:text="aaaa"
-    android:textSize="24sp"/>
+    android:textSize="36sp"/>
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.fragments.GoalFragment
 import io.github.healthifier.walking_promoter.fragments.SquareStepListFragment
+import io.github.healthifier.walking_promoter.fragments.WeeklyGraphFragment
 import kotlinx.android.synthetic.main.activity_start.*
 
 class StartActivity : AppCompatActivity() {
@@ -15,8 +16,11 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        //supportActionBar?.title = "ステップ練習"
-        showFragment(SquareStepListFragment::class.java)
+        //showFragment(SquareStepListFragment::class.java)
+
+        val squareStepListFragment = SquareStepListFragment()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment, squareStepListFragment)
 
         backButton.setOnClickListener {
             val intent = Intent(this, HomeProgramActivity::class.java)

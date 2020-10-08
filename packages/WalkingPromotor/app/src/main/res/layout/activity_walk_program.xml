@@ -19,6 +19,7 @@
     app:layout_constraintTop_toTopOf="parent"
     app:title="歩数メニュー"
     app:titleTextAppearance="@style/TextAppearance.Toolbar"
+    app:titleTextColor="#ffffff"
     android:textStyle="bold"
     tools:ignore="MissingConstraints" />
 
@@ -60,17 +61,6 @@
         android:textSize="36sp"
         android:textStyle="bold" />
 
-      <Button
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:backgroundTint="#FAA6A4"
-        android:drawableTop="@drawable/ic_baseline_undo_24"
-        android:drawableTint="#FFFFFF"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:text="前の画面に戻る" />
-
     </TableRow>
 
     <TableRow
@@ -98,6 +88,16 @@
         android:textSize="36sp"
         android:textStyle="bold"
         android:text="みんなの総歩数を見る" />
+
+      <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="#FFF6CF"
+        android:drawableTop="@drawable/ic_baseline_undo_24"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:text="前の画面に戻る" />
 
     </TableRow>
 

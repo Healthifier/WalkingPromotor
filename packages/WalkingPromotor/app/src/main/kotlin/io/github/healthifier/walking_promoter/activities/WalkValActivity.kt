@@ -182,6 +182,7 @@ class WalkValActivity : AppCompatActivity() {
             button2.setOnClickListener {
                 saveSteps(cal, steps) //DBに保存
                 saveStepsToCloud(date, steps, cloudUName, cloudUId) //クラウドデータストアに保存
+                dialog.dismiss()
             }
 
         }

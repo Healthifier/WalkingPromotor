@@ -125,7 +125,7 @@
           android:background="@drawable/frame_style"
           android:text="説明"
           android:textColor="#000000"
-          android:textSize="20sp"
+          android:textSize="30sp"
           android:textStyle="bold" />
 
         <Button
@@ -136,7 +136,7 @@
           android:background="@drawable/frame_style"
           android:text="説明"
           android:textColor="#000000"
-          android:textSize="20sp"
+          android:textSize="30sp"
           android:textStyle="bold" />
 
         <Button

@@ -9,146 +9,157 @@
         android:focusableInTouchMode="true"
         tools:context=".activities.SecondActivity">
 
-  <Button
-    android:id="@+id/button_title"
-    android:layout_width="320dp"
-    android:layout_height="110dp"
-    android:layout_marginBottom="16dp"
-    android:backgroundTint="#EE4A4A"
-    android:drawableStart="@android:drawable/ic_menu_edit"
-    android:drawableTint="#FFFFFF"
-    android:drawableTintMode="src_in"
-    android:drawingCacheQuality="auto"
-    android:text="①タイトル入力"
-    android:textAlignment="textStart"
-    android:textColor="#FFFFFF"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    android:inputType="none"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.975"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.232" />
+  <!-- ツールバー -->
 
-  <Button
-    android:id="@+id/button_day"
-    android:layout_width="320dp"
-    android:layout_height="110dp"
-    android:backgroundTint="#FC774B"
-    android:drawableStart="@android:drawable/ic_menu_month"
-    android:text="②日付を入力"
-    android:textAlignment="center"
-    android:textColor="#FFFFFF"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.975"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.475" />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-  <Button
-    android:id="@+id/button_back"
-    android:layout_width="131dp"
-    android:layout_height="110dp"
-    android:backgroundTint="#818181"
-    android:drawableStart="@android:drawable/ic_menu_revert"
-    android:text="戻る"
-    android:textAlignment="center"
-    android:textColor="#FFFFFF"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.752"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.987" />
+    <androidx.appcompat.widget.Toolbar
+      android:id="@+id/main_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="#FF9800"
+      android:fitsSystemWindows="true"
+      android:minHeight="?attr/actionBarSize"
+      app:title="日記を書く"
+      app:titleTextAppearance="@style/TextAppearance.Toolbar"
+      app:titleTextColor="#ffffff"
+      tools:ignore="MissingConstraints" />
 
-  <TextView
-    android:id="@+id/textCalView2"
-    android:layout_width="278dp"
-    android:layout_height="62dp"
-    android:layout_marginStart="8dp"
-    android:hint="年 / 月 / 日"
-    android:text=""
-    android:textAlignment="center"
-    android:textAllCaps="false"
-    android:textDirection="anyRtl"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.711"
-    app:layout_constraintStart_toEndOf="@+id/editText_diaryTitle"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.048" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal">
 
-  <EditText
-    android:id="@+id/editText_diaryTitle"
-    android:layout_width="540dp"
-    android:layout_height="78dp"
-    android:layout_marginStart="12dp"
-    android:inputType="text"
-    android:ems="10"
-    android:hint="タイトル"
-    android:text=""
-    android:textSize="36sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.009"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.0" />
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
-  <ImageView
-    android:layout_width="583dp"
-    android:layout_height="437dp"
-    android:id="@+id/imageView"
-    app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.051"
-    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/editText_diaryTitle" app:layout_constraintVertical_bias="0.277"/>
+        <EditText
+          android:id="@+id/editText_diaryTitle"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:ems="10"
+          android:hint="タイトル"
+          android:inputType="text"
+          android:text=""
+          android:textSize="36sp"
+          android:textStyle="bold"
+          tools:ignore="NestedWeights" />
 
-  <Button
-    android:id="@+id/imageButton"
-    android:layout_width="320dp"
-    android:layout_height="110dp"
-    android:layout_marginBottom="16dp"
-    android:backgroundTint="#FFDE00"
-    android:drawableStart="@android:drawable/ic_menu_camera"
-    android:drawableTint="#FFFFFF"
-    android:drawableTintMode="src_in"
-    android:drawingCacheQuality="auto"
-    android:text="③写真を撮る"
-    android:textColor="#FFFFFF"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.975"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.751" />
+        <ImageView
+          android:id="@+id/imageView"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="6" />
 
-  <Button
-    android:id="@+id/button_save"
-    android:layout_width="169dp"
-    android:layout_height="110dp"
-    android:backgroundTint="#50C34A"
-    android:drawableStart="@android:drawable/presence_online"
-    android:text="④決定"
-    android:textAlignment="center"
-    android:textColor="#FFFFFF"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.979"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.987" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+          android:id="@+id/textCalView2"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="0.5"
+          android:gravity="center_horizontal"
+          android:hint="年 / 月 / 日"
+          android:text=""
+          android:textAlignment="center"
+          android:textAllCaps="false"
+          android:textDirection="anyRtl"
+          android:textSize="36sp"
+          android:textStyle="bold" />
+
+        <Button
+          android:id="@+id/button_title"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:backgroundTint="#EE4A4A"
+          android:drawableStart="@android:drawable/ic_menu_edit"
+          android:drawableTint="#FFFFFF"
+          android:drawableTintMode="src_in"
+          android:drawingCacheQuality="auto"
+          android:inputType="none"
+          android:text="①タイトル入力"
+          android:textAlignment="textStart"
+          android:textColor="#FFFFFF"
+          android:textSize="36sp"
+          android:textStyle="bold" />
+
+        <Button
+          android:id="@+id/button_day"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:backgroundTint="#FC774B"
+          android:drawableStart="@android:drawable/ic_menu_month"
+          android:text="②日付を入力"
+          android:textAlignment="center"
+          android:textColor="#FFFFFF"
+          android:textSize="36sp"
+          android:textStyle="bold" />
+
+        <Button
+          android:id="@+id/imageButton"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:backgroundTint="#F8CF00"
+          android:drawableStart="@android:drawable/ic_menu_camera"
+          android:drawableTint="#FFFFFF"
+          android:drawableTintMode="src_in"
+          android:drawingCacheQuality="auto"
+          android:text="③写真を撮る"
+          android:textColor="#FFFFFF"
+          android:textSize="36sp"
+          android:textStyle="bold" />
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:orientation="horizontal">
+
+          <Button
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#818181"
+            android:drawableStart="@android:drawable/ic_menu_revert"
+            android:text="戻る"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+          <Button
+            android:id="@+id/button_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#50C34A"
+            android:drawableStart="@android:drawable/presence_online"
+            android:text="④決定"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+        </LinearLayout>
+      </LinearLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

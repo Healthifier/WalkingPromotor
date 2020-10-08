@@ -138,7 +138,7 @@
           android:layout_width="wrap_content"
           android:layout_height="60dp"
           android:textStyle="bold"
-          android:textSize="20sp"
+          android:textSize="28sp"
           android:background="@drawable/frame_style"
           android:text="説明" />
 
@@ -148,7 +148,7 @@
           android:layout_height="60dp"
           android:layout_marginStart="220dp"
           android:textStyle="bold"
-          android:textSize="20sp"
+          android:textSize="28sp"
           android:background="@drawable/frame_style"
           android:text="説明" />
 
@@ -158,7 +158,7 @@
           android:layout_height="60dp"
           android:layout_marginStart="220dp"
           android:textStyle="bold"
-          android:textSize="20sp"
+          android:textSize="28sp"
           android:background="@drawable/frame_style"
           android:text="説明" />
       </TableRow>
@@ -173,7 +173,7 @@
           android:layout_width="wrap_content"
           android:layout_height="60dp"
           android:textStyle="bold"
-          android:textSize="20sp"
+          android:textSize="28sp"
           android:background="@drawable/frame_style"
           android:text="説明" />
 
@@ -183,7 +183,7 @@
           android:layout_height="60dp"
           android:layout_marginStart="220dp"
           android:textStyle="bold"
-          android:textSize="20sp"
+          android:textSize="28sp"
           android:background="@drawable/frame_style"
           android:text="説明" />
 
@@ -193,7 +193,7 @@
           android:layout_height="60dp"
           android:layout_marginStart="220dp"
           android:textStyle="bold"
-          android:textSize="20sp"
+          android:textSize="28sp"
           android:visibility="gone"
           android:text="説明" />
       </TableRow>

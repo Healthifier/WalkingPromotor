@@ -14,9 +14,13 @@ class DairyGraphActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dairy_graph)
 
-        showFragment(WeeklyGraphFragment::class.java)
+        //showFragment(WeeklyGraphFragment::class.java)
 
-        btn_back.setOnClickListener {
+        val WeeklyGraphFragment = WeeklyGraphFragment()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment, WeeklyGraphFragment)
+
+        backButton.setOnClickListener {
             val intent = Intent(this, WalkProgramActivity::class.java)
             startActivity(intent)
         }

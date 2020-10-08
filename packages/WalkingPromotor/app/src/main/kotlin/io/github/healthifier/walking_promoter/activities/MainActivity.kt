@@ -21,7 +21,11 @@ class MainActivity : AppCompatActivity() {
 
         val check = intent.getStringExtra("CHECK")
 
-        showFragment(GoalFragment::class.java)
+        //showFragment(GoalFragment::class.java)
+
+        val goalFragment = GoalFragment()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment, goalFragment)
 
         backButton.setOnClickListener {
             if(check == "1001"){

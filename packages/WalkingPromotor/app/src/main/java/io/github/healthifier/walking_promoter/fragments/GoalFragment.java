@@ -1,6 +1,7 @@
 package io.github.healthifier.walking_promoter.fragments;
 
-import android.app.Fragment;
+//import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

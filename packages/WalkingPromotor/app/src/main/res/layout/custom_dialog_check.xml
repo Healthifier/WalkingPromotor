@@ -14,7 +14,7 @@
     android:layout_margin="8dp"
     android:gravity="center_horizontal"
     android:textColor="#000000"
-    android:textSize="28sp" />
+    android:textSize="36sp" />
 
   <!-- メッセージ -->
   <TextView
@@ -24,7 +24,7 @@
     android:layout_margin="8dp"
     android:gravity="start"
     android:textColor="#000000"
-    android:textSize="24sp" />
+    android:textSize="36sp" />
 
   <!-- ボタン -->
   <LinearLayout
@@ -41,7 +41,7 @@
       android:background="@drawable/frame_style"
       android:padding="16dp"
       android:text="aaaa"
-      android:textSize="18sp" />
+      android:textSize="32sp" />
 
     <Button
       android:id="@+id/Button_dialog_negative"
@@ -52,7 +52,7 @@
       android:background="@drawable/frame_style"
       android:padding="16dp"
       android:text="aaaa"
-      android:textSize="18sp" />
+      android:textSize="32sp" />
   </LinearLayout>
 
 </LinearLayout>

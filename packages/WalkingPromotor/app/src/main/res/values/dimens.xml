@@ -5,6 +5,6 @@
   <dimen name="item_width">200dp</dimen>
   <dimen name="text_margin">16dp</dimen>
   <dimen name="ten_key_text_size">40sp</dimen>
-  <dimen name="ten_key_text_kanji_size">24sp</dimen>
+  <dimen name="ten_key_text_kanji_size">36sp</dimen>
   <dimen name="result_text_size">28sp</dimen>
 </resources>
