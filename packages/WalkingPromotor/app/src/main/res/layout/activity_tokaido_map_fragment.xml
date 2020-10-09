@@ -52,9 +52,9 @@
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="5"
-          android:text="総歩数：120,000歩"
+          android:text="総歩数： ?歩(?km)"
           android:textAppearance="?android:attr/textAppearanceLarge"
-          android:textSize="36sp" />
+          android:textSize="30sp" />
 
         <Button
           android:id="@+id/button"

@@ -14,9 +14,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_first_diary.*
 import kotlinx.android.synthetic.main.activity_home_program.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HomeProgramActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,12 +54,13 @@ class HomeProgramActivity : AppCompatActivity() {
             val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
             if(capabilities != null){
                 if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
-                    val intent = Intent(this, SignActivity::class.java)
-                    intent.putExtra("CHECK", "1002")
-                    startActivity(intent)
+                    startClass()
+                }
+                if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)){
+                    startClass()
                 }
             }else{
-                Toast.makeText(this, "Wi-Fi接続をしてください", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
                 Log.d("DEBUG", "ネットワークに接続していません")
             }
         }
@@ -207,6 +212,27 @@ class HomeProgramActivity : AppCompatActivity() {
 
             button.setOnClickListener {
                 dialog.dismiss() // AlertDialogを閉じる
+            }
+        }
+    }
+
+    private fun startClass(){
+        val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+        val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+        dialog.show()
+
+        GlobalScope.launch {
+            val curUser = NCMBUser.getCurrentUser()
+            delay(1200)
+            if(curUser.getString("sessionToken") != null){
+                val intent = Intent(this@HomeProgramActivity, DiaryUpActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }else{
+                val intent = Intent(this@HomeProgramActivity, SignActivity::class.java)
+                intent.putExtra("CHECK", "1002")
+                startActivity(intent)
+                dialog.dismiss()
             }
         }
     }
