@@ -86,11 +86,7 @@ class FirstDiaryActivity : AppCompatActivity() {
             button3.text = "ログアウト"
             button4.text = "この画面を閉じる"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -161,11 +157,7 @@ class FirstDiaryActivity : AppCompatActivity() {
         val button: Button = view.findViewById(R.id.Button_dialog_positive)
         button.text = buttonText
 
-        val dialog = AlertDialog.Builder(this)
-            .setView(view)
-            .create()
-
-        // AlertDialogを表示
+        val dialog = AlertDialog.Builder(this).setView(view).create()
         dialog.show()
 
         // AlertDialogのサイズ調整
@@ -209,11 +201,7 @@ class FirstDiaryActivity : AppCompatActivity() {
         val button2: Button = view.findViewById(R.id.Button_dialog_negative)
         button2.text = "ログアウトする"
 
-        val dialog = AlertDialog.Builder(this)
-            .setView(view)
-            .create()
-
-        // AlertDialogを表示
+        val dialog = AlertDialog.Builder(this).setView(view).create()
         dialog.show()
 
         // AlertDialogのサイズ調整

@@ -16,9 +16,9 @@ class DairyGraphActivity : AppCompatActivity() {
 
         //showFragment(WeeklyGraphFragment::class.java)
 
-        val WeeklyGraphFragment = WeeklyGraphFragment()
+        val weeklyGraphFragment = WeeklyGraphFragment()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, WeeklyGraphFragment)
+        fragmentTransaction.add(R.id.fragment, weeklyGraphFragment)
 
         backButton.setOnClickListener {
             val intent = Intent(this, WalkProgramActivity::class.java)

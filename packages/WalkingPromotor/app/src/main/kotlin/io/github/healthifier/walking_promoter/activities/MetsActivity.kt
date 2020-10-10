@@ -10,6 +10,7 @@ import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nifcloud.mbaas.core.NCMBObject
@@ -18,6 +19,9 @@ import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.CustomGridAdapterCloud
 import io.github.healthifier.walking_promoter.models.GlideApp
 import kotlinx.android.synthetic.main.activity_mets.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MetsActivity : AppCompatActivity() {
 
@@ -25,7 +29,16 @@ class MetsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mets)
 
-        showDiaryList()
+        val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+        val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+        dialog.show()
+        GlobalScope.launch {
+            showDiaryList()
+        }
+        GlobalScope.launch {
+            delay(1000)
+            dialog.dismiss()
+        }
 
         btn_back.setOnClickListener {
             val intent = Intent(this, DiaryMenuActivity::class.java)
@@ -90,7 +103,7 @@ class MetsActivity : AppCompatActivity() {
         val height = size.y
         val factor = width.toFloat() / height.toFloat()
         dialog.window?.setLayout(
-            (width * factor * 0.5).toInt(),
+            (width * factor * 0.9).toInt(),
             (height* factor * 0.5).toInt()
         )
 

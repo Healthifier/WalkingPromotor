@@ -21,6 +21,7 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -32,6 +33,9 @@ import io.github.healthifier.walking_promoter.models.GlideApp
 import kotlinx.android.synthetic.main.activity_data_select.*
 import kotlinx.android.synthetic.main.activity_data_select.button_back
 import kotlinx.android.synthetic.main.activity_second.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -196,7 +200,7 @@ class DataSelectActivity : AppCompatActivity() {
     }
 
     private fun setImages(selectName: List<*>, imageName: ArrayList<ImageView>){
-        Toast.makeText(this, "画像を準備中", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "画像を準備中", Toast.LENGTH_SHORT).show()
         val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
         val listSize = selectName.size-1
         val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
@@ -238,6 +242,10 @@ class DataSelectActivity : AppCompatActivity() {
 
     private fun showImages(number:Int, imageList:ArrayList<ImageView>){
 
+        val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+        val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+        dialog.show()
+
         var name = String()
         when (number) {
             0 -> {
@@ -257,15 +265,21 @@ class DataSelectActivity : AppCompatActivity() {
             }
         }
 
+        textView_user.text = name + "さんが選んだ写真の画面です"
         displayNumber = number
         deleteImages()
-        textView_user.text = name + "さんが選んだ写真の画面です"
-        if(objList.size < number+1){
-            Toast.makeText(this, "データがありません", Toast.LENGTH_SHORT).show()
-        }else{
-            setImages(objList[number].getList("array"), imageList)
-            Toast.makeText(this, "画像の表示完了", Toast.LENGTH_SHORT).show()
+
+        GlobalScope.launch {
+            if(objList.size < number+1){
+                Toast.makeText(this@DataSelectActivity, "データがありません", Toast.LENGTH_SHORT).show()
+            }else{
+                setImages(objList[number].getList("array"), imageList)
+                delay(2000)
+                dialog.dismiss()
+                //Toast.makeText(this@DataSelectActivity, "画像の表示完了", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
     private fun showDialog(path: String){
         val dialog = Dialog(this)
@@ -330,8 +344,6 @@ class DataSelectActivity : AppCompatActivity() {
             dialog2.window?.setLayout(1450, 500)
             dialog2.show()
         }
-
-
 
         dialog.show()
     }
@@ -402,7 +414,6 @@ class DataSelectActivity : AppCompatActivity() {
                                     abc.put("array", photoNameListCloud)
                                     currentPathList.add(0, pathStr + jpgName)
                                     saveUsersList(user.objectId.toString(), user.userName.toString(), group, photoNameListCloud)
-                                    //currentPathList[0] = pathStr + jpgName
                                 } else {
                                     updateList[0] = jpgName
                                     currentPathList[0] = pathStr + jpgName
@@ -414,12 +425,10 @@ class DataSelectActivity : AppCompatActivity() {
                                     0 -> {
                                         updateList.add(0, jpgName)
                                         currentPathList.add(0, pathStr + jpgName)
-                                        //currentPathList[0] = pathStr + jpgName
                                     }
                                     1 -> {
                                         updateList.add(1, jpgName)
                                         currentPathList.add(1, pathStr + jpgName)
-                                        //currentPathList[1] = pathStr + jpgName
                                     }
                                     else -> { //3枚すでにup済みのとき
                                         updateList[1] = jpgName
@@ -433,17 +442,14 @@ class DataSelectActivity : AppCompatActivity() {
                                     0 -> {
                                         updateList.add(0, jpgName)
                                         currentPathList.add(0, pathStr + jpgName)
-                                        //currentPathList[0] = pathStr + jpgName
                                     }
                                     1 -> {
                                         updateList.add(1, jpgName)
                                         currentPathList.add(1, pathStr + jpgName)
-                                        //currentPathList[1] = pathStr + jpgName
                                     }
                                     2 -> {
                                         updateList.add(2, jpgName)
                                         currentPathList.add(2, pathStr + jpgName)
-                                        //currentPathList[2] = pathStr + jpgName
                                     }
                                     else -> { //3枚すでにup済みのとき
                                         updateList[2] = jpgName
@@ -464,7 +470,6 @@ class DataSelectActivity : AppCompatActivity() {
                 }else{
                     imageView.setImageBitmap(bitmap)
                 }
-                //imageView.setImageBitmap(bitmap)
             } catch (e: IOException) {
             }
         }
@@ -490,13 +495,46 @@ class DataSelectActivity : AppCompatActivity() {
 
         }else if(requestCode == REQUEST_GARALLY1 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY1")
-            uploadPic(data, imageView3)
+            val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+            val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+            val text: TextView = view.findViewById(R.id.textView4)
+            text.text = "送信中"
+            dialog.show()
+            GlobalScope.launch {
+                uploadPic(data, imageView3)
+            }
+            GlobalScope.launch {
+                delay(2000)
+                dialog.dismiss()
+            }
         }else if(requestCode == REQUEST_GARALLY2 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY2")
-            uploadPic(data, imageView4)
+            val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+            val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+            val text: TextView = view.findViewById(R.id.textView4)
+            text.text = "送信中"
+            dialog.show()
+            GlobalScope.launch {
+                uploadPic(data, imageView4)
+            }
+            GlobalScope.launch {
+                delay(2000)
+                dialog.dismiss()
+            }
         }else if(requestCode == REQUEST_GARALLY3 && resultCode == Activity.RESULT_OK) {
             Log.d("deb", "REQUEST_GARALLY3")
-            uploadPic(data, imageView5)
+            val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+            val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+            val text: TextView = view.findViewById(R.id.textView4)
+            text.text = "送信中"
+            dialog.show()
+            GlobalScope.launch {
+                uploadPic(data, imageView5)
+            }
+            GlobalScope.launch {
+                delay(2000)
+                dialog.dismiss()
+            }
         }
     }
 

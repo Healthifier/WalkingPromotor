@@ -15,8 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -31,7 +35,6 @@ import java.util.*
 
 class SecondActivity : AppCompatActivity() {
 
-    private var dbHandler: DatabaseHandler? = null
     private val cal = Calendar.getInstance()
     private var RESULT_CAMERA = 1001
     private val PERMISSION_REQUEST = 1002
@@ -42,7 +45,7 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        dbHandler = DatabaseHandler(this)
+        val dbHandler = DatabaseHandler(this)
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
@@ -76,13 +79,28 @@ class SecondActivity : AppCompatActivity() {
                 user.diaryTitle = title
                 user.diaryDay = date
                 user.photoPath = path //pathは画像のローカルパス
-                success = dbHandler!!.addUser(user)
+                success = dbHandler.addUser(user)
 
                 if (success){
-                    Toast.makeText(this,"日記を保存しました", Toast.LENGTH_LONG).show()
-                    //Toast.makeText(this,"戻るボタンで戻れます", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, HomeProgramActivity::class.java)
-                    startActivity(intent)
+                    val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+                    val dialog = AlertDialog.Builder(this@SecondActivity).setView(view).create()
+                    val textDialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
+                    textDialogTitle.text = "日記を保存しました！"
+                    val textDialogMessage: TextView = view.findViewById(R.id.TextView_dialog_message)
+                    textDialogMessage.text = "日記を見るメニューで実際に見てみましょう！"
+                    val buttonDialog: Button = view.findViewById(R.id.Button_dialog_positive)
+                    buttonDialog.text = "この画面を閉じる"
+                    dialog.show()
+
+                    val lp = dialog.window?.attributes
+                    lp?.width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+                    dialog.window?.attributes = lp
+
+                    buttonDialog.setOnClickListener {
+                        dialog.dismiss()
+                        val intent = Intent(this@SecondActivity, HomeProgramActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
         }
@@ -177,12 +195,9 @@ class SecondActivity : AppCompatActivity() {
         if (!storageDir.exists()) {
             storageDir.mkdir()
         }
-        //Log.d("Dir place", storageDir.toString())
 
         val file = File(storageDir, "$imageFileName.jpg")
-        //Log.d("Maked file name", file.toString())
         path = file.absolutePath
-        //Log.d("path", path)
 
         return FileProvider.getUriForFile(this, "io.github.healthifier.walking_promoter", file)
     }

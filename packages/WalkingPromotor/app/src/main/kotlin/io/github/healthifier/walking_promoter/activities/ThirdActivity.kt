@@ -20,12 +20,11 @@ import kotlinx.android.synthetic.main.activity_third.*
 
 class ThirdActivity : AppCompatActivity() {
 
-    private val dbHandler = DatabaseHandler(this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)
 
+        val dbHandler = DatabaseHandler(this)
         val titles = dbHandler.getAllTitles()
         val diaries = dbHandler.getAllUsers()
         val photos = dbHandler.getAllPhotos()
@@ -39,7 +38,6 @@ class ThirdActivity : AppCompatActivity() {
 
         gridAdapter.setOnItemClickListener(object: CustomGridAdapter.OnItemClickListener{
             override fun onItemClickListener(view: View, position: Int, clickedText: String) {
-                //Toast.makeText(applicationContext, "${clickedText}がタップされました.位置は${position}です", Toast.LENGTH_LONG).show()
                 val title = diaries[position].title
                 val date = diaries[position].day
                 val photo = diaries[position].photo
@@ -66,7 +64,7 @@ class ThirdActivity : AppCompatActivity() {
         val height = size.y
         val factor = width.toFloat() / height.toFloat()
         dialog.window?.setLayout(
-            (width * factor * 0.5).toInt(),
+            (width * factor * 0.9).toInt(),
             (height* factor * 0.5).toInt()
         )
 
