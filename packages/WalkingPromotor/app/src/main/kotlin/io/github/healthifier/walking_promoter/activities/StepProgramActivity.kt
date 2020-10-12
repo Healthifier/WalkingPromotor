@@ -1,6 +1,5 @@
 package io.github.healthifier.walking_promoter.activities
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -13,15 +12,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
-import kotlinx.android.synthetic.main.activity_walk_program.*
+import kotlinx.android.synthetic.main.activity_step_program.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WalkProgramActivity : AppCompatActivity() {
+class StepProgramActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_walk_program)
+        setContentView(R.layout.activity_step_program)
 
         btn_write.setOnClickListener { //歩数を記録
             val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -40,7 +39,7 @@ class WalkProgramActivity : AppCompatActivity() {
         }
 
         btn_goal.setOnClickListener { //目標値を記録
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, RecordGoalActivity::class.java)
             intent.putExtra("CHECK", "1001")
             startActivity(intent)
         }
@@ -74,6 +73,9 @@ class WalkProgramActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+    }
+
     private fun startClass(str: String){
         val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
         val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
@@ -84,22 +86,22 @@ class WalkProgramActivity : AppCompatActivity() {
             delay(1200)
             if(str=="write"){
                 if(curUser.getString("sessionToken") != null){
-                    val intent = Intent(this@WalkProgramActivity, WalkValActivity::class.java)
+                    val intent = Intent(this@StepProgramActivity, RecordStepActivity::class.java)
                     startActivity(intent)
                     dialog.dismiss()
                 }else{
-                    val intent = Intent(this@WalkProgramActivity, SignActivity::class.java)
+                    val intent = Intent(this@StepProgramActivity, SignActivity::class.java)
                     intent.putExtra("CHECK", "1004")
                     startActivity(intent)
                     dialog.dismiss()
                 }
             }else if(str == "lookAll"){
                 if(curUser.getString("sessionToken") != null){
-                    val intent = Intent(this@WalkProgramActivity, TokaidoMapFragmentActivity::class.java)
+                    val intent = Intent(this@StepProgramActivity, TokaidoMapFragmentActivity::class.java)
                     startActivity(intent)
                     dialog.dismiss()
                 }else{
-                    val intent = Intent(this@WalkProgramActivity, SignActivity::class.java)
+                    val intent = Intent(this@StepProgramActivity, SignActivity::class.java)
                     intent.putExtra("CHECK", "1003")
                     startActivity(intent)
                     dialog.dismiss()

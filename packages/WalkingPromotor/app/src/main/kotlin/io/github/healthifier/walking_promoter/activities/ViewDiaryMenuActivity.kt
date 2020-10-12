@@ -12,18 +12,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
-import kotlinx.android.synthetic.main.activity_diary_menu.*
+import kotlinx.android.synthetic.main.activity_view_diary_menu.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class DiaryMenuActivity : AppCompatActivity() {
+class ViewDiaryMenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_diary_menu)
+        setContentView(R.layout.activity_view_diary_menu)
 
         btn_diary_mine.setOnClickListener {
-            val intent = Intent(this, ThirdActivity::class.java)
+            val intent = Intent(this, ViewMyDiaryActivity::class.java)
             startActivity(intent)
         }
 
@@ -49,6 +49,9 @@ class DiaryMenuActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+    }
+
     private fun startClass(){
         val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
         val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
@@ -59,11 +62,11 @@ class DiaryMenuActivity : AppCompatActivity() {
         GlobalScope.launch {
             delay(1200)
             if(curUser.getString("sessionToken") != null){
-                val intent = Intent(this@DiaryMenuActivity, MetsActivity::class.java)
+                val intent = Intent(this@ViewDiaryMenuActivity, ViewEveryonesDiaryActivity::class.java)
                 startActivity(intent)
                 dialog.dismiss()
             }else{
-                val intent = Intent(this@DiaryMenuActivity, SignActivity::class.java)
+                val intent = Intent(this@ViewDiaryMenuActivity, SignActivity::class.java)
                 intent.putExtra("CHECK", "1001")
                 startActivity(intent)
                 dialog.dismiss()

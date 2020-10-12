@@ -18,16 +18,16 @@ import com.nifcloud.mbaas.core.NCMBQuery
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.CustomGridAdapterCloud
 import io.github.healthifier.walking_promoter.models.GlideApp
-import kotlinx.android.synthetic.main.activity_mets.*
+import kotlinx.android.synthetic.main.activity_view_everyones_diary.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MetsActivity : AppCompatActivity() {
+class ViewEveryonesDiaryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mets)
+        setContentView(R.layout.activity_view_everyones_diary)
 
         val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
         val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
@@ -41,7 +41,7 @@ class MetsActivity : AppCompatActivity() {
         }
 
         btn_back.setOnClickListener {
-            val intent = Intent(this, DiaryMenuActivity::class.java)
+            val intent = Intent(this, ViewDiaryMenuActivity::class.java)
             startActivity(intent)
         }
     }

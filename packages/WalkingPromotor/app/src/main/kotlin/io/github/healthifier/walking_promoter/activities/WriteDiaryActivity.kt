@@ -27,13 +27,13 @@ import androidx.core.content.FileProvider
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import io.github.healthifier.walking_promoter.models.Users
-import kotlinx.android.synthetic.main.activity_second.*
+import kotlinx.android.synthetic.main.activity_write_diary.*
 import java.io.File
 import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SecondActivity : AppCompatActivity() {
+class WriteDiaryActivity : AppCompatActivity() {
 
     private val cal = Calendar.getInstance()
     private var RESULT_CAMERA = 1001
@@ -43,7 +43,7 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_second)
+        setContentView(R.layout.activity_write_diary)
 
         val dbHandler = DatabaseHandler(this)
 
@@ -56,7 +56,7 @@ class SecondActivity : AppCompatActivity() {
 
         button_day.setOnClickListener {
             DatePickerDialog(
-                this@SecondActivity,
+                this@WriteDiaryActivity,
                 dateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
@@ -83,7 +83,7 @@ class SecondActivity : AppCompatActivity() {
 
                 if (success){
                     val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
-                    val dialog = AlertDialog.Builder(this@SecondActivity).setView(view).create()
+                    val dialog = AlertDialog.Builder(this@WriteDiaryActivity).setView(view).create()
                     val textDialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
                     textDialogTitle.text = "日記を保存しました！"
                     val textDialogMessage: TextView = view.findViewById(R.id.TextView_dialog_message)
@@ -98,7 +98,7 @@ class SecondActivity : AppCompatActivity() {
 
                     buttonDialog.setOnClickListener {
                         dialog.dismiss()
-                        val intent = Intent(this@SecondActivity, HomeProgramActivity::class.java)
+                        val intent = Intent(this@WriteDiaryActivity, HomeProgramActivity::class.java)
                         startActivity(intent)
                     }
                 }
@@ -130,6 +130,9 @@ class SecondActivity : AppCompatActivity() {
                 }
             } ?: Toast.makeText(this, "カメラを扱うアプリがありません", Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onBackPressed() {
     }
 
     private fun updateDateInView() {

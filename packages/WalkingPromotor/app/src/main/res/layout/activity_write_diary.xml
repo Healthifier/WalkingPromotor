@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        tools:context=".activities.SecondActivity">
+        tools:context=".activities.WriteDiaryActivity">
 
   <!-- ツールバー -->
 

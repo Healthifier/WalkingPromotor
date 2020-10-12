@@ -11,8 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_sign.*
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SignActivity : AppCompatActivity() {
@@ -43,11 +43,7 @@ class SignActivity : AppCompatActivity() {
                 val button2: Button = view.findViewById(R.id.Button_dialog_negative)
                 button2.text = "登録する"
 
-                val dialog = AlertDialog.Builder(this)
-                    .setView(view)
-                    .create()
-
-                // AlertDialogを表示
+                val dialog = AlertDialog.Builder(this).setView(view).create()
                 dialog.show()
 
                 // AlertDialogのサイズ調整
@@ -89,7 +85,7 @@ class SignActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "1001" -> {
-                    val intent = Intent(this, DiaryMenuActivity::class.java)
+                    val intent = Intent(this, ViewDiaryMenuActivity::class.java)
                     startActivity(intent)
                 }
                 "1002" -> {
@@ -97,11 +93,11 @@ class SignActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "1003" -> {
-                    val intent = Intent(this, WalkProgramActivity::class.java)
+                    val intent = Intent(this, StepProgramActivity::class.java)
                     startActivity(intent)
                 }
                 "1004" -> {
-                    val intent = Intent(this, WalkValActivity::class.java)
+                    val intent = Intent(this, RecordStepActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -143,7 +139,7 @@ class SignActivity : AppCompatActivity() {
     /**
      * 新規登録処理用のfun
      */
-    private fun signUp(group:String) = runBlocking{
+    private fun signUp(group:String){
         val acl = NCMBAcl()
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
@@ -154,7 +150,7 @@ class SignActivity : AppCompatActivity() {
         user.setPassword(password)
         user.acl = acl
         //user.put("groupName", group) グループはまだ格納しない
-        async { user.save()}.await()
+        GlobalScope.launch{ user.save()}
         lblStats.text = "新規登録が完了しました！ログインをタッチしてください"
     }
 
@@ -193,15 +189,15 @@ class SignActivity : AppCompatActivity() {
                                     if(oldGroup == newGroup){ //前回のグループと同じとき削除&追加しない
                                         when (p_check) { //そのままアクティビティ遷移
                                             "1000" -> {
-                                                val intent = Intent(this, ProgramActivity::class.java)
+                                                val intent = Intent(this, ClassProgramActivity::class.java)
                                                 startActivity(intent)
                                             }
                                             "1001" -> {
-                                                val intent = Intent(this, MetsActivity::class.java)
+                                                val intent = Intent(this, ViewEveryonesDiaryActivity::class.java)
                                                 startActivity(intent)
                                             }
                                             "1002" -> {
-                                                val intent = Intent(this, DiaryUpActivity::class.java)
+                                                val intent = Intent(this, PostDiaryActivity::class.java)
                                                 startActivity(intent)
                                             }
                                             "1003" -> {
@@ -209,7 +205,7 @@ class SignActivity : AppCompatActivity() {
                                                 startActivity(intent)
                                             }
                                             "1004" -> {
-                                                val intent = Intent(this, WalkValActivity::class.java)
+                                                val intent = Intent(this, RecordStepActivity::class.java)
                                                 startActivity(intent)
                                             }
                                         }
@@ -273,15 +269,15 @@ class SignActivity : AppCompatActivity() {
                                                                             }
                                                                             when (p_check) {
                                                                                 "1000" -> {
-                                                                                    val intent = Intent(this, ProgramActivity::class.java)
+                                                                                    val intent = Intent(this, ClassProgramActivity::class.java)
                                                                                     startActivity(intent)
                                                                                 }
                                                                                 "1001" -> {
-                                                                                    val intent = Intent(this, MetsActivity::class.java)
+                                                                                    val intent = Intent(this, ViewEveryonesDiaryActivity::class.java)
                                                                                     startActivity(intent)
                                                                                 }
                                                                                 "1002" -> {
-                                                                                    val intent = Intent(this, DiaryUpActivity::class.java)
+                                                                                    val intent = Intent(this, PostDiaryActivity::class.java)
                                                                                     startActivity(intent)
                                                                                 }
                                                                                 "1003" -> {
@@ -289,7 +285,7 @@ class SignActivity : AppCompatActivity() {
                                                                                     startActivity(intent)
                                                                                 }
                                                                                 "1004" -> {
-                                                                                    val intent = Intent(this, WalkValActivity::class.java)
+                                                                                    val intent = Intent(this, RecordStepActivity::class.java)
                                                                                     startActivity(intent)
                                                                                 }
                                                                             }
@@ -324,15 +320,15 @@ class SignActivity : AppCompatActivity() {
                                                         Log.d("[Add Result]", "Success")
                                                         when (p_check) {
                                                             "1000" -> {
-                                                                val intent = Intent(this, ProgramActivity::class.java)
+                                                                val intent = Intent(this, ClassProgramActivity::class.java)
                                                                 startActivity(intent)
                                                             }
                                                             "1001" -> {
-                                                                val intent = Intent(this, MetsActivity::class.java)
+                                                                val intent = Intent(this, ViewEveryonesDiaryActivity::class.java)
                                                                 startActivity(intent)
                                                             }
                                                             "1002" -> {
-                                                                val intent = Intent(this, DiaryUpActivity::class.java)
+                                                                val intent = Intent(this, PostDiaryActivity::class.java)
                                                                 startActivity(intent)
                                                             }
                                                             "1003" -> {
@@ -340,7 +336,7 @@ class SignActivity : AppCompatActivity() {
                                                                 startActivity(intent)
                                                             }
                                                             "1004" -> {
-                                                                val intent = Intent(this, WalkValActivity::class.java)
+                                                                val intent = Intent(this, RecordStepActivity::class.java)
                                                                 startActivity(intent)
                                                             }
                                                         }

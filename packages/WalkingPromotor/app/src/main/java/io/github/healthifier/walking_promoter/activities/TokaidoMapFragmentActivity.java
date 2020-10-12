@@ -91,7 +91,7 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), WalkProgramActivity.class);
+                Intent intent = new Intent(getApplication(), StepProgramActivity.class);
                 startActivity(intent);
             }
         });

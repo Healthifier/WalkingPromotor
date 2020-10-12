@@ -7,7 +7,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -126,6 +125,9 @@ class FirstDiaryActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+    }
+
     private fun startClass(){
         val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
         val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
@@ -136,7 +138,7 @@ class FirstDiaryActivity : AppCompatActivity() {
         GlobalScope.launch {
             delay(1200)
             if(curUser.getString("sessionToken") != null){
-                val intent = Intent(this@FirstDiaryActivity, ProgramActivity::class.java)
+                val intent = Intent(this@FirstDiaryActivity, ClassProgramActivity::class.java)
                 startActivity(intent)
                 dialog.dismiss()
             }else{

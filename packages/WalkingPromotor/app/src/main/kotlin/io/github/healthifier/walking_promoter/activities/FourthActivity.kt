@@ -2,7 +2,6 @@ package io.github.healthifier.walking_promoter.activities
 
 import android.app.Fragment
 import android.content.Intent
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import io.github.healthifier.walking_promoter.R
@@ -26,7 +25,7 @@ class FourthActivity : AppCompatActivity() {
         showFragment(TokaidoMapFragment::class.java)
 
         backButton.setOnClickListener {
-            val intent = Intent(this, WalkProgramActivity::class.java)
+            val intent = Intent(this, StepProgramActivity::class.java)
             startActivity(intent)
         }
 

@@ -1,21 +1,17 @@
 package io.github.healthifier.walking_promoter.activities
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_program.*
 
-class ProgramActivity : AppCompatActivity() {
+class ClassProgramActivity : AppCompatActivity() {
 
     private val curUser = NCMBUser.getCurrentUser()
 
@@ -31,7 +27,7 @@ class ProgramActivity : AppCompatActivity() {
         }
 
         button3.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, RecordGoalActivity::class.java)
             intent.putExtra("CHECK", "1002")
             startActivity(intent)
         }

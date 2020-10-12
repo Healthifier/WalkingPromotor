@@ -3,7 +3,6 @@ package io.github.healthifier.walking_promoter.activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +15,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
-import kotlinx.android.synthetic.main.activity_first_diary.*
 import kotlinx.android.synthetic.main.activity_home_program.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -40,12 +38,12 @@ class HomeProgramActivity : AppCompatActivity() {
         }
 
         write_button.setOnClickListener {//日記を書く
-            val intent = Intent(this, SecondActivity::class.java)
+            val intent = Intent(this, WriteDiaryActivity::class.java)
             startActivity(intent)
         }
 
         look_button.setOnClickListener {//日記を見る
-            val intent = Intent(this, DiaryMenuActivity::class.java)
+            val intent = Intent(this, ViewDiaryMenuActivity::class.java)
             startActivity(intent)
         }
 
@@ -66,7 +64,7 @@ class HomeProgramActivity : AppCompatActivity() {
         }
 
         walk_button.setOnClickListener {//歩数に関して
-            val intent = Intent(this, WalkProgramActivity::class.java)
+            val intent = Intent(this, StepProgramActivity::class.java)
             //intent.putExtra("CHECK", "1003")
             startActivity(intent)
         }
@@ -216,6 +214,9 @@ class HomeProgramActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+    }
+
     private fun startClass(){
         val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
         val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
@@ -225,7 +226,7 @@ class HomeProgramActivity : AppCompatActivity() {
             val curUser = NCMBUser.getCurrentUser()
             delay(1200)
             if(curUser.getString("sessionToken") != null){
-                val intent = Intent(this@HomeProgramActivity, DiaryUpActivity::class.java)
+                val intent = Intent(this@HomeProgramActivity, PostDiaryActivity::class.java)
                 startActivity(intent)
                 dialog.dismiss()
             }else{

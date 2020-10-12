@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nifcloud.mbaas.core.NCMBAcl
@@ -26,7 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
-class DiaryUpActivity : AppCompatActivity() {
+class PostDiaryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +77,7 @@ class DiaryUpActivity : AppCompatActivity() {
         val button2: Button = view.findViewById(R.id.Button_dialog_negative)
         button2.text = "投稿する"
 
-        val dialog = AlertDialog.Builder(this@DiaryUpActivity).setView(view).create()
+        val dialog = AlertDialog.Builder(this@PostDiaryActivity).setView(view).create()
         dialog.show()
 
         // AlertDialogのサイズ調整
@@ -112,7 +111,7 @@ class DiaryUpActivity : AppCompatActivity() {
     private fun newDialog(){
         runOnUiThread{
             val view3: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
-            val dialog3 = AlertDialog.Builder(this@DiaryUpActivity).setView(view3).create()
+            val dialog3 = AlertDialog.Builder(this@PostDiaryActivity).setView(view3).create()
             val textDialogTitle: TextView = view3.findViewById(R.id.TextView_dialog_title)
             textDialogTitle.text = "日記が投稿されました！"
             val textDialogMessage: TextView = view3.findViewById(R.id.TextView_dialog_message)
@@ -127,7 +126,7 @@ class DiaryUpActivity : AppCompatActivity() {
 
             buttonDialog.setOnClickListener {
                 dialog3.dismiss()
-                val intent = Intent(this@DiaryUpActivity, HomeProgramActivity::class.java)
+                val intent = Intent(this@PostDiaryActivity, HomeProgramActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -148,7 +147,7 @@ class DiaryUpActivity : AppCompatActivity() {
         file.saveInBackground { e ->
             if (e != null) {
                 //保存失敗
-                AlertDialog.Builder(this@DiaryUpActivity)
+                AlertDialog.Builder(this@PostDiaryActivity)
                     .setTitle("Notification from NIFCloud")
                     .setMessage("Error:" + e.message)
                     .setPositiveButton("OK", null)

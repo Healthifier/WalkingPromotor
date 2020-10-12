@@ -29,19 +29,19 @@
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.WalkProgramActivity"
+      android:name=".activities.StepProgramActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.DiaryUpActivity"
+      android:name=".activities.PostDiaryActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.WalkValActivity"
+      android:name=".activities.RecordStepActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.DiaryMenuActivity"
+      android:name=".activities.ViewDiaryMenuActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
@@ -61,11 +61,11 @@
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.ProgramActivity"
+      android:name=".activities.ClassProgramActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.MetsActivity"
+      android:name=".activities.ViewEveryonesDiaryActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
@@ -73,15 +73,15 @@
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.ThirdActivity"
+      android:name=".activities.ViewMyDiaryActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.SecondActivity"
+      android:name=".activities.WriteDiaryActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity
-      android:name=".activities.MainActivity"
+      android:name=".activities.RecordGoalActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     <activity

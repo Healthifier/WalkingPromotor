@@ -2,7 +2,6 @@ package io.github.healthifier.walking_promoter.activities
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Point
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,18 +10,16 @@ import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.*
-import kotlinx.android.synthetic.main.activity_mets.*
-import kotlinx.android.synthetic.main.activity_third.*
+import kotlinx.android.synthetic.main.activity_view_my_diary.*
 
-class ThirdActivity : AppCompatActivity() {
+class ViewMyDiaryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_third)
+        setContentView(R.layout.activity_view_my_diary)
 
         val dbHandler = DatabaseHandler(this)
         val titles = dbHandler.getAllTitles()
@@ -46,7 +43,7 @@ class ThirdActivity : AppCompatActivity() {
         })
 
         button_back.setOnClickListener {
-            val intent = Intent(this, DiaryMenuActivity::class.java)
+            val intent = Intent(this, ViewDiaryMenuActivity::class.java)
             startActivity(intent)
         }
     }

@@ -32,7 +32,7 @@ import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.GlideApp
 import kotlinx.android.synthetic.main.activity_data_select.*
 import kotlinx.android.synthetic.main.activity_data_select.button_back
-import kotlinx.android.synthetic.main.activity_second.*
+import kotlinx.android.synthetic.main.activity_write_diary.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -136,7 +136,7 @@ class DataSelectActivity : AppCompatActivity() {
         }
 
         button_back.setOnClickListener {
-            val intent = Intent(this, ProgramActivity::class.java)
+            val intent = Intent(this, ClassProgramActivity::class.java)
             startActivity(intent)
         }
 

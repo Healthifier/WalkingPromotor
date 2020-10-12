@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -15,12 +14,12 @@ import com.nifcloud.mbaas.core.NCMBObject
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
-import kotlinx.android.synthetic.main.activity_walk_val.*
+import kotlinx.android.synthetic.main.activity_record_step.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WalkValActivity : AppCompatActivity() {
+class RecordStepActivity : AppCompatActivity() {
 
     private val cal = Calendar.getInstance()
     private var dbHandler: DatabaseHandler? = null
@@ -33,7 +32,7 @@ class WalkValActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_walk_val)
+        setContentView(R.layout.activity_record_step)
 
         dbHandler = DatabaseHandler(this)
 
@@ -55,7 +54,7 @@ class WalkValActivity : AppCompatActivity() {
 
         calButton.setOnClickListener {
             DatePickerDialog(
-                this@WalkValActivity,
+                this@RecordStepActivity,
                 dateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
@@ -66,7 +65,7 @@ class WalkValActivity : AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-            val intent = Intent(this, WalkProgramActivity::class.java)
+            val intent = Intent(this, StepProgramActivity::class.java)
             startActivity(intent)
         }
 
@@ -117,6 +116,9 @@ class WalkValActivity : AppCompatActivity() {
         button_decision.setOnClickListener {
             setGoal(true)
         }
+    }
+
+    override fun onBackPressed() {
     }
 
     private fun updateDateInView() {
