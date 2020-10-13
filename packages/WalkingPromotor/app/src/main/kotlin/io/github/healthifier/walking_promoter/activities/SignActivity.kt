@@ -71,6 +71,9 @@ class SignActivity : AppCompatActivity() {
         //ログイン用のボタン
         btnSignIn.setOnClickListener {
             try {
+                val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+                val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+                dialog.show()
                 signIn(groupName)
             }catch (e:Exception){
                 Log.d("[SignIn Error]", e.toString())

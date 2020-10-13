@@ -43,15 +43,15 @@
         android:id="@+id/ctm_back_button"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/frame_style"
         android:drawableStart="@drawable/ic_baseline_undo_24_60"
         android:drawablePadding="10dp"
-        android:text="この画面を閉じる"
-        android:textStyle="bold"
         android:padding="14dp"
-        android:textSize="30.5sp"/>
+        android:text="この画面を閉じる"
+        android:textSize="27sp"
+        android:textStyle="bold" />
     </LinearLayout>
   </LinearLayout>
 

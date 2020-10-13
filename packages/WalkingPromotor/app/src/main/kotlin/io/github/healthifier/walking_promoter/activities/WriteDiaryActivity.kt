@@ -83,7 +83,7 @@ class WriteDiaryActivity : AppCompatActivity() {
 
                 if (success){
                     val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
-                    val dialog = AlertDialog.Builder(this@WriteDiaryActivity).setView(view).create()
+                    val dialog = AlertDialog.Builder(this@WriteDiaryActivity).setCancelable(false).setView(view).create()
                     val textDialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
                     textDialogTitle.text = "日記を保存しました！"
                     val textDialogMessage: TextView = view.findViewById(R.id.TextView_dialog_message)

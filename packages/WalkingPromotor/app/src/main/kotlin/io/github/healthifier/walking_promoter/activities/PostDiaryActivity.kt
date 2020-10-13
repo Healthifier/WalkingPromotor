@@ -111,7 +111,7 @@ class PostDiaryActivity : AppCompatActivity() {
     private fun newDialog(){
         runOnUiThread{
             val view3: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
-            val dialog3 = AlertDialog.Builder(this@PostDiaryActivity).setView(view3).create()
+            val dialog3 = AlertDialog.Builder(this@PostDiaryActivity).setCancelable(false).setView(view3).create()
             val textDialogTitle: TextView = view3.findViewById(R.id.TextView_dialog_title)
             textDialogTitle.text = "日記が投稿されました！"
             val textDialogMessage: TextView = view3.findViewById(R.id.TextView_dialog_message)

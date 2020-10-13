@@ -61,7 +61,7 @@ class ViewMyDiaryActivity : AppCompatActivity() {
         val height = size.y
         val factor = width.toFloat() / height.toFloat()
         dialog.window?.setLayout(
-            (width * factor * 0.9).toInt(),
+            (width * factor * 0.55).toInt(),
             (height* factor * 0.5).toInt()
         )
 
