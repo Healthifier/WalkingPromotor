@@ -19,7 +19,7 @@ import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.CustomGridAdapter
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import kotlinx.android.synthetic.main.activity_diary_up.*
-import kotlinx.android.synthetic.main.activity_start.backButton
+import kotlinx.android.synthetic.main.activity_square_step.backButton
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

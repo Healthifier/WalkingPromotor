@@ -70,7 +70,7 @@ class HomeProgramActivity : AppCompatActivity() {
         }
 
         step_button.setOnClickListener {//ステップ練習
-            val intent = Intent(this, StartActivity::class.java)
+            val intent = Intent(this, SquareStepActivity::class.java)
             startActivity(intent)
         }
 

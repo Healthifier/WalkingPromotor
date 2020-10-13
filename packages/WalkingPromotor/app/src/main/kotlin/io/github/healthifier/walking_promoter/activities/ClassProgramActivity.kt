@@ -22,7 +22,7 @@ class ClassProgramActivity : AppCompatActivity() {
         textView_log.text="${curUser.userName}さんでログインしています。"
 
         button4.setOnClickListener {
-            val intent = Intent(this, DataSelectActivity::class.java)
+            val intent = Intent(this, SharePhotoActivity::class.java)
             startActivity(intent)
         }
 

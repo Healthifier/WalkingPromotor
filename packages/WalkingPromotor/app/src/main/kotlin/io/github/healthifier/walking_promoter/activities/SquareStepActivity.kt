@@ -5,16 +5,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import io.github.healthifier.walking_promoter.R
-import io.github.healthifier.walking_promoter.fragments.GoalFragment
 import io.github.healthifier.walking_promoter.fragments.SquareStepListFragment
-import io.github.healthifier.walking_promoter.fragments.WeeklyGraphFragment
-import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_square_step.*
 
-class StartActivity : AppCompatActivity() {
+class SquareStepActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_square_step)
 
         //showFragment(SquareStepListFragment::class.java)
 

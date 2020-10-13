@@ -4,7 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="io.github.healthifier.walking_promoter.activities.DairyGraphActivity">
+  tools:context="io.github.healthifier.walking_promoter.activities.ViewMyStepActivity">
 
   <!-- ツールバー -->
   <androidx.appcompat.widget.Toolbar

@@ -45,7 +45,7 @@ class StepProgramActivity : AppCompatActivity() {
         }
 
         btn_look.setOnClickListener { //自分の歩数を見る
-            val intent = Intent(this, DairyGraphActivity::class.java)
+            val intent = Intent(this, ViewMyStepActivity::class.java)
             startActivity(intent)
         }
 

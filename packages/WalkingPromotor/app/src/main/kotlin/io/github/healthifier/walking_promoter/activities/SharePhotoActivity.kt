@@ -30,8 +30,8 @@ import com.bumptech.glide.Glide
 import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.GlideApp
-import kotlinx.android.synthetic.main.activity_data_select.*
-import kotlinx.android.synthetic.main.activity_data_select.button_back
+import kotlinx.android.synthetic.main.activity_share_photo.*
+import kotlinx.android.synthetic.main.activity_share_photo.button_back
 import kotlinx.android.synthetic.main.activity_write_diary.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -41,7 +41,7 @@ import java.io.File
 import java.io.IOException
 import kotlin.collections.ArrayList
 
-class DataSelectActivity : AppCompatActivity() {
+class SharePhotoActivity : AppCompatActivity() {
 
     private var objList = listOf<NCMBObject>()
     private var currentPathList = arrayListOf<String>()
@@ -59,7 +59,7 @@ class DataSelectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_data_select)
+        setContentView(R.layout.activity_share_photo)
 
         Log.d("name", user.userName.toString())
         Log.d("objectId", user.objectId.toString())
@@ -215,7 +215,7 @@ class DataSelectActivity : AppCompatActivity() {
                     list[0].fetchInBackground { dataFetch, er ->
                         if (er != null) {
                             //失敗処理
-                            AlertDialog.Builder(this@DataSelectActivity)
+                            AlertDialog.Builder(this@SharePhotoActivity)
                                 .setTitle("Notification from NIFCloud")
                                 .setMessage("Error:" + er.message)
                                 .setPositiveButton("OK", null)
@@ -271,7 +271,7 @@ class DataSelectActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             if(objList.size < number+1){
-                Toast.makeText(this@DataSelectActivity, "データがありません", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SharePhotoActivity, "データがありません", Toast.LENGTH_SHORT).show()
             }else{
                 setImages(objList[number].getList("array"), imageList)
                 delay(2000)
@@ -553,7 +553,7 @@ class DataSelectActivity : AppCompatActivity() {
         file.saveInBackground { e ->
             if (e != null) {
                 //保存に失敗したとき
-                AlertDialog.Builder(this@DataSelectActivity)
+                AlertDialog.Builder(this@SharePhotoActivity)
                     .setTitle("Notification from NIFCloud")
                     .setMessage("Error:" + e.message)
                     .setPositiveButton("OK", null)
