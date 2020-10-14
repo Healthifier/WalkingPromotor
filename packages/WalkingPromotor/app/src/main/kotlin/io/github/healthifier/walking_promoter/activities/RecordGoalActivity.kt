@@ -1,12 +1,10 @@
 package io.github.healthifier.walking_promoter.activities
 
-import android.app.Fragment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.fragments.GoalFragment
-import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import kotlinx.android.synthetic.main.activity_record_goal.*
 
 class RecordGoalActivity : AppCompatActivity() {

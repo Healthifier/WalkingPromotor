@@ -26,7 +26,7 @@ class SignActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign)
 
         val check = intent.getStringExtra("CHECK")
-        p_check = check
+        p_check = check!!
 
         // 初回会員登録処理用のボタン
         btnSignUp.setOnClickListener {
@@ -57,7 +57,7 @@ class SignActivity : AppCompatActivity() {
 
                 button2.setOnClickListener {
                     try {
-                        signUp(groupName)
+                        signUp()
                         dialog.dismiss()
                     }catch (e:Exception){
                         Log.d("[SignUp Error]", e.toString())
@@ -142,7 +142,7 @@ class SignActivity : AppCompatActivity() {
     /**
      * 新規登録処理用のfun
      */
-    private fun signUp(group:String){
+    private fun signUp(){
         val acl = NCMBAcl()
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
@@ -173,7 +173,7 @@ class SignActivity : AppCompatActivity() {
             }else{
                 val userName = userName.text.toString()
                 NCMBUser.logout()
-                NCMBUser.loginInBackground(userName, password){ ncmbUser, e ->
+                NCMBUser.loginInBackground(userName, password){ _, e ->
                     if(e != null){
                         Log.d("[Login Error]", e.toString())
                         lblStats.text = "ログインできませんでした.名前を確認してもう一度試してください"

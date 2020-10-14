@@ -6,15 +6,14 @@ import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.graphics.Point
+import android.graphics.*
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.Display
 import android.view.View
@@ -271,13 +270,17 @@ class SharePhotoActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             if(objList.size < number+1){
-                Toast.makeText(this@SharePhotoActivity, "データがありません", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@SharePhotoActivity, "データがありません", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
             }else{
                 setImages(objList[number].getList("array"), imageList)
-                delay(2000)
-                dialog.dismiss()
                 //Toast.makeText(this@DataSelectActivity, "画像の表示完了", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        GlobalScope.launch {
+            delay(2500)
+            dialog.dismiss()
         }
 
     }
@@ -375,24 +378,23 @@ class SharePhotoActivity : AppCompatActivity() {
         if(data != null) {
             uri = data.data
             try {
-                Log.d("[DEBUG503]", uri.toString())
-                Log.d("[DEBUG504]", uri?.path.toString())
-                val strDocId = DocumentsContract.getDocumentId(uri)
-                val strSplittedDocId = strDocId.split(":")
-                val strId = strSplittedDocId[strSplittedDocId.size - 1]
-                val projection = arrayOf(MediaStore.MediaColumns.DATA)
-                val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "_id=?", arrayOf(strId), null)
+                Log.d("uri", uri.toString())
+                Log.d("uri?.path", uri?.path.toString())
+                val cursor = contentResolver.query(uri!!, null, null, null, null)
+                val nameColumnIndex = cursor?.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                 var name = ""
                 if (cursor != null) {
                     if (cursor.moveToFirst()) {
-                        name = cursor.getString(0)
+                        //name = cursor.getString(0)
+                        name = cursor.getString(nameColumnIndex!!)
                     }
                     cursor.close()
-                    Log.d("[DEBUG516]", name)
+                    Log.d("name", name)
                 }
                 val group = user.getString("groupName")
                 val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
-                val jpgName = name.substringAfterLast("/")
+                //val jpgName = name.substringAfterLast("/")
+                val jpgName = name
                 query.whereEqualTo("fileName", jpgName)
                 query.findInBackground { list, ncmbException ->
                     if (ncmbException != null) {
@@ -400,9 +402,9 @@ class SharePhotoActivity : AppCompatActivity() {
                     } else {
                         if (list.size != 0) {
                             Log.d("[DEBUG525]", "クラウド上にあるよ")
-                            Log.d("Size461", File(name).readBytes().toString())
+                            //Log.d("Size461", File(name).readBytes().toString())
                         } else {
-                            savePicToCloud(name)
+                            savePicToCloud(uri, name)
                         }
                         val updateList = abc.getList("array")
                         when (imageView) {
@@ -460,15 +462,30 @@ class SharePhotoActivity : AppCompatActivity() {
                         }
                     }
                 }
-                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                if(bitmap.width < bitmap.height){ //縦長のとき
-                    val mat = Matrix()
-                    mat.postRotate(-90F)
-                    val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
-                    imageView.setImageBitmap(newBitmap)
-                }else{
-                    runOnUiThread {
-                        imageView.setImageBitmap(bitmap)
+                if(Build.VERSION.SDK_INT <= 27){ // APIレベル27以下の時
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                    if(bitmap.width < bitmap.height){ //縦長のとき
+                        val mat = Matrix()
+                        mat.postRotate(-90F)
+                        val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
+                        imageView.setImageBitmap(newBitmap)
+                    }else{
+                        runOnUiThread {
+                            imageView.setImageBitmap(bitmap)
+                        }
+                    }
+                }
+                if(Build.VERSION.SDK_INT >= 28){ // APIレベル28以上の時
+                    val bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, uri))
+                    if(bitmap.width < bitmap.height){ //縦長のとき
+                        val mat = Matrix()
+                        mat.postRotate(-90F)
+                        val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
+                        imageView.setImageBitmap(newBitmap)
+                    }else{
+                        runOnUiThread {
+                            imageView.setImageBitmap(bitmap)
+                        }
                     }
                 }
             } catch (e: IOException) {
@@ -542,26 +559,49 @@ class SharePhotoActivity : AppCompatActivity() {
     /**
      * 画像ファイルをクラウドデータベースにアップロード.
      */
-    private fun savePicToCloud(uriName:String){
+    private fun savePicToCloud(uri: Uri, fileName:String){
         val acl = NCMBAcl()
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
-        val bmp = BitmapFactory.decodeFile(uriName)
-        val stream = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
-        val file = NCMBFile(uriName.substringAfterLast("/"), stream.toByteArray(), acl)
-        //Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
-        file.saveInBackground { e ->
-            if (e != null) {
-                //保存に失敗したとき
-                AlertDialog.Builder(this@SharePhotoActivity)
-                    .setTitle("Notification from NIFCloud")
-                    .setMessage("Error:" + e.message)
-                    .setPositiveButton("OK", null)
-                    .show()
-            }else{
-                //保存に成功したとき
-                Log.d("[PhotoUpload Result]", "SUCCESS")
+        //val bmp = BitmapFactory.decodeFile(uriName)
+        if(Build.VERSION.SDK_INT <= 27) { // APIレベル27以下の時
+            val bmp = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+            val stream = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
+            val file = NCMBFile(fileName, stream.toByteArray(), acl)
+            //Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
+            file.saveInBackground { e ->
+                if (e != null) {
+                    //保存に失敗したとき
+                    AlertDialog.Builder(this@SharePhotoActivity)
+                        .setTitle("Notification from NIFCloud")
+                        .setMessage("Error:" + e.message)
+                        .setPositiveButton("OK", null)
+                        .show()
+                }else{
+                    //保存に成功したとき
+                    Log.d("[PhotoUpload Result]", "SUCCESS")
+                }
+            }
+        }
+        if(Build.VERSION.SDK_INT >= 28){
+            val bmp = ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, uri))
+            val stream = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
+            val file = NCMBFile(fileName, stream.toByteArray(), acl)
+            //Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
+            file.saveInBackground { e ->
+                if (e != null) {
+                    //保存に失敗したとき
+                    AlertDialog.Builder(this@SharePhotoActivity)
+                        .setTitle("Notification from NIFCloud")
+                        .setMessage("Error:" + e.message)
+                        .setPositiveButton("OK", null)
+                        .show()
+                }else{
+                    //保存に成功したとき
+                    Log.d("[PhotoUpload Result]", "SUCCESS")
+                }
             }
         }
     }

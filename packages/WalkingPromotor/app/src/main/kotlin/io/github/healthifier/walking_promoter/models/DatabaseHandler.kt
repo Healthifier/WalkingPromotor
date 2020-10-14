@@ -160,7 +160,7 @@ class DatabaseHandler(context: Context) :
             db.beginTransaction()
             for(record in records){
                 try {
-                    val dataStr = DATE_FORMAT.format(DATE_FORMAT.parse(record.date))
+                    val dataStr = DATE_FORMAT.format(DATE_FORMAT.parse(record.date)!!)
                     var stepCount:Int = -1
                     val cursor = db.rawQuery(stepQuery, arrayOf(dataStr))
                     try {
