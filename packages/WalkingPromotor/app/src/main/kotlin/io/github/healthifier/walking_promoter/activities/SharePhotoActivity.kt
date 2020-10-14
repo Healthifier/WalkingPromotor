@@ -370,7 +370,6 @@ class SharePhotoActivity : AppCompatActivity() {
     }
 
     private fun uploadPic(data: Intent?, imageView: ImageView){
-        Log.d("deb", "REQUEST_GARALLY1")
         val uri: Uri?
         val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
         if(data != null) {
@@ -468,7 +467,9 @@ class SharePhotoActivity : AppCompatActivity() {
                     val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
                     imageView.setImageBitmap(newBitmap)
                 }else{
-                    imageView.setImageBitmap(bitmap)
+                    runOnUiThread {
+                        imageView.setImageBitmap(bitmap)
+                    }
                 }
             } catch (e: IOException) {
             }
@@ -549,7 +550,7 @@ class SharePhotoActivity : AppCompatActivity() {
         val stream = ByteArrayOutputStream()
         bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
         val file = NCMBFile(uriName.substringAfterLast("/"), stream.toByteArray(), acl)
-        Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
         file.saveInBackground { e ->
             if (e != null) {
                 //保存に失敗したとき
@@ -579,7 +580,7 @@ class SharePhotoActivity : AppCompatActivity() {
                 Log.d("[Error]", e.toString())
             }else{
                 Log.d("[ObjectUpload Result]", "SUCCESS")
-                Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
             }
         }
     }
