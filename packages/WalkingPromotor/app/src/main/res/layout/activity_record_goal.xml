@@ -24,38 +24,278 @@
     tools:ignore="MissingConstraints" />
 
   <LinearLayout
+    android:id="@+id/textContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/titleTextView2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="次週の目標を設定してください"
+      android:textSize="36sp"
+      android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+      android:id="@+id/goalEditText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ems="10"
+      android:gravity="center"
+      android:focusable="false"
+      android:inputType="none"
+      android:textSize="@dimen/ten_key_text_size"/>
+
+  </LinearLayout>
+
+  <LinearLayout
     android:id="@+id/container"
-    android:layout_width="900dp"
-    android:layout_height="400dp"
+    android:layout_width="match_parent"
+    android:layout_height="330dp"
     android:orientation="horizontal"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/main_toolbar" >
+    app:layout_constraintTop_toBottomOf="@+id/textContainer">
 
-    <fragment
-      android:id="@+id/fragment3"
-      android:name="io.github.healthifier.walking_promoter.fragments.GoalFragment"
-      android:layout_width="wrap_content"
+    <TableLayout
+      android:layout_width="0dp"
       android:layout_height="match_parent"
-      android:layout_weight="1" />
+      android:layout_weight="2.5">
+
+      <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+          android:id="@+id/button_7"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="0"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="7"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_8"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="1"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="8"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_9"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="9"
+          android:textSize="@dimen/ten_key_text_size" />
+      </TableRow>
+
+      <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+          android:id="@+id/button_4"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="0"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="4"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_5"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="1"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="5"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_6"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="2"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="6"
+          android:textSize="@dimen/ten_key_text_size" />
+      </TableRow>
+
+      <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+          android:id="@+id/button_1"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="0"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="1"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_2"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="1"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="2"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_3"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="2"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="3"
+          android:textSize="@dimen/ten_key_text_size" />
+      </TableRow>
+
+      <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+          android:id="@+id/button_cancel"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="0"
+          android:layout_weight="1"
+          android:backgroundTint="#F2FF8784"
+          android:paddingLeft="0dp"
+          android:paddingRight="0dp"
+          android:text="訂正"
+          android:textColor="#FFFFFF"
+          android:textSize="@dimen/ten_key_text_kanji_size"
+          android:textStyle="bold" />
+
+        <Button
+          android:id="@+id/button_0"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="1"
+          android:layout_weight="1"
+          android:backgroundTint="#FFFFF6CF"
+          android:text="0"
+          android:textSize="@dimen/ten_key_text_size" />
+
+        <Button
+          android:id="@+id/button_decision"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_column="2"
+          android:layout_weight="1"
+          android:backgroundTint="#F2FF8784"
+          android:paddingLeft="0dp"
+          android:paddingRight="0dp"
+          android:text="決定"
+          android:textColor="#FFFFFF"
+          android:textSize="@dimen/ten_key_text_kanji_size"
+          android:textStyle="bold" />
+      </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1.5"
+      android:orientation="vertical">
+
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+          android:id="@+id/textView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_centerHorizontal="true"
+          android:text="先週の目標："
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+          android:id="@+id/lastGoalTextView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignTop="@id/textView"
+          android:layout_toRightOf="@id/textView"
+          android:text=""
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+          android:id="@+id/textView2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/textView"
+          android:layout_alignLeft="@id/textView"
+          android:text="先週の実績："
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+          android:id="@+id/lastActualTextView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/textView"
+          android:layout_toRightOf="@id/textView2"
+          android:text=""
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+          android:id="@+id/textView3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/textView2"
+          android:layout_alignLeft="@id/textView2"
+          android:text="次週の目標："
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+          android:id="@+id/goalTextView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/textView2"
+          android:layout_toRightOf="@id/textView3"
+          android:text=""
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+      </RelativeLayout>
+
+      <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/frame_style"
+        android:drawableStart="@drawable/ic_baseline_undo_24_60"
+        android:drawablePadding="10dp"
+        android:paddingHorizontal="16dp"
+        android:text="前の画面に戻る"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+    </LinearLayout>
+
   </LinearLayout>
-
-  <Button
-    android:id="@+id/backButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="end"
-    android:layout_marginTop="4dp"
-    android:layout_marginEnd="22dp"
-    android:background="@drawable/frame_style"
-    android:drawableStart="@drawable/ic_baseline_undo_24_60"
-    android:drawablePadding="10dp"
-    android:paddingHorizontal="16dp"
-    android:text="前の画面に戻る"
-    android:textSize="32sp"
-    android:textStyle="bold"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/container" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

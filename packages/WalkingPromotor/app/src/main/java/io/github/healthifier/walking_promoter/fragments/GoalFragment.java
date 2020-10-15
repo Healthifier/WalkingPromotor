@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import io.github.healthifier.walking_promoter.R;
 import io.github.healthifier.walking_promoter.models.CalendarHelper;
-import io.github.healthifier.walking_promoter.models.Database;
 import io.github.healthifier.walking_promoter.models.DatabaseHandler;
 
 import java.text.NumberFormat;
@@ -37,7 +35,7 @@ public class GoalFragment extends Fragment {
 
         _db = new DatabaseHandler(getActivity());
 
-        _goalEdit = v.findViewById(R.id.goalEditText);
+        _goalEdit = v.findViewById(R.id.stepEditText);
         _goalEdit.setInputType(0);
 
         _titleTextView = v.findViewById(R.id.titleTextView);

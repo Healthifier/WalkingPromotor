@@ -15,6 +15,9 @@ import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
 import kotlinx.android.synthetic.main.activity_record_step.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,7 +45,7 @@ class RecordStepActivity : AppCompatActivity() {
         p_cloudUName = cloudUName
         p_cloudUId = cloudUId
 
-        setGoal(false)
+        setStep(false)
         updateGoalEdit()
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -114,7 +117,7 @@ class RecordStepActivity : AppCompatActivity() {
             updateGoalEdit()
         }
         button_decision.setOnClickListener {
-            setGoal(true)
+            setStep(true)
         }
     }
 
@@ -128,10 +131,10 @@ class RecordStepActivity : AppCompatActivity() {
     }
 
     private fun updateGoalEdit() {
-        goalEditText.setText(formatNumber(_count))
+        stepEditText.setText(formatNumber(_count))
     }
 
-    private fun setGoal(save: Boolean) {
+    private fun setStep(save: Boolean) {
         //val steps = goalEditText.text.toString()
         val steps = _count
         val date = calTextView.text.toString()
@@ -159,17 +162,13 @@ class RecordStepActivity : AppCompatActivity() {
             val dialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
             dialogTitle.text = "この記録でよろしいですか？"
             val message: TextView = view.findViewById(R.id.TextView_dialog_message)
-            message.text = "日付：${date} 歩数：${steps}"
+            message.text = "日付：${date}   歩数：${steps}"
             val button1: Button = view.findViewById(R.id.Button_dialog_positive)
             button1.text = "やっぱりやめる"
             val button2: Button = view.findViewById(R.id.Button_dialog_negative)
             button2.text = "記録する"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -182,9 +181,21 @@ class RecordStepActivity : AppCompatActivity() {
             }
 
             button2.setOnClickListener {
-                saveSteps(cal, steps) //DBに保存
-                saveStepsToCloud(date, steps, cloudUName, cloudUId) //クラウドデータストアに保存
-                dialog.dismiss()
+                val view2: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+                val dialog2 = AlertDialog.Builder(this).setCancelable(false).setView(view2).create()
+                dialog2.show()
+                GlobalScope.launch {
+                    saveSteps(cal, steps) //DBに保存
+                }
+                GlobalScope.launch {
+                    saveStepsToCloud(date, steps, cloudUName, cloudUId) //クラウドデータストアに保存
+                }
+                GlobalScope.launch {
+                    delay(1000)
+                    dialog.dismiss()
+                    dialog2.dismiss()
+                    newDialog()
+                }
             }
 
         }
@@ -192,6 +203,30 @@ class RecordStepActivity : AppCompatActivity() {
 
     private fun saveSteps(cal: Calendar, steps: Int){
         dbHandler?.setStep(cal, steps)
+    }
+
+    private fun newDialog(){
+        runOnUiThread{
+            val view3: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
+            val dialog3 = AlertDialog.Builder(this@RecordStepActivity).setCancelable(false).setView(view3).create()
+            val textDialogTitle: TextView = view3.findViewById(R.id.TextView_dialog_title)
+            textDialogTitle.text = "歩数が記録されました！"
+            val textDialogMessage: TextView = view3.findViewById(R.id.TextView_dialog_message)
+            textDialogMessage.text = "歩数を見るメニューで実際に見てみましょう！"
+            val buttonDialog: Button = view3.findViewById(R.id.Button_dialog_positive)
+            buttonDialog.text = "この画面を閉じる"
+            dialog3.show()
+
+            val lp = dialog3.window?.attributes
+            lp?.width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+            dialog3.window?.attributes = lp
+
+            buttonDialog.setOnClickListener {
+                dialog3.dismiss()
+                val intent = Intent(this@RecordStepActivity, StepProgramActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     /**
@@ -211,7 +246,6 @@ class RecordStepActivity : AppCompatActivity() {
                 Log.d("[Error]", e.toString())
             }else{
                 Log.d("[RESULT:objectUpload]", "SUCCESS")
-                Toast.makeText(this, "記録完了", Toast.LENGTH_SHORT).show()
             }
         }
     }
