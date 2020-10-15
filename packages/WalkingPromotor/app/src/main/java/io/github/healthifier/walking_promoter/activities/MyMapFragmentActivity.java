@@ -1,14 +1,16 @@
 package io.github.healthifier.walking_promoter.activities;
 
-import androidx.fragment.app.FragmentActivity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,9 +30,7 @@ import com.google.maps.android.geojson.GeoJsonPoint;
 import com.nifcloud.mbaas.core.NCMBException;
 import com.nifcloud.mbaas.core.NCMBObject;
 import com.nifcloud.mbaas.core.NCMBQuery;
-import io.github.healthifier.walking_promoter.App;
-import io.github.healthifier.walking_promoter.R;
-import io.github.healthifier.walking_promoter.models.DistanceCalculator;
+import com.nifcloud.mbaas.core.NCMBUser;
 
 import org.json.JSONException;
 
@@ -41,8 +41,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter{
+import io.github.healthifier.walking_promoter.App;
+import io.github.healthifier.walking_promoter.R;
+import io.github.healthifier.walking_promoter.models.DistanceCalculator;
 
+public class MyMapFragmentActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
     private static final int LINE_COLOR = Color.BLUE;
     private static final int LOOP_LINE_COLOR = Color.argb(64, 0, 0, 255);
 
@@ -60,7 +63,10 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
         //DatabaseHandler db = new DatabaseHandler(this);
         //walkedStep = db.getMyStepCount();
 
+        NCMBUser user = NCMBUser.getCurrentUser();
+
         NCMBQuery<NCMBObject> query = new NCMBQuery<>("walkValue");
+        query.whereEqualTo("userName", user.getUserName());
         try {
             List<NCMBObject> list = query.find();
             if(list != null){

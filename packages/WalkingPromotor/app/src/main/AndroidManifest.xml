@@ -21,6 +21,10 @@
     android:uiOptions="splitActionBarWhenNarrow"
     tools:ignore="GoogleAppIndexingWarning">
     <activity
+      android:name=".activities.MyMapFragmentActivity"
+      android:screenOrientation="landscape"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+    <activity
       android:name=".activities.TokaidoMapFragmentActivity"
       android:screenOrientation="landscape"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

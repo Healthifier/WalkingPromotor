@@ -44,13 +44,28 @@ class StepProgramActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btn_look.setOnClickListener { //自分の歩数を見る
+        btn_look_own.setOnClickListener {//自分の歩数を見る
+            val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+            if(capabilities != null){
+                if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)){
+                    startClass("lookOwn")
+                }
+                if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)){
+                    startClass("lookOwn")
+                }
+            }else{
+                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
+                Log.d("DEBUG", "ネットワークに接続していません")
+            }
+        }
+
+        btn_look.setOnClickListener { //歩数グラフを見る
             val intent = Intent(this, ViewMyStepActivity::class.java)
             startActivity(intent)
         }
 
         btn_look_all.setOnClickListener { //みんなの歩数を見る
-            //val intent = Intent(this, TokaidoMapFragmentActivity::class.java)
             val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
             if(capabilities != null){
@@ -84,14 +99,25 @@ class StepProgramActivity : AppCompatActivity() {
         GlobalScope.launch {
             val curUser = NCMBUser.getCurrentUser()
             delay(1200)
-            if(str=="write"){
-                if(curUser.getString("sessionToken") != null){
+            if(str=="write") {
+                if (curUser.getString("sessionToken") != null) {
                     val intent = Intent(this@StepProgramActivity, RecordStepActivity::class.java)
+                    startActivity(intent)
+                    dialog.dismiss()
+                } else {
+                    val intent = Intent(this@StepProgramActivity, SignActivity::class.java)
+                    intent.putExtra("CHECK", "1004")
+                    startActivity(intent)
+                    dialog.dismiss()
+                }
+            }else if(str == "lookOwn"){
+                if(curUser.getString("sessionToken") != null){
+                    val intent = Intent(this@StepProgramActivity, MyMapFragmentActivity::class.java)
                     startActivity(intent)
                     dialog.dismiss()
                 }else{
                     val intent = Intent(this@StepProgramActivity, SignActivity::class.java)
-                    intent.putExtra("CHECK", "1004")
+                    intent.putExtra("CHECK", "1003")
                     startActivity(intent)
                     dialog.dismiss()
                 }
@@ -107,7 +133,6 @@ class StepProgramActivity : AppCompatActivity() {
                     dialog.dismiss()
                 }
             }
-
         }
     }
 }
