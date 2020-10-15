@@ -181,7 +181,7 @@ class SignActivity : AppCompatActivity() {
                         Log.d("[Login Result]", "Success")
                         val queryUser = NCMBUser.getQuery()
                         queryUser.whereEqualTo("userName", userName)
-                        val a = queryUser.find()
+                        //val a = queryUser.find()
                         queryUser.findInBackground { userList, error ->
                             if(error != null){
                                 Log.d("[Find Error]", e.toString())
@@ -238,9 +238,9 @@ class SignActivity : AppCompatActivity() {
                                                         //新しい所属グループ内にユーザー情報を追加
                                                         val currentUser = NCMBUser.getCurrentUser()
                                                         currentUser.put("groupName", newGroup)
-                                                        currentUser.saveInBackground { e ->
-                                                            if(e != null){
-                                                                Log.d("[Save Error]", e.toString())
+                                                        currentUser.saveInBackground { saveError ->
+                                                            if(saveError != null){
+                                                                Log.d("[Save Error]", saveError.toString())
                                                             }else{
                                                                 Log.d("[Save Result]", "Success")
                                                                 val queryNewRole = NCMBRole.getQuery()
@@ -248,15 +248,15 @@ class SignActivity : AppCompatActivity() {
                                                                 val n = queryNewRole.find()
                                                                 if(n.size > 0){
                                                                     val findNewRole = n[0]
-                                                                    findNewRole.addUserInBackground(listOf(currentUser)){ e ->
-                                                                        if(e != null){
-                                                                            Log.d("[Add Error]", e.toString())
+                                                                    findNewRole.addUserInBackground(listOf(currentUser)){ addUserError ->
+                                                                        if(addUserError != null){
+                                                                            Log.d("[Add Error]", addUserError.toString())
                                                                         }else{
                                                                             Log.d("[Add Result]", "Success")
-                                                                            val query = NCMBQuery<NCMBObject>("photoPath")
+                                                                            val queryObject = NCMBQuery<NCMBObject>("photoPath")
                                                                             //var abc = NCMBObject("photoPath")
-                                                                            query.whereEqualTo("name", currentUser.userName)
-                                                                            query.findInBackground { mutableList, ncmbException ->
+                                                                            queryObject.whereEqualTo("name", currentUser.userName)
+                                                                            queryObject.findInBackground { mutableList, ncmbException ->
                                                                                 if(ncmbException != null){
                                                                                     ncmbException.printStackTrace()
                                                                                 }else{
@@ -316,9 +316,9 @@ class SignActivity : AppCompatActivity() {
                                             val n = queryNewRole.find()
                                             if(n.size > 0){
                                                 val findNewRole = n[0]
-                                                findNewRole.addUserInBackground(listOf(currentUser)){ e ->
-                                                    if(e != null){
-                                                        Log.d("[Add Error]", e.toString())
+                                                findNewRole.addUserInBackground(listOf(currentUser)){ addUserError ->
+                                                    if(addUserError != null){
+                                                        Log.d("[Add Error]", addUserError.toString())
                                                     }else{
                                                         Log.d("[Add Result]", "Success")
                                                         when (p_check) {

@@ -68,6 +68,16 @@ class SharePhotoActivity : AppCompatActivity() {
         val name = user.userName
         val group = user.getString("groupName")
         textView_user.text = name + "さんが選んだ写真の画面です"
+
+        val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+        val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+        dialog.show()
+
+        GlobalScope.launch {
+            delay(2500)
+            dialog.dismiss()
+        }
+
         val querySelect = NCMBQuery<NCMBObject>("photoPath")
         querySelect.whereEqualTo("groupName", group)
         querySelect.findInBackground { objects, error ->
@@ -84,10 +94,11 @@ class SharePhotoActivity : AppCompatActivity() {
                             setImages(objList[i - 1].getList("array"), imageList)
                         }
                         myNumber = i-1
+                        displayNumber = i-1
                     }
                 }
-                Log.d("[DEBUG83]", myNumber.toString())
-                Log.d("[DEBUG83]", objList.size.toString())
+                Log.d("[myNumber]", myNumber.toString())
+                Log.d("[objList.size]", objList.size.toString())
             }
         }
         val queryPhoto = NCMBQuery<NCMBObject>("photoPath")
@@ -108,6 +119,9 @@ class SharePhotoActivity : AppCompatActivity() {
 
         //更新用のボタン
         button_update.setOnClickListener {
+            val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+            val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+            dialog.show()
             querySelect.findInBackground { objects, error ->
                 if (error != null) {
                     Log.d("[Error106]", error.toString())
@@ -129,9 +143,13 @@ class SharePhotoActivity : AppCompatActivity() {
                     Log.d("[DEBUG122]", myNumber.toString())
                     Log.d("[DEBUG123]", displayNumber.toString())
                 }
-                Toast.makeText(this, "更新完了", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "更新完了", Toast.LENGTH_SHORT).show()
             }
             textView_user.text = user.userName + "さんが選んだ写真の画面です"
+            GlobalScope.launch {
+                delay(2000)
+                dialog.dismiss()
+            }
         }
 
         button_back.setOnClickListener {
@@ -168,7 +186,7 @@ class SharePhotoActivity : AppCompatActivity() {
             if(null == imageView3.drawable){
                 selectPhoto("1")
             }else {
-                showDialog(currentPathList[0])
+                showDialog(imageView3, currentPathList[0])
             }
         }
 
@@ -176,7 +194,7 @@ class SharePhotoActivity : AppCompatActivity() {
             if(null == imageView4.drawable){
                 selectPhoto("2")
             }else {
-                showDialog(currentPathList[1])
+                showDialog(imageView4, currentPathList[1])
             }
         }
 
@@ -184,7 +202,7 @@ class SharePhotoActivity : AppCompatActivity() {
             if (null == imageView5.drawable) {
                 selectPhoto("3")
             } else {
-                showDialog(currentPathList[2])
+                showDialog(imageView5, currentPathList[2])
             }
         }
     }
@@ -284,7 +302,7 @@ class SharePhotoActivity : AppCompatActivity() {
         }
 
     }
-    private fun showDialog(path: String){
+    private fun showDialog(imageView: ImageView, path: String){
         val dialog = Dialog(this)
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         val customLayoutView: View = layoutInflater.inflate(R.layout.custom_dialog_layout, null)

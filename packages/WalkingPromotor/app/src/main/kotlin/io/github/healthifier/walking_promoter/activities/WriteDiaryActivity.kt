@@ -47,7 +47,7 @@ class WriteDiaryActivity : AppCompatActivity() {
 
         val dbHandler = DatabaseHandler(this)
 
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -69,7 +69,7 @@ class WriteDiaryActivity : AppCompatActivity() {
             // checking input text should not be null
             if (validation()){
                 val user = Users()
-                var success = false
+                val success: Boolean
                 val title = editText_diaryTitle.text.toString()
                 val date = textCalView2.text.toString()
 
@@ -93,7 +93,7 @@ class WriteDiaryActivity : AppCompatActivity() {
                     dialog.show()
 
                     val lp = dialog.window?.attributes
-                    lp?.width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+                    lp?.width = (resources.displayMetrics.widthPixels * 0.85).toInt()
                     dialog.window?.attributes = lp
 
                     buttonDialog.setOnClickListener {
@@ -232,7 +232,7 @@ class WriteDiaryActivity : AppCompatActivity() {
     }
 
     private fun validation(): Boolean{
-        var validate = false
+        val validate: Boolean
 
         if (editText_diaryTitle.text.toString() != "" &&
             textCalView2.text.toString() != ""){
