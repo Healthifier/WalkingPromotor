@@ -179,7 +179,7 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
 
         _map.addMarker(new MarkerOptions()
             .position(point)
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.cat_success))
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.walking))
         );
 
         _map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -59,6 +60,9 @@ public class MyMapFragmentActivity extends FragmentActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tokaido_map_fragment);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+        toolbar.setTitle("自分の総歩数を見る");
 
         //DatabaseHandler db = new DatabaseHandler(this);
         //walkedStep = db.getMyStepCount();
@@ -185,7 +189,7 @@ public class MyMapFragmentActivity extends FragmentActivity implements OnMapRead
 
         _map.addMarker(new MarkerOptions()
             .position(point)
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.cat_success))
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.walking))
         );
 
         _map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
