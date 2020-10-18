@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nifcloud.mbaas.core.NCMBUser
@@ -33,8 +35,7 @@ class StepProgramActivity : AppCompatActivity() {
                     startClass("write")
                 }
             }else{
-                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
-                Log.d("DEBUG", "ネットワークに接続していません")
+                showNetworkFailed()
             }
         }
 
@@ -55,8 +56,7 @@ class StepProgramActivity : AppCompatActivity() {
                     startClass("lookOwn")
                 }
             }else{
-                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
-                Log.d("DEBUG", "ネットワークに接続していません")
+                showNetworkFailed()
             }
         }
 
@@ -76,8 +76,7 @@ class StepProgramActivity : AppCompatActivity() {
                     startClass("lookAll")
                 }
             }else{
-                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
-                Log.d("DEBUG", "ネットワークに接続していません")
+                showNetworkFailed()
             }
         }
 
@@ -133,6 +132,20 @@ class StepProgramActivity : AppCompatActivity() {
                     dialog.dismiss()
                 }
             }
+        }
+    }
+
+    private fun showNetworkFailed(){
+        val view: View = layoutInflater.inflate(R.layout.custom_dialog_message, null)
+        val title: TextView = view.findViewById(R.id.TextView_dialog_title)
+        title.text = "ネットに繋がっていません！"
+        val button: Button = view.findViewById(R.id.Button_dialog_positive)
+        button.text = "この画面を閉じる"
+        val dialog = AlertDialog.Builder(this@StepProgramActivity).setView(view).create()
+        dialog.show()
+
+        button.setOnClickListener {
+            dialog.dismiss()
         }
     }
 }

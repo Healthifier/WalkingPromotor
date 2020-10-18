@@ -244,9 +244,9 @@ class SharePhotoActivity : AppCompatActivity() {
                                 val mat = Matrix()
                                 mat.postRotate(-90F)
                                 val newBitmap = Bitmap.createBitmap(preBitmap, 0, 0, preBitmap.width, preBitmap.height, mat, true)
-                                Glide.with(this).load(newBitmap).thumbnail(1f).into(imageName[i])
+                                GlideApp.with(this).load(newBitmap).thumbnail(1f).into(imageName[i])
                             } else {
-                                Glide.with(this).load(dataFetch).thumbnail(1f).into(imageName[i])
+                                GlideApp.with(this).load(dataFetch).thumbnail(1f).into(imageName[i])
                             }
                         }
                     }

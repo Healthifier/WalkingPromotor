@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import io.github.healthifier.walking_promoter.R
 import io.github.healthifier.walking_promoter.models.DatabaseHandler
+import io.github.healthifier.walking_promoter.models.GlideApp
 import io.github.healthifier.walking_promoter.models.Users
 import kotlinx.android.synthetic.main.activity_write_diary.*
 import java.io.File
@@ -174,8 +175,7 @@ class WriteDiaryActivity : AppCompatActivity() {
                 put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
                 put("_data", path)
             }
-            contentResolver.insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
             val inputStream = FileInputStream(File(path))
             val bitmap = BitmapFactory.decodeStream(inputStream)
@@ -183,9 +183,11 @@ class WriteDiaryActivity : AppCompatActivity() {
                 val mat = Matrix()
                 mat.postRotate(-90F)
                 val newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, mat, true)
-                imageView.setImageBitmap(newBitmap)
+                //imageView.setImageBitmap(newBitmap)
+                GlideApp.with(this).load(newBitmap).into(imageView)
             }else{
-                imageView.setImageBitmap(bitmap)
+                //imageView.setImageBitmap(bitmap)
+                GlideApp.with(this).load(bitmap).into(imageView)
             }
         }
     }

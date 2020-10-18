@@ -7,11 +7,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.nifcloud.mbaas.core.NCMBUser
 import io.github.healthifier.walking_promoter.R
@@ -58,14 +56,12 @@ class HomeProgramActivity : AppCompatActivity() {
                     startClass()
                 }
             }else{
-                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
-                Log.d("DEBUG", "ネットワークに接続していません")
+                showNetworkFailed()
             }
         }
 
         walk_button.setOnClickListener {//歩数に関して
             val intent = Intent(this, StepProgramActivity::class.java)
-            //intent.putExtra("CHECK", "1003")
             startActivity(intent)
         }
 
@@ -92,11 +88,7 @@ class HomeProgramActivity : AppCompatActivity() {
             val button: Button = view.findViewById(R.id.Button_dialog_positive)
             button.text = "この画面を閉じる"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -118,11 +110,7 @@ class HomeProgramActivity : AppCompatActivity() {
             val button: Button = view.findViewById(R.id.Button_dialog_positive)
             button.text = "この画面を閉じる"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -144,11 +132,7 @@ class HomeProgramActivity : AppCompatActivity() {
             val button: Button = view.findViewById(R.id.Button_dialog_positive)
             button.text = "この画面を閉じる"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -170,11 +154,7 @@ class HomeProgramActivity : AppCompatActivity() {
             val button: Button = view.findViewById(R.id.Button_dialog_positive)
             button.text = "この画面を閉じる"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -196,11 +176,7 @@ class HomeProgramActivity : AppCompatActivity() {
             val button: Button = view.findViewById(R.id.Button_dialog_positive)
             button.text = "この画面を閉じる"
 
-            val dialog = AlertDialog.Builder(this)
-                .setView(view)
-                .create()
-
-            // AlertDialogを表示
+            val dialog = AlertDialog.Builder(this).setView(view).create()
             dialog.show()
 
             // AlertDialogのサイズ調整
@@ -235,6 +211,20 @@ class HomeProgramActivity : AppCompatActivity() {
                 startActivity(intent)
                 dialog.dismiss()
             }
+        }
+    }
+
+    private fun showNetworkFailed(){
+        val view: View = layoutInflater.inflate(R.layout.custom_dialog_message, null)
+        val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+        title.text = "ネットに繋がっていません！"
+        val button:Button = view.findViewById(R.id.Button_dialog_positive)
+        button.text = "この画面を閉じる"
+        val dialog = AlertDialog.Builder(this@HomeProgramActivity).setView(view).create()
+        dialog.show()
+
+        button.setOnClickListener {
+            dialog.dismiss()
         }
     }
 }

@@ -30,7 +30,7 @@ class FirstDiaryActivity : AppCompatActivity() {
         //NCMB.initialize(applicationContext, BuildConfig.APPLICATION_KEY, BuildConfig.CLIENT_KEY)
         NCMB.initialize(applicationContext, "8d3584c70aedac126b19635825096cbe82ac4f4b863a2b18d43e6fada9505ba2", "c3750b96bb4c722dc73228c16eea6ddecae52d10af3d626ef9da8643488a4abf")
 
-        setSupportActionBar(main_toolbar) // toolbar
+        //setSupportActionBar(main_toolbar) // toolbar
 
         // "DataStore"という名前でインスタンスを生成
         val dataStore: SharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE)
@@ -57,8 +57,9 @@ class FirstDiaryActivity : AppCompatActivity() {
                     startClass()
                 }
             }else{
-                Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
-                Log.d("DEBUG", "ネットワークに接続していません")
+                showNetworkFailed()
+                //Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
+                //Log.d("DEBUG", "ネットワークに接続していません")
             }
         }
 
@@ -114,8 +115,7 @@ class FirstDiaryActivity : AppCompatActivity() {
                         logOut()
                     }
                 }else{
-                    Toast.makeText(this, "ネットワーク接続をしてください", Toast.LENGTH_SHORT).show()
-                    Log.d("DEBUG", "ネットワークに接続していません")
+                    showNetworkFailed()
                 }
             }
 
@@ -203,7 +203,7 @@ class FirstDiaryActivity : AppCompatActivity() {
         val button2: Button = view.findViewById(R.id.Button_dialog_negative)
         button2.text = "ログアウトする"
 
-        val dialog = AlertDialog.Builder(this).setView(view).create()
+        val dialog = AlertDialog.Builder(this@FirstDiaryActivity).setView(view).create()
         dialog.show()
 
         // AlertDialogのサイズ調整
@@ -217,7 +217,31 @@ class FirstDiaryActivity : AppCompatActivity() {
 
         button2.setOnClickListener {
             NCMBUser.logout()
-            Toast.makeText(this, "ログアウトしました", Toast.LENGTH_SHORT).show()
+            val view2: View = layoutInflater.inflate(R.layout.custom_dialog_message, null)
+            val title2:TextView = view2.findViewById(R.id.TextView_dialog_title)
+            title2.text = "ログアウトしました"
+            val button:Button = view2.findViewById(R.id.Button_dialog_positive)
+            button.text = "この画面を閉じる"
+            val dialog2 = AlertDialog.Builder(this@FirstDiaryActivity).setView(view2).create()
+            dialog.dismiss()
+            dialog2.show()
+
+            button.setOnClickListener {
+                dialog2.dismiss()
+            }
+        }
+    }
+
+    private fun showNetworkFailed(){
+        val view: View = layoutInflater.inflate(R.layout.custom_dialog_message, null)
+        val title:TextView = view.findViewById(R.id.TextView_dialog_title)
+        title.text = "ネットに繋がっていません！"
+        val button:Button = view.findViewById(R.id.Button_dialog_positive)
+        button.text = "この画面を閉じる"
+        val dialog = AlertDialog.Builder(this@FirstDiaryActivity).setView(view).create()
+        dialog.show()
+
+        button.setOnClickListener {
             dialog.dismiss()
         }
     }
