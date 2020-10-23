@@ -2,6 +2,8 @@ package io.github.healthifier.walking_promoter.activities;
 
 import androidx.fragment.app.FragmentActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.util.Log;
@@ -144,7 +146,7 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
             Marker marker = _map.addMarker(new MarkerOptions()
                 .position(point.getCoordinates())
                 .title(title)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.red_flag))
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("flag", 130, 130)))
             );
 
             String fileName = "tokaido_" + feature.getProperty("filename");
@@ -179,7 +181,7 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
 
         _map.addMarker(new MarkerOptions()
             .position(point)
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.walking))
+            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("samurai", 83, 145)))
         );
 
         _map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -197,6 +199,13 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
             arrayList.add(null);
         }
         arrayList.set(index, value);
+    }
+
+    /* https://stackoverflow.com/a/32187898 */
+    public Bitmap resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
     }
 
     @Override
