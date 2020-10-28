@@ -143,7 +143,6 @@ class SharePhotoActivity : AppCompatActivity() {
                     Log.d("[DEBUG122]", myNumber.toString())
                     Log.d("[DEBUG123]", displayNumber.toString())
                 }
-                //Toast.makeText(this, "更新完了", Toast.LENGTH_SHORT).show()
             }
             textView_user.text = user.userName + "さんが選んだ写真の画面です"
             GlobalScope.launch {
@@ -217,7 +216,6 @@ class SharePhotoActivity : AppCompatActivity() {
     }
 
     private fun setImages(selectName: List<*>, imageName: ArrayList<ImageView>){
-        //Toast.makeText(this, "画像を準備中", Toast.LENGTH_SHORT).show()
         val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
         val listSize = selectName.size-1
         val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
@@ -288,11 +286,9 @@ class SharePhotoActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             if(objList.size < number+1){
-                //Toast.makeText(this@SharePhotoActivity, "データがありません", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }else{
                 setImages(objList[number].getList("array"), imageList)
-                //Toast.makeText(this@DataSelectActivity, "画像の表示完了", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -403,7 +399,6 @@ class SharePhotoActivity : AppCompatActivity() {
                 var name = ""
                 if (cursor != null) {
                     if (cursor.moveToFirst()) {
-                        //name = cursor.getString(0)
                         name = cursor.getString(nameColumnIndex!!)
                     }
                     cursor.close()
@@ -411,7 +406,6 @@ class SharePhotoActivity : AppCompatActivity() {
                 }
                 val group = user.getString("groupName")
                 val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
-                //val jpgName = name.substringAfterLast("/")
                 val jpgName = name
                 query.whereEqualTo("fileName", jpgName)
                 query.findInBackground { list, ncmbException ->
@@ -420,7 +414,6 @@ class SharePhotoActivity : AppCompatActivity() {
                     } else {
                         if (list.size != 0) {
                             Log.d("[DEBUG525]", "クラウド上にあるよ")
-                            //Log.d("Size461", File(name).readBytes().toString())
                         } else {
                             savePicToCloud(uri, name)
                         }
@@ -581,13 +574,11 @@ class SharePhotoActivity : AppCompatActivity() {
         val acl = NCMBAcl()
         acl.publicReadAccess = true
         acl.publicWriteAccess = true
-        //val bmp = BitmapFactory.decodeFile(uriName)
         if(Build.VERSION.SDK_INT <= 27) { // APIレベル27以下の時
             val bmp = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
             val stream = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
             val file = NCMBFile(fileName, stream.toByteArray(), acl)
-            //Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
             file.saveInBackground { e ->
                 if (e != null) {
                     //保存に失敗したとき
@@ -607,7 +598,6 @@ class SharePhotoActivity : AppCompatActivity() {
             val stream = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.JPEG, 20, stream)
             val file = NCMBFile(fileName, stream.toByteArray(), acl)
-            //Toast.makeText(this, "データをアップロード中.そのままお待ちください", Toast.LENGTH_SHORT).show()
             file.saveInBackground { e ->
                 if (e != null) {
                     //保存に失敗したとき
@@ -638,7 +628,6 @@ class SharePhotoActivity : AppCompatActivity() {
                 Log.d("[Error]", e.toString())
             }else{
                 Log.d("[ObjectUpload Result]", "SUCCESS")
-                //Toast.makeText(this, "アップロード完了", Toast.LENGTH_SHORT).show()
             }
         }
     }

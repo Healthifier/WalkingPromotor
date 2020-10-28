@@ -59,9 +59,6 @@ public class TokaidoMapFragmentActivity extends FragmentActivity implements OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tokaido_map_fragment);
 
-        //DatabaseHandler db = new DatabaseHandler(this);
-        //walkedStep = db.getMyStepCount();
-
         NCMBQuery<NCMBObject> query = new NCMBQuery<>("walkValue");
         try {
             List<NCMBObject> list = query.find();

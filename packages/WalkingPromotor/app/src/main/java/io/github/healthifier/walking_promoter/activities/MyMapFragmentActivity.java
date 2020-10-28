@@ -66,9 +66,6 @@ public class MyMapFragmentActivity extends FragmentActivity implements OnMapRead
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         toolbar.setTitle("自分の総歩数を見る");
 
-        //DatabaseHandler db = new DatabaseHandler(this);
-        //walkedStep = db.getMyStepCount();
-
         NCMBUser user = NCMBUser.getCurrentUser();
 
         NCMBQuery<NCMBObject> query = new NCMBQuery<>("walkValue");
