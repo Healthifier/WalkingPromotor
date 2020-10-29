@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -69,6 +70,7 @@ class WriteDiaryActivity : AppCompatActivity() {
         button_save.setOnClickListener{
             // checking input text should not be null
             if (validation()){
+                Log.d("validation", "true")
                 val user = Users()
                 val success: Boolean
                 val title = editText_diaryTitle.text.toString()
@@ -83,6 +85,7 @@ class WriteDiaryActivity : AppCompatActivity() {
                 success = dbHandler.addUser(user)
 
                 if (success){
+                    Log.d("success", "true")
                     val view: View = layoutInflater.inflate(R.layout.custom_dialog_explain, null)
                     val dialog = AlertDialog.Builder(this@WriteDiaryActivity).setCancelable(false).setView(view).create()
                     val textDialogTitle: TextView = view.findViewById(R.id.TextView_dialog_title)
@@ -102,7 +105,11 @@ class WriteDiaryActivity : AppCompatActivity() {
                         val intent = Intent(this@WriteDiaryActivity, HomeProgramActivity::class.java)
                         startActivity(intent)
                     }
+                }else{
+                    Log.d("success", "false")
                 }
+            }else{
+                Log.d("validation", "false")
             }
         }
 

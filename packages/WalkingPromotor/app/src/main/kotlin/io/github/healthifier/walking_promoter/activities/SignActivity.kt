@@ -100,7 +100,11 @@ class SignActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "1004" -> {
-                    val intent = Intent(this, RecordStepActivity::class.java)
+                    val intent = Intent(this, StepProgramActivity::class.java)
+                    startActivity(intent)
+                }
+                "1005" -> {
+                    val intent = Intent(this, StepProgramActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -211,6 +215,10 @@ class SignActivity : AppCompatActivity() {
                                                 val intent = Intent(this, RecordStepActivity::class.java)
                                                 startActivity(intent)
                                             }
+                                            "1005" -> {
+                                                val intent = Intent(this, MyMapFragmentActivity::class.java)
+                                                startActivity(intent)
+                                            }
                                         }
                                     }else{ //今回のグループが前回のグループと異なるとき削除&追加を行う
                                         //まず新しい登録先のグループメンバー数を確認
@@ -291,6 +299,10 @@ class SignActivity : AppCompatActivity() {
                                                                                     val intent = Intent(this, RecordStepActivity::class.java)
                                                                                     startActivity(intent)
                                                                                 }
+                                                                                "1005" -> {
+                                                                                    val intent = Intent(this, MyMapFragmentActivity::class.java)
+                                                                                    startActivity(intent)
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -340,6 +352,10 @@ class SignActivity : AppCompatActivity() {
                                                             }
                                                             "1004" -> {
                                                                 val intent = Intent(this, RecordStepActivity::class.java)
+                                                                startActivity(intent)
+                                                            }
+                                                            "1005" -> {
+                                                                val intent = Intent(this, MyMapFragmentActivity::class.java)
                                                                 startActivity(intent)
                                                             }
                                                         }

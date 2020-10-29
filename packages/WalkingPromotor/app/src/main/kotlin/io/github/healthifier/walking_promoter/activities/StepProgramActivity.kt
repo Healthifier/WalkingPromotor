@@ -116,7 +116,7 @@ class StepProgramActivity : AppCompatActivity() {
                     dialog.dismiss()
                 }else{
                     val intent = Intent(this@StepProgramActivity, SignActivity::class.java)
-                    intent.putExtra("CHECK", "1003")
+                    intent.putExtra("CHECK", "1005")
                     startActivity(intent)
                     dialog.dismiss()
                 }

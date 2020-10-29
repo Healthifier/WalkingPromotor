@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "io.github.healthifier.walking_promoter"
-        minSdkVersion 23
+        minSdkVersion 23 //23に直す
         targetSdkVersion 29
         versionCode 1
         versionName "1.0.0"
