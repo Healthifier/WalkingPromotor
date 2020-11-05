@@ -12,6 +12,7 @@ import com.nifcloud.mbaas.core.*
 import io.github.healthifier.walking_promoter.R
 import kotlinx.android.synthetic.main.activity_sign.*
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -30,8 +31,10 @@ class SignActivity : AppCompatActivity() {
 
         // 初回会員登録処理用のボタン
         btnSignUp.setOnClickListener {
-            if(groupName == ""){
-                Toast.makeText(this, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
+            if(userName.text.toString() == ""){
+                //Toast.makeText(this, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
+            }else if(groupName == ""){
+                //Toast.makeText(this, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
             }else{
                 val view: View = layoutInflater.inflate(R.layout.custom_dialog_check, null)
                 val title:TextView = view.findViewById(R.id.TextView_dialog_title)
@@ -43,7 +46,7 @@ class SignActivity : AppCompatActivity() {
                 val button2: Button = view.findViewById(R.id.Button_dialog_negative)
                 button2.text = "登録する"
 
-                val dialog = AlertDialog.Builder(this).setView(view).create()
+                val dialog = AlertDialog.Builder(this@SignActivity).setView(view).create()
                 dialog.show()
 
                 // AlertDialogのサイズ調整
@@ -57,11 +60,20 @@ class SignActivity : AppCompatActivity() {
 
                 button2.setOnClickListener {
                     try {
-                        signUp()
-                        dialog.dismiss()
+                        val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
+                        val dialog2 = AlertDialog.Builder(this@SignActivity).setCancelable(false).setView(view).create()
+                        dialog2.show()
+                        GlobalScope.launch {
+                            signUp()
+                        }
+                        GlobalScope.launch {
+                            delay(1000)
+                            dialog2.dismiss()
+                            dialog.dismiss()
+                        }
                     }catch (e:Exception){
                         Log.d("[SignUp Error]", e.toString())
-                        Toast.makeText(this, "新規会員登録ができませんでした", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SignActivity, "新規会員登録ができませんでした", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                 }
@@ -72,12 +84,18 @@ class SignActivity : AppCompatActivity() {
         btnSignIn.setOnClickListener {
             try {
                 val view: View = layoutInflater.inflate(R.layout.dialog_progress, null)
-                val dialog = AlertDialog.Builder(this).setCancelable(false).setView(view).create()
+                val dialog = AlertDialog.Builder(this@SignActivity).setCancelable(false).setView(view).create()
                 dialog.show()
-                signIn(groupName)
+                GlobalScope.launch {
+                    signIn(groupName)
+                }
+                GlobalScope.launch {
+                    delay(2000)
+                    dialog.dismiss()
+                }
             }catch (e:Exception){
                 Log.d("[SignIn Error]", e.toString())
-                Toast.makeText(this, "ログイン処理が完了しませんでした", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignActivity, "ログイン処理が完了しませんでした", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -165,8 +183,10 @@ class SignActivity : AppCompatActivity() {
      * ログイン処理用のfun
      */
     private fun signIn(newGroup:String) {
-        if(newGroup == ""){ //グループが選択されていないとき
-            Toast.makeText(this, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
+        if (userName.text.toString() == ""){
+            //Toast.makeText(this@SignActivity, "名前を入力してください", Toast.LENGTH_SHORT).show()
+        }else if(newGroup == ""){ //グループが選択されていないとき
+            //Toast.makeText(this@SignActivity, "所属するグループを選択してください", Toast.LENGTH_SHORT).show()
         }else{ //グループが満員かどうか確認
             val query = NCMBUser.getQuery()
             query.whereEqualTo("groupName", newGroup)

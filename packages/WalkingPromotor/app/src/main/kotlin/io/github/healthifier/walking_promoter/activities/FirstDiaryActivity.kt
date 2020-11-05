@@ -28,9 +28,12 @@ class FirstDiaryActivity : AppCompatActivity() {
 
         //クラウドアプリの選択
         //NCMB.initialize(applicationContext, BuildConfig.APPLICATION_KEY, BuildConfig.CLIENT_KEY)
-        NCMB.initialize(applicationContext, "8d3584c70aedac126b19635825096cbe82ac4f4b863a2b18d43e6fada9505ba2", "c3750b96bb4c722dc73228c16eea6ddecae52d10af3d626ef9da8643488a4abf")
 
-        //setSupportActionBar(main_toolbar) // toolbar
+        //テスト
+        NCMB.initialize(applicationContext, "e92f3aa680249aecb253049ac10f1e11349c6ad453ca26af1dd72174d7bfdbcb", "fe5b970c9c9a863649640abc6f3dea8cfb9996580cc9c6d8fbfb8020ad9a125a")
+
+        //本番
+        //NCMB.initialize(applicationContext, "8d3584c70aedac126b19635825096cbe82ac4f4b863a2b18d43e6fada9505ba2", "c3750b96bb4c722dc73228c16eea6ddecae52d10af3d626ef9da8643488a4abf")
 
         // "DataStore"という名前でインスタンスを生成
         val dataStore: SharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE)
