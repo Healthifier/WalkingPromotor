@@ -30,7 +30,7 @@ class FirstDiaryActivity : AppCompatActivity() {
         //NCMB.initialize(applicationContext, BuildConfig.APPLICATION_KEY, BuildConfig.CLIENT_KEY)
 
         //テスト
-        NCMB.initialize(applicationContext, "e92f3aa680249aecb253049ac10f1e11349c6ad453ca26af1dd72174d7bfdbcb", "fe5b970c9c9a863649640abc6f3dea8cfb9996580cc9c6d8fbfb8020ad9a125a")
+        NCMB.initialize(applicationContext, "10f3381670ae5152ca827c91a919a24ce99abaa11af5f4e296181437794d5b24", "e58f1b01f66d5193ce92a7f2d34ffb211e51eb3b20a1af610c848b6c22b87eb2")
 
         //本番
         //NCMB.initialize(applicationContext, "8d3584c70aedac126b19635825096cbe82ac4f4b863a2b18d43e6fada9505ba2", "c3750b96bb4c722dc73228c16eea6ddecae52d10af3d626ef9da8643488a4abf")
