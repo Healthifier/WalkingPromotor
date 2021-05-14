@@ -64,8 +64,9 @@ class SignActivity : AppCompatActivity() {
                         val dialog2 = AlertDialog.Builder(this@SignActivity).setCancelable(false).setView(view).create()
                         dialog2.show()
                         GlobalScope.launch {
-                            signUp()
+                            //signUp()
                         }
+                        signUp()
                         GlobalScope.launch {
                             delay(1000)
                             dialog2.dismiss()
