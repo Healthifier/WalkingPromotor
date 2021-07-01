@@ -61,7 +61,7 @@ class ViewEveryonesDiaryActivity : AppCompatActivity() {
                     val cloudPhotoList = arrayListOf<String>()
                     for(obj in objects){
                         cloudTitleList.add(obj.getString("title"))
-                        cloudPhotoList.add("https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"+obj.getString("photo"))
+                        cloudPhotoList.add("https://mbaas.api.nifcloud.com/2013-09-01/applications/wvsqIkhY9ISTFdAi/publicFiles/"+obj.getString("photo"))
                     }
                     Log.d("List", cloudTitleList[0])
 
@@ -78,7 +78,7 @@ class ViewEveryonesDiaryActivity : AppCompatActivity() {
                             //Toast.makeText(applicationContext, "${clickedText}がタップされました.位置は${position}です", Toast.LENGTH_LONG).show()
                             val title = objects[position].getString("title")
                             val date = objects[position].getString("date")
-                            val photo = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"+objects[position].getString("photo")
+                            val photo = "https://mbaas.api.nifcloud.com/2013-09-01/applications/wvsqIkhY9ISTFdAi/publicFiles/"+objects[position].getString("photo")
                             showCloudDiary(title, date, photo)
                         }
                     })

@@ -218,7 +218,7 @@ class SharePhotoActivity : AppCompatActivity() {
     private fun setImages(selectName: List<*>, imageName: ArrayList<ImageView>){
         val query: NCMBQuery<NCMBFile> = NCMBFile.getQuery()
         val listSize = selectName.size-1
-        val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
+        val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/wvsqIkhY9ISTFdAi/publicFiles/"
         currentPathList.clear()
         for (i in 0..listSize) {
             query.whereEqualTo("fileName", selectName[i])
@@ -388,7 +388,7 @@ class SharePhotoActivity : AppCompatActivity() {
 
     private fun uploadPic(data: Intent?, imageView: ImageView){
         val uri: Uri?
-        val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/sqfCZvIEdoFSWOQX/publicFiles/"
+        val pathStr = "https://mbaas.api.nifcloud.com/2013-09-01/applications/wvsqIkhY9ISTFdAi/publicFiles/"
         if(data != null) {
             uri = data.data
             try {
